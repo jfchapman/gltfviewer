@@ -365,3 +365,4 @@ FodyWeavers.xsd
 # Exemptions
 !libraries/GLTFSDK/lib/*
 !libraries/cycles/build/lib/*
+!libraries/lib/win64_vc15/llvm/*
