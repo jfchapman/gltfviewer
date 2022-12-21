@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\alembic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\alembic_read.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\attribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\background.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\bake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\colorspace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\constant_fold.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\film.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\hair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\image_oiio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\image_sky.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\image_vdb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\integrator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\jitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\mesh_displace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\mesh_subdivision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\procedural.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\pointcloud.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\osl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\particles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\pass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\curves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\shader_graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\shader_nodes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\stats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\svm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\volume.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\alembic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\alembic_read.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\attribute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\bake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\background.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\colorspace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\constant_fold.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\film.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\geometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\hair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\image_oiio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\image_sky.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\image_vdb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\integrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\jitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\osl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\particles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\pass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\procedural.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\pointcloud.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\curves.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\shader_graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\shader_nodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\stats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\svm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\volume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\scene\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{8D5BC9AD-481B-37B6-9C24-9A67DCF889FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E6215A81-5278-322F-A10C-A7311655C8FD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

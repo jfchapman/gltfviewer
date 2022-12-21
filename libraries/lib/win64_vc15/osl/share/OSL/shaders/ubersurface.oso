@@ -1,0 +1,561 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.12.6.2
+# options: -q -IC:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders -IC:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders -IC:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders -o C:/db/build/S/VS1564R/build/osl/src/external_osl-build/src/shaders/ubersurface.oso
+surface ubersurface
+param	float	Opacity	1		%meta{string,help,"The overall opacity of the surface"} %meta{string,page,"Opacity"} %meta{float,UImin,0} %meta{float,UImax,1}  %read{17,17} %write{2147483647,-1}
+param	string	Texture_Opacity_Name	""		%meta{string,widget,"filename"} %meta{string,help,"A texture file name"} %meta{string,page,"Opacity.Texture"}  %read{6,16} %write{2147483647,-1}
+param	float	Texture_Opacity_Blur	0		%meta{string,help,"The blur amount, as a portion of the image size."} %meta{string,page,"Opacity.Texture"}  %read{16,16} %write{2147483647,-1}
+param	float	Texture_Opacity_Width	1		%meta{string,help,"A multiplier on the surface derivatives.  Lower            numbers cause larger resolution mip levels to be used."} %meta{string,page,"Opacity.Texture"}  %read{16,16} %write{2147483647,-1}
+param	string	Texture_Opacity_Wrap_Mode	"periodic"		%meta{string,widget,"popup"} %meta{string,options,"black|clamp|file|mirror|periodic"} %meta{string,help,"The U and V wrap mode for this texture. "} %meta{string,page,"Opacity.Texture"}  %read{16,16} %write{2147483647,-1}
+param	float	Texture_Opacity_Scale_U	1		%meta{string,help,"Scales the U texture coordinate prior to texture lookup."} %meta{string,page,"Opacity.Texture"}  %read{14,14} %write{2147483647,-1} %derivs
+param	float	Texture_Opacity_Scale_V	1		%meta{string,help,"Scales the V texture coordinate prior to texture lookup."} %meta{string,page,"Opacity.Texture"}  %read{15,15} %write{2147483647,-1} %derivs
+param	int	Texture_Opacity_Flip_U	0		%meta{string,help,"Flips the U texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Opacity.Texture"}  %read{10,10} %write{2147483647,-1}
+param	int	Texture_Opacity_Flip_V	0		%meta{string,help,"Flips the V texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Opacity.Texture"}  %read{12,12} %write{2147483647,-1}
+param	float	Kbump	0		%meta{string,help,"The amount to bump the surface by"} %meta{string,page,"Bump"}  %read{36,51} %write{2147483647,-1} %derivs
+param	string	Texture_Bump_Name	""		%meta{string,widget,"filename"} %meta{string,help,"A texture file name"} %meta{string,page,"Bump.Texture"}  %read{40,50} %write{2147483647,-1} %derivs
+param	float	Texture_Bump_Blur	0		%meta{string,help,"The blur amount, as a portion of the image size."} %meta{string,page,"Bump.Texture"}  %read{50,50} %write{2147483647,-1} %derivs
+param	float	Texture_Bump_Width	1		%meta{string,help,"A multiplier on the surface derivatives.  Lower            numbers cause larger resolution mip levels to be used."} %meta{string,page,"Bump.Texture"}  %read{50,50} %write{2147483647,-1} %derivs
+param	string	Texture_Bump_Wrap_Mode	"periodic"		%meta{string,widget,"popup"} %meta{string,options,"black|clamp|file|mirror|periodic"} %meta{string,help,"The U and V wrap mode for this texture. "} %meta{string,page,"Bump.Texture"}  %read{50,50} %write{2147483647,-1} %derivs
+param	float	Texture_Bump_Scale_U	1		%meta{string,help,"Scales the U texture coordinate prior to texture lookup."} %meta{string,page,"Bump.Texture"}  %read{48,48} %write{2147483647,-1} %derivs
+param	float	Texture_Bump_Scale_V	1		%meta{string,help,"Scales the V texture coordinate prior to texture lookup."} %meta{string,page,"Bump.Texture"}  %read{49,49} %write{2147483647,-1} %derivs
+param	int	Texture_Bump_Flip_U	0		%meta{string,help,"Flips the U texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Bump.Texture"}  %read{44,44} %write{2147483647,-1}
+param	int	Texture_Bump_Flip_V	0		%meta{string,help,"Flips the V texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Bump.Texture"}  %read{46,46} %write{2147483647,-1}
+param	float	Kd	0.5		%meta{string,help,"Diffuse closure weight"} %meta{string,page,"Diffuse"} %meta{float,UImin,0} %meta{float,UImax,1}  %read{59,75} %write{2147483647,-1}
+param	color	Diffuse_Color	1 1 1		%meta{string,help,"Diffuse closure color"} %meta{string,page,"Diffuse"}  %read{76,76} %write{2147483647,-1}
+param	string	Texture_Diffuse_Name	""		%meta{string,widget,"filename"} %meta{string,help,"A texture file name"} %meta{string,page,"Diffuse.Texture"}  %read{63,73} %write{2147483647,-1}
+param	float	Texture_Diffuse_Blur	0		%meta{string,help,"The blur amount, as a portion of the image size."} %meta{string,page,"Diffuse.Texture"}  %read{73,73} %write{2147483647,-1}
+param	float	Texture_Diffuse_Width	1		%meta{string,help,"A multiplier on the surface derivatives.  Lower            numbers cause larger resolution mip levels to be used."} %meta{string,page,"Diffuse.Texture"}  %read{73,73} %write{2147483647,-1}
+param	string	Texture_Diffuse_Wrap_Mode	"periodic"		%meta{string,widget,"popup"} %meta{string,options,"black|clamp|file|mirror|periodic"} %meta{string,help,"The U and V wrap mode for this texture. "} %meta{string,page,"Diffuse.Texture"}  %read{73,73} %write{2147483647,-1}
+param	float	Texture_Diffuse_Scale_U	1		%meta{string,help,"Scales the U texture coordinate prior to texture lookup."} %meta{string,page,"Diffuse.Texture"}  %read{71,71} %write{2147483647,-1} %derivs
+param	float	Texture_Diffuse_Scale_V	1		%meta{string,help,"Scales the V texture coordinate prior to texture lookup."} %meta{string,page,"Diffuse.Texture"}  %read{72,72} %write{2147483647,-1} %derivs
+param	int	Texture_Diffuse_Flip_U	0		%meta{string,help,"Flips the U texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Diffuse.Texture"}  %read{67,67} %write{2147483647,-1}
+param	int	Texture_Diffuse_Flip_V	0		%meta{string,help,"Flips the V texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Diffuse.Texture"}  %read{69,69} %write{2147483647,-1}
+param	float	IOR	1.33000004		%meta{string,help,"The index of refraction for specular effects."} %meta{string,page,"Specular"}  %read{32,35} %write{2147483647,-1}
+param	float	Roughness	0.200000003		%meta{string,help,"The surface roughness for specular effects. A value of 0 forces perfect reflection/refraction."} %meta{string,page,"Specular"} %meta{float,UImin,0} %meta{float,UImax,1}  %read{80,129} %write{2147483647,-1}
+param	float	Ks	0.5		%meta{string,help,"Specular closure weight"} %meta{string,page,"Specular"} %meta{float,UImin,0} %meta{float,UImax,1}  %read{78,98} %write{2147483647,-1}
+param	color	Specular_Color	1 1 1		%meta{string,help,"Specular closure color"} %meta{string,page,"Specular"}  %read{99,99} %write{2147483647,-1}
+param	string	Texture_Specular_Name	""		%meta{string,widget,"filename"} %meta{string,help,"A texture file name"} %meta{string,page,"Specular.Texture"}  %read{87,97} %write{2147483647,-1}
+param	float	Texture_Specular_Blur	0		%meta{string,help,"The blur amount, as a portion of the image size."} %meta{string,page,"Specular.Texture"}  %read{97,97} %write{2147483647,-1}
+param	float	Texture_Specular_Width	1		%meta{string,help,"A multiplier on the surface derivatives.  Lower            numbers cause larger resolution mip levels to be used."} %meta{string,page,"Specular.Texture"}  %read{97,97} %write{2147483647,-1}
+param	string	Texture_Specular_Wrap_Mode	"periodic"		%meta{string,widget,"popup"} %meta{string,options,"black|clamp|file|mirror|periodic"} %meta{string,help,"The U and V wrap mode for this texture. "} %meta{string,page,"Specular.Texture"}  %read{97,97} %write{2147483647,-1}
+param	float	Texture_Specular_Scale_U	1		%meta{string,help,"Scales the U texture coordinate prior to texture lookup."} %meta{string,page,"Specular.Texture"}  %read{95,95} %write{2147483647,-1} %derivs
+param	float	Texture_Specular_Scale_V	1		%meta{string,help,"Scales the V texture coordinate prior to texture lookup."} %meta{string,page,"Specular.Texture"}  %read{96,96} %write{2147483647,-1} %derivs
+param	int	Texture_Specular_Flip_U	0		%meta{string,help,"Flips the U texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Specular.Texture"}  %read{91,91} %write{2147483647,-1}
+param	int	Texture_Specular_Flip_V	0		%meta{string,help,"Flips the V texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Specular.Texture"}  %read{93,93} %write{2147483647,-1}
+param	float	Kt	0		%meta{string,help,"Transmissive, or refraction, closure weight."} %meta{string,page,"Refraction"} %meta{float,UImin,0} %meta{float,UImax,1}  %read{124,149} %write{2147483647,-1}
+param	color	Refraction_Color	1 1 1		%meta{string,help,"Refraction closure color"} %meta{string,page,"Refraction"}  %read{144,148} %write{2147483647,-1}
+param	string	Texture_Refraction_Name	""		%meta{string,widget,"filename"} %meta{string,help,"A texture file name"} %meta{string,page,"Refraction.Texture"}  %read{132,142} %write{2147483647,-1}
+param	float	Texture_Refraction_Blur	0		%meta{string,help,"The blur amount, as a portion of the image size."} %meta{string,page,"Refraction.Texture"}  %read{142,142} %write{2147483647,-1}
+param	float	Texture_Refraction_Width	1		%meta{string,help,"A multiplier on the surface derivatives.  Lower            numbers cause larger resolution mip levels to be used."} %meta{string,page,"Refraction.Texture"}  %read{142,142} %write{2147483647,-1}
+param	string	Texture_Refraction_Wrap_Mode	"periodic"		%meta{string,widget,"popup"} %meta{string,options,"black|clamp|file|mirror|periodic"} %meta{string,help,"The U and V wrap mode for this texture. "} %meta{string,page,"Refraction.Texture"}  %read{142,142} %write{2147483647,-1}
+param	float	Texture_Refraction_Scale_U	1		%meta{string,help,"Scales the U texture coordinate prior to texture lookup."} %meta{string,page,"Refraction.Texture"}  %read{140,140} %write{2147483647,-1} %derivs
+param	float	Texture_Refraction_Scale_V	1		%meta{string,help,"Scales the V texture coordinate prior to texture lookup."} %meta{string,page,"Refraction.Texture"}  %read{141,141} %write{2147483647,-1} %derivs
+param	int	Texture_Refraction_Flip_U	0		%meta{string,help,"Flips the U texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Refraction.Texture"}  %read{136,136} %write{2147483647,-1}
+param	int	Texture_Refraction_Flip_V	0		%meta{string,help,"Flips the V texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Refraction.Texture"}  %read{138,138} %write{2147483647,-1}
+param	color	Absorption_Color	0 0 0		%meta{string,help,"Color to absorb inside a refractive volume."} %meta{string,page,"Refraction"}  %read{128,129} %write{2147483647,-1}
+param	float	Ke	0		%meta{string,help,"Emissive, or incandescent, closure weight."} %meta{string,page,"Emission"}  %read{101,118} %write{2147483647,-1}
+param	color	Emission_Color	1 1 1		%meta{string,help,"Emissive closure color."} %meta{string,page,"Emission"}  %read{120,120} %write{2147483647,-1}
+param	string	Texture_Emission_Name	""		%meta{string,widget,"filename"} %meta{string,help,"A texture file name"} %meta{string,page,"Emission.Texture"}  %read{105,115} %write{2147483647,-1}
+param	float	Texture_Emission_Blur	0		%meta{string,help,"The blur amount, as a portion of the image size."} %meta{string,page,"Emission.Texture"}  %read{115,115} %write{2147483647,-1}
+param	float	Texture_Emission_Width	1		%meta{string,help,"A multiplier on the surface derivatives.  Lower            numbers cause larger resolution mip levels to be used."} %meta{string,page,"Emission.Texture"}  %read{115,115} %write{2147483647,-1}
+param	string	Texture_Emission_Wrap_Mode	"periodic"		%meta{string,widget,"popup"} %meta{string,options,"black|clamp|file|mirror|periodic"} %meta{string,help,"The U and V wrap mode for this texture. "} %meta{string,page,"Emission.Texture"}  %read{115,115} %write{2147483647,-1}
+param	float	Texture_Emission_Scale_U	1		%meta{string,help,"Scales the U texture coordinate prior to texture lookup."} %meta{string,page,"Emission.Texture"}  %read{113,113} %write{2147483647,-1} %derivs
+param	float	Texture_Emission_Scale_V	1		%meta{string,help,"Scales the V texture coordinate prior to texture lookup."} %meta{string,page,"Emission.Texture"}  %read{114,114} %write{2147483647,-1} %derivs
+param	int	Texture_Emission_Flip_U	0		%meta{string,help,"Flips the U texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Emission.Texture"}  %read{109,109} %write{2147483647,-1}
+param	int	Texture_Emission_Flip_V	0		%meta{string,help,"Flips the V texture coordinate prior to texture lookup."} %meta{string,widget,"checkBox"} %meta{string,page,"Emission.Texture"}  %read{111,111} %write{2147483647,-1}
+param	normal	In_Normal	0 0 0		%read{3,3} %write{0,0} %derivs %initexpr
+param	float	In_U	0		%read{8,134} %write{1,1} %derivs %initexpr
+param	float	In_V	0		%read{9,135} %write{2,2} %derivs %initexpr
+oparam	closure color	Out_Ci			%read{27,161} %write{24,160}
+param	closure color	Next_Layer			%read{25,156} %write{2147483647,-1}
+global	point	P	%read{56,56} %write{2147483647,-1} %derivs
+global	normal	N	%read{0,0} %write{2147483647,-1} %derivs
+global	float	u	%read{1,1} %write{2147483647,-1} %derivs
+global	float	v	%read{2,2} %write{2147483647,-1} %derivs
+global	closure color	Ci	%read{2147483647,-1} %write{161,161}
+local	float	___345_u_tex	%read{68,142} %write{65,140} %derivs
+local	float	___345_v_tex	%read{70,142} %write{66,141} %derivs
+local	float	___347_u_tex	%read{11,50} %write{8,48} %derivs
+local	float	___347_v_tex	%read{13,50} %write{9,49} %derivs
+local	normal	Nshading	%read{54,129} %write{3,58} %derivs
+local	float	opacity	%read{17,158} %write{4,17}
+local	closure color	transparencyClosure	%read{24,160} %write{20,20}
+local	color	refractionFilter	%read{156,156} %write{21,150}
+local	closure color	___350_diffuseClosure	%read{147,151} %write{28,147}
+local	closure color	___350_specularClosure	%read{100,151} %write{29,100}
+local	closure color	___350_emissionClosure	%read{152,152} %write{30,121}
+local	closure color	___350_refractionClosure	%read{145,158} %write{31,145}
+local	float	___350_eta	%read{82,129} %write{32,35}
+local	float	___351_bumpTexture	%read{51,55} %write{38,51} %derivs
+local	point	___352_Pbump	%read{57,57} %write{56,56} %derivs
+local	color	___353_diffuseTexture	%read{77,77} %write{61,73}
+local	color	___354_specularTexture	%read{98,98} %write{85,97}
+local	color	___357_emissionTexture	%read{121,121} %write{103,115}
+local	color	___358_refractionTexture	%read{143,148} %write{130,142}
+const	int	$const1	1		%read{4,129} %write{2147483647,-1}
+const	string	$const2	"evaluateTexture"		%read{5,131} %write{2147483647,-1}
+const	string	$const3	""		%read{6,132} %write{2147483647,-1}
+temp	int	$tmp1	%read{7,7} %write{6,6}
+const	float	$const4	1		%read{11,146} %write{2147483647,-1}
+const	string	$const5	"width"		%read{16,142} %write{2147483647,-1}
+const	string	$const6	"blur"		%read{16,142} %write{2147483647,-1}
+const	string	$const7	"swrap"		%read{16,142} %write{2147483647,-1}
+const	string	$const8	"twrap"		%read{16,142} %write{2147483647,-1}
+temp	closure color	$tmp2	%read{20,20} %write{18,18}
+const	string	$const9	"transparent"		%read{18,18} %write{2147483647,-1}
+temp	float	$tmp3	%read{20,20} %write{19,19}
+temp	int	$tmp4	%read{23,23} %write{22,22}
+const	string	$const10	"shadow"		%read{22,22} %write{2147483647,-1}
+temp	int	$tmp5	%read{26,26} %write{25,25}
+const	int	$const11	0		%read{28,84} %write{2147483647,-1}
+temp	int	$tmp6	%read{34,34} %write{33,33}
+temp	int	$tmp7	%read{37,37} %write{36,36}
+const	float	$const12	0		%read{36,124} %write{2147483647,-1}
+temp	int	$tmp8	%read{41,41} %write{40,40}
+temp	int	$tmp9	%read{53,53} %write{52,52}
+temp	normal	$tmp10	%read{55,55} %write{54,54} %derivs
+temp	normal	$tmp11	%read{56,56} %write{55,55} %derivs
+temp	vector	$tmp12	%read{58,58} %write{57,57} %derivs
+temp	int	$tmp13	%read{60,60} %write{59,59}
+const	color	$const13	1 1 1		%read{61,150} %write{2147483647,-1}
+temp	int	$tmp14	%read{64,64} %write{63,63}
+temp	closure color	$tmp15	%read{75,75} %write{74,74}
+const	string	$const14	"diffuse"		%read{74,74} %write{2147483647,-1}
+temp	closure color	$tmp16	%read{76,76} %write{75,75}
+temp	closure color	$tmp17	%read{77,77} %write{76,76}
+temp	int	$tmp18	%read{79,79} %write{78,78}
+const	float	$const15	0.005		%read{80,126} %write{2147483647,-1}
+temp	int	$tmp19	%read{81,81} %write{80,80}
+const	string	$const16	"reflection"		%read{82,82} %write{2147483647,-1}
+const	string	$const17	"beckmann"		%read{84,129} %write{2147483647,-1}
+const	string	$const18	"microfacet"		%read{83,129} %write{2147483647,-1}
+const	vector	$const19	0 0 0		%read{84,129} %write{2147483647,-1}
+temp	int	$tmp21	%read{88,88} %write{87,87}
+temp	color	$tmp22	%read{99,99} %write{98,98}
+temp	color	$tmp23	%read{100,100} %write{99,99}
+temp	int	$tmp24	%read{102,102} %write{101,101}
+temp	int	$tmp25	%read{106,106} %write{105,105}
+temp	closure color	$tmp26	%read{119,119} %write{116,116}
+const	string	$const20	"emission"		%read{116,116} %write{2147483647,-1}
+temp	float	$tmp27	%read{118,118} %write{117,117}
+temp	float	$tmp28	%read{119,119} %write{118,118}
+temp	closure color	$tmp29	%read{120,120} %write{119,119}
+temp	closure color	$tmp30	%read{121,121} %write{120,120}
+temp	float	$tmp31	%read{123,123} %write{122,122}
+temp	int	$tmp32	%read{125,125} %write{124,124}
+temp	int	$tmp33	%read{127,127} %write{126,126}
+const	string	$const21	"absorption"		%read{128,129} %write{2147483647,-1}
+const	string	$const22	"refraction"		%read{128,128} %write{2147483647,-1}
+temp	int	$tmp35	%read{133,133} %write{132,132}
+temp	color	$tmp36	%read{144,144} %write{143,143}
+temp	color	$tmp37	%read{145,145} %write{144,144}
+temp	float	$tmp38	%read{147,147} %write{146,146}
+temp	color	$tmp40	%read{150,150} %write{148,148}
+temp	float	$tmp41	%read{150,150} %write{149,149}
+temp	closure color	$tmp42	%read{152,152} %write{151,151}
+temp	closure color	$tmp43	%read{153,153} %write{152,152}
+temp	int	$tmp44	%read{155,155} %write{154,154}
+temp	closure color	$tmp45	%read{157,157} %write{156,156}
+temp	closure color	$tmp46	%read{159,159} %write{158,158}
+temp	closure color	$tmp47	%read{160,160} %write{159,159}
+code In_Normal
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:210
+#     normal In_Normal = N,
+	assign		In_Normal N 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl"} %line{210} %argrw{"wr"}
+code In_U
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:212
+#     float  In_U = u,
+	assign		In_U u 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl"} %line{212} %argrw{"wr"}
+code In_V
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:214
+#     float  In_V = v,
+	assign		In_V v 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl"} %line{214} %argrw{"wr"}
+code ___main___
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:224
+#     normal Nshading = In_Normal;
+	assign		Nshading In_Normal 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl"} %line{224} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:227
+#     float opacity = 1;
+	assign		opacity $const1 	%line{227} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:228
+#     TEXTURE_EVAL(Opacity, opacity)
+	functioncall	$const2 17 	%line{228} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:100
+#     if(texfile != "")
+	neq		$tmp1 Texture_Opacity_Name $const3 	%line{100} %argrw{"wrr"}
+	if		$tmp1 17 17 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:102
+#         float u_tex = uu ;
+	assign		___347_u_tex In_U 	%line{102} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:103
+#         float v_tex = vv ;
+	assign		___347_v_tex In_V 	%line{103} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:105
+#         if(flip_u)
+	if		Texture_Opacity_Flip_U 12 12 	%line{105} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:106
+#             u_tex = 1.0 - u_tex;
+	sub		___347_u_tex $const4 ___347_u_tex 	%line{106} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:108
+#         if(flip_v)
+	if		Texture_Opacity_Flip_V 14 14 	%line{108} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:109
+#             v_tex = 1.0 - v_tex;
+	sub		___347_v_tex $const4 ___347_v_tex 	%line{109} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:111
+#         u_tex *= scale_u;
+	mul		___347_u_tex ___347_u_tex Texture_Opacity_Scale_U 	%line{111} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:112
+#         v_tex *= scale_v;
+	mul		___347_v_tex ___347_v_tex Texture_Opacity_Scale_V 	%line{112} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:114
+#         result = texture(texfile, u_tex, v_tex, "width", width, "blur", blur, "swrap", wrap, "twrap", wrap);
+	texture		opacity Texture_Opacity_Name ___347_u_tex ___347_v_tex $const5 Texture_Opacity_Width $const6 Texture_Opacity_Blur $const7 Texture_Opacity_Wrap_Mode $const8 Texture_Opacity_Wrap_Mode 	%line{114} %argrw{"wrrrrrrrrrrr"} %argderivs{2,3}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:229
+#     opacity *= Opacity;
+	mul		opacity opacity Opacity 	%line{229} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:230
+#     closure color transparencyClosure =  transparent() * (1.0-opacity);
+	closure		$tmp2 $const9 	%line{230} %argrw{"wr"}
+	sub		$tmp3 $const4 opacity 	%argrw{"wrr"}
+	mul		transparencyClosure $tmp2 $tmp3 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:233
+#     color refractionFilter = 1;
+	assign		refractionFilter $const1 	%line{233} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:236
+#     if(raytype("shadow")) {
+	raytype		$tmp4 $const10 	%line{236} %argrw{"wr"}
+	if		$tmp4 28 161 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:237
+#         Out_Ci = transparencyClosure;
+	assign		Out_Ci transparencyClosure 	%line{237} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:240
+# 	if(isconnected(Next_Layer)){
+	isconnected	$tmp5 Next_Layer 	%line{240} %argrw{"wr"}
+	if		$tmp5 28 28 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:241
+# 	   Out_Ci = Out_Ci + Next_Layer;
+	add		Out_Ci Out_Ci Next_Layer 	%line{241} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:246
+#         closure color diffuseClosure	= 0;
+	assign		___350_diffuseClosure $const11 	%line{246} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:247
+#     	closure color specularClosure	= 0;
+	assign		___350_specularClosure $const11 	%line{247} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:248
+# 	closure color emissionClosure	= 0;
+	assign		___350_emissionClosure $const11 	%line{248} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:249
+#     	closure color refractionClosure = 0;
+	assign		___350_refractionClosure $const11 	%line{249} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:252
+# 	float eta = IOR;
+	assign		___350_eta IOR 	%line{252} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:253
+# 	if(backfacing()) eta = 1.0/IOR;
+	backfacing	$tmp6 	%line{253} %argrw{"w"}
+	if		$tmp6 36 36 	%argrw{"r"}
+	div		___350_eta $const4 IOR 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:256
+# 	if(Kbump) {
+	neq		$tmp7 Kbump $const12 	%line{256} %argrw{"wrr"}
+	if		$tmp7 59 59 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:257
+#             float bumpTexture = 0;
+	assign		___351_bumpTexture $const11 	%line{257} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:258
+#     	    TEXTURE_EVAL(Bump, bumpTexture)
+	functioncall	$const2 51 	%line{258} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:100
+#     if(texfile != "")
+	neq		$tmp8 Texture_Bump_Name $const3 	%line{100} %argrw{"wrr"}
+	if		$tmp8 51 51 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:102
+#         float u_tex = uu ;
+	assign		___347_u_tex In_U 	%line{102} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:103
+#         float v_tex = vv ;
+	assign		___347_v_tex In_V 	%line{103} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:105
+#         if(flip_u)
+	if		Texture_Bump_Flip_U 46 46 	%line{105} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:106
+#             u_tex = 1.0 - u_tex;
+	sub		___347_u_tex $const4 ___347_u_tex 	%line{106} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:108
+#         if(flip_v)
+	if		Texture_Bump_Flip_V 48 48 	%line{108} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:109
+#             v_tex = 1.0 - v_tex;
+	sub		___347_v_tex $const4 ___347_v_tex 	%line{109} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:111
+#         u_tex *= scale_u;
+	mul		___347_u_tex ___347_u_tex Texture_Bump_Scale_U 	%line{111} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:112
+#         v_tex *= scale_v;
+	mul		___347_v_tex ___347_v_tex Texture_Bump_Scale_V 	%line{112} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:114
+#         result = texture(texfile, u_tex, v_tex, "width", width, "blur", blur, "swrap", wrap, "twrap", wrap);
+	texture		___351_bumpTexture Texture_Bump_Name ___347_u_tex ___347_v_tex $const5 Texture_Bump_Width $const6 Texture_Bump_Blur $const7 Texture_Bump_Wrap_Mode $const8 Texture_Bump_Wrap_Mode 	%line{114} %argrw{"wrrrrrrrrrrr"} %argderivs{2,3}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:259
+#             bumpTexture *= Kbump;
+	mul		___351_bumpTexture ___351_bumpTexture Kbump 	%line{259} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:260
+#             if(bumpTexture) {
+	neq		$tmp9 ___351_bumpTexture $const12 	%line{260} %argrw{"wrr"}
+	if		$tmp9 59 59 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:261
+# 	        point Pbump = P + normalize(Nshading) * bumpTexture;
+	normalize	$tmp10 Nshading 	%line{261} %argrw{"wr"}
+	mul		$tmp11 $tmp10 ___351_bumpTexture 	%argrw{"wrr"}
+	add		___352_Pbump P $tmp11 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:262
+#                 Nshading = normalize(calculatenormal(Pbump));
+	calculatenormal	$tmp12 ___352_Pbump 	%line{262} %argrw{"wr"} %argderivs{1}
+	normalize	Nshading $tmp12 	%argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:267
+# 	if(Kd) {
+	neq		$tmp13 Kd $const12 	%line{267} %argrw{"wrr"}
+	if		$tmp13 78 78 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:268
+#             color diffuseTexture = color(1);
+	assign		___353_diffuseTexture $const13 	%line{268} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:269
+#     	    TEXTURE_EVAL(Diffuse, diffuseTexture)
+	functioncall	$const2 74 	%line{269} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:77
+#     if(texfile != "")
+	neq		$tmp14 Texture_Diffuse_Name $const3 	%line{77} %argrw{"wrr"}
+	if		$tmp14 74 74 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:79
+#         float u_tex = uu ;
+	assign		___345_u_tex In_U 	%line{79} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:80
+#         float v_tex = vv ;
+	assign		___345_v_tex In_V 	%line{80} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:82
+#         if(flip_u)
+	if		Texture_Diffuse_Flip_U 69 69 	%line{82} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:83
+#             u_tex = 1.0 - u_tex;
+	sub		___345_u_tex $const4 ___345_u_tex 	%line{83} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:85
+#         if(flip_v)
+	if		Texture_Diffuse_Flip_V 71 71 	%line{85} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:86
+#             v_tex = 1.0 - v_tex;
+	sub		___345_v_tex $const4 ___345_v_tex 	%line{86} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:88
+#         u_tex *= scale_u;
+	mul		___345_u_tex ___345_u_tex Texture_Diffuse_Scale_U 	%line{88} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:89
+#         v_tex *= scale_v;
+	mul		___345_v_tex ___345_v_tex Texture_Diffuse_Scale_V 	%line{89} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:91
+#         result = texture(texfile, u_tex, v_tex, "width", width, "blur", blur, "swrap", wrap, "twrap", wrap);
+	texture		___353_diffuseTexture Texture_Diffuse_Name ___345_u_tex ___345_v_tex $const5 Texture_Diffuse_Width $const6 Texture_Diffuse_Blur $const7 Texture_Diffuse_Wrap_Mode $const8 Texture_Diffuse_Wrap_Mode 	%line{91} %argrw{"wrrrrrrrrrrr"} %argderivs{2,3}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:270
+#             diffuseClosure = diffuse(Nshading) * Kd * Diffuse_Color * diffuseTexture;
+	closure		$tmp15 $const14 Nshading 	%line{270} %argrw{"wrr"}
+	mul		$tmp16 $tmp15 Kd 	%argrw{"wrr"}
+	mul		$tmp17 $tmp16 Diffuse_Color 	%argrw{"wrr"}
+	mul		___350_diffuseClosure $tmp17 ___353_diffuseTexture 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:274
+#         if(Ks) {
+	neq		$tmp18 Ks $const12 	%line{274} %argrw{"wrr"}
+	if		$tmp18 101 101 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:275
+#             if(Roughness <= 0.005) {
+	le		$tmp19 Roughness $const15 	%line{275} %argrw{"wrr"}
+	if		$tmp19 83 85 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:276
+# 	        specularClosure = reflection(Nshading, eta);
+	closure		___350_specularClosure $const16 Nshading ___350_eta 	%line{276} %argrw{"wrrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:278
+#         	specularClosure = microfacet("beckmann", Nshading, Roughness, eta, 0);
+	functioncall	$const18 85 	%line{278} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/stdosl.h:463
+#     return microfacet(distribution, N, vector(0), alpha, alpha, eta, refr);
+	closure		___350_specularClosure $const18 $const17 Nshading $const19 Roughness Roughness ___350_eta $const11 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/stdosl.h"} %line{463} %argrw{"wrrrrrrrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:281
+#     	    color specularTexture = color(1);
+	assign		___354_specularTexture $const13 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl"} %line{281} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:282
+#             TEXTURE_EVAL(Specular, specularTexture)
+	functioncall	$const2 98 	%line{282} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:77
+#     if(texfile != "")
+	neq		$tmp21 Texture_Specular_Name $const3 	%line{77} %argrw{"wrr"}
+	if		$tmp21 98 98 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:79
+#         float u_tex = uu ;
+	assign		___345_u_tex In_U 	%line{79} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:80
+#         float v_tex = vv ;
+	assign		___345_v_tex In_V 	%line{80} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:82
+#         if(flip_u)
+	if		Texture_Specular_Flip_U 93 93 	%line{82} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:83
+#             u_tex = 1.0 - u_tex;
+	sub		___345_u_tex $const4 ___345_u_tex 	%line{83} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:85
+#         if(flip_v)
+	if		Texture_Specular_Flip_V 95 95 	%line{85} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:86
+#             v_tex = 1.0 - v_tex;
+	sub		___345_v_tex $const4 ___345_v_tex 	%line{86} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:88
+#         u_tex *= scale_u;
+	mul		___345_u_tex ___345_u_tex Texture_Specular_Scale_U 	%line{88} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:89
+#         v_tex *= scale_v;
+	mul		___345_v_tex ___345_v_tex Texture_Specular_Scale_V 	%line{89} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:91
+#         result = texture(texfile, u_tex, v_tex, "width", width, "blur", blur, "swrap", wrap, "twrap", wrap);
+	texture		___354_specularTexture Texture_Specular_Name ___345_u_tex ___345_v_tex $const5 Texture_Specular_Width $const6 Texture_Specular_Blur $const7 Texture_Specular_Wrap_Mode $const8 Texture_Specular_Wrap_Mode 	%line{91} %argrw{"wrrrrrrrrrrr"} %argderivs{2,3}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:283
+# 	    specularClosure *= specularTexture * Ks * Specular_Color;
+	mul		$tmp22 ___354_specularTexture Ks 	%line{283} %argrw{"wrr"}
+	mul		$tmp23 $tmp22 Specular_Color 	%argrw{"wrr"}
+	mul		___350_specularClosure ___350_specularClosure $tmp23 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:287
+# 	if(Ke) {
+	neq		$tmp24 Ke $const12 	%line{287} %argrw{"wrr"}
+	if		$tmp24 122 122 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:296
+# 	    color emissionTexture = color(1);
+	assign		___357_emissionTexture $const13 	%line{296} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:297
+#     	    TEXTURE_EVAL(Emission, emissionTexture)
+	functioncall	$const2 116 	%line{297} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:77
+#     if(texfile != "")
+	neq		$tmp25 Texture_Emission_Name $const3 	%line{77} %argrw{"wrr"}
+	if		$tmp25 116 116 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:79
+#         float u_tex = uu ;
+	assign		___345_u_tex In_U 	%line{79} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:80
+#         float v_tex = vv ;
+	assign		___345_v_tex In_V 	%line{80} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:82
+#         if(flip_u)
+	if		Texture_Emission_Flip_U 111 111 	%line{82} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:83
+#             u_tex = 1.0 - u_tex;
+	sub		___345_u_tex $const4 ___345_u_tex 	%line{83} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:85
+#         if(flip_v)
+	if		Texture_Emission_Flip_V 113 113 	%line{85} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:86
+#             v_tex = 1.0 - v_tex;
+	sub		___345_v_tex $const4 ___345_v_tex 	%line{86} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:88
+#         u_tex *= scale_u;
+	mul		___345_u_tex ___345_u_tex Texture_Emission_Scale_U 	%line{88} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:89
+#         v_tex *= scale_v;
+	mul		___345_v_tex ___345_v_tex Texture_Emission_Scale_V 	%line{89} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:91
+#         result = texture(texfile, u_tex, v_tex, "width", width, "blur", blur, "swrap", wrap, "twrap", wrap);
+	texture		___357_emissionTexture Texture_Emission_Name ___345_u_tex ___345_v_tex $const5 Texture_Emission_Width $const6 Texture_Emission_Blur $const7 Texture_Emission_Wrap_Mode $const8 Texture_Emission_Wrap_Mode 	%line{91} %argrw{"wrrrrrrrrrrr"} %argderivs{2,3}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:298
+# 	    emissionClosure = emission() * (Ke / surfacearea()) * Emission_Color * emissionTexture;
+	closure		$tmp26 $const20 	%line{298} %argrw{"wr"}
+	surfacearea	$tmp27 	%argrw{"w"}
+	div		$tmp28 Ke $tmp27 	%argrw{"wrr"}
+	mul		$tmp29 $tmp26 $tmp28 	%argrw{"wrr"}
+	mul		$tmp30 $tmp29 Emission_Color 	%argrw{"wrr"}
+	mul		___350_emissionClosure $tmp30 ___357_emissionTexture 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:303
+#     	refractionFilter = 1.0-opacity;
+	sub		$tmp31 $const4 opacity 	%line{303} %argrw{"wrr"}
+	assign		refractionFilter $tmp31 	%argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:304
+# 	if(Kt) {
+	neq		$tmp32 Kt $const12 	%line{304} %argrw{"wrr"}
+	if		$tmp32 151 151 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:305
+# 	    if(Roughness <= 0.005) {
+	le		$tmp33 Roughness $const15 	%line{305} %argrw{"wrr"}
+	if		$tmp33 129 130 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:306
+#                 refractionClosure = refraction(Nshading, eta, "absorption", Absorption_Color);
+	closure		___350_refractionClosure $const22 Nshading ___350_eta $const21 Absorption_Color 	%line{306} %argrw{"wrrrrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:308
+#                 refractionClosure = microfacet("beckmann", Nshading, vector(0), Roughness, Roughness,  eta, 1, "absorption", Absorption_Color);
+	closure		___350_refractionClosure $const18 $const17 Nshading $const19 Roughness Roughness ___350_eta $const1 $const21 Absorption_Color 	%line{308} %argrw{"wrrrrrrrrrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:311
+# 	    color refractionTexture = color(1);
+	assign		___358_refractionTexture $const13 	%line{311} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:312
+#     	    TEXTURE_EVAL(Refraction, refractionTexture)
+	functioncall	$const2 143 	%line{312} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:77
+#     if(texfile != "")
+	neq		$tmp35 Texture_Refraction_Name $const3 	%line{77} %argrw{"wrr"}
+	if		$tmp35 143 143 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:79
+#         float u_tex = uu ;
+	assign		___345_u_tex In_U 	%line{79} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:80
+#         float v_tex = vv ;
+	assign		___345_v_tex In_V 	%line{80} %argrw{"wr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:82
+#         if(flip_u)
+	if		Texture_Refraction_Flip_U 138 138 	%line{82} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:83
+#             u_tex = 1.0 - u_tex;
+	sub		___345_u_tex $const4 ___345_u_tex 	%line{83} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:85
+#         if(flip_v)
+	if		Texture_Refraction_Flip_V 140 140 	%line{85} %argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:86
+#             v_tex = 1.0 - v_tex;
+	sub		___345_v_tex $const4 ___345_v_tex 	%line{86} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:88
+#         u_tex *= scale_u;
+	mul		___345_u_tex ___345_u_tex Texture_Refraction_Scale_U 	%line{88} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:89
+#         v_tex *= scale_v;
+	mul		___345_v_tex ___345_v_tex Texture_Refraction_Scale_V 	%line{89} %argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:91
+#         result = texture(texfile, u_tex, v_tex, "width", width, "blur", blur, "swrap", wrap, "twrap", wrap);
+	texture		___358_refractionTexture Texture_Refraction_Name ___345_u_tex ___345_v_tex $const5 Texture_Refraction_Width $const6 Texture_Refraction_Blur $const7 Texture_Refraction_Wrap_Mode $const8 Texture_Refraction_Wrap_Mode 	%line{91} %argrw{"wrrrrrrrrrrr"} %argderivs{2,3}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:313
+# 	    refractionClosure *= refractionTexture * Kt * Refraction_Color;
+	mul		$tmp36 ___358_refractionTexture Kt 	%line{313} %argrw{"wrr"}
+	mul		$tmp37 $tmp36 Refraction_Color 	%argrw{"wrr"}
+	mul		___350_refractionClosure ___350_refractionClosure $tmp37 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:315
+# 	    diffuseClosure *= 1.0-Kt;
+	sub		$tmp38 $const4 Kt 	%line{315} %argrw{"wrr"}
+	mul		___350_diffuseClosure ___350_diffuseClosure $tmp38 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:316
+# 	    refractionFilter = mix(color(1), refractionTexture * Refraction_Color, Kt*opacity );
+	mul		$tmp40 ___358_refractionTexture Refraction_Color 	%line{316} %argrw{"wrr"}
+	mul		$tmp41 Kt opacity 	%argrw{"wrr"}
+	mix		refractionFilter $const13 $tmp40 $tmp41 	%argrw{"wrrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:320
+#     	Out_Ci = ((diffuseClosure + specularClosure + emissionClosure) * opacity);
+	add		$tmp42 ___350_diffuseClosure ___350_specularClosure 	%line{320} %argrw{"wrr"}
+	add		$tmp43 $tmp42 ___350_emissionClosure 	%argrw{"wrr"}
+	mul		Out_Ci $tmp43 opacity 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:322
+# 	if(isconnected(Next_Layer))
+	isconnected	$tmp44 Next_Layer 	%line{322} %argrw{"wr"}
+	if		$tmp44 158 161 	%argrw{"r"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:324
+# 	   Out_Ci = Next_Layer * refractionFilter + Out_Ci;
+	mul		$tmp45 Next_Layer refractionFilter 	%line{324} %argrw{"wrr"}
+	add		Out_Ci $tmp45 Out_Ci 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:326
+# 	   Out_Ci = Out_Ci + (refractionClosure*opacity) + transparencyClosure;
+	mul		$tmp46 ___350_refractionClosure opacity 	%line{326} %argrw{"wrr"}
+	add		$tmp47 Out_Ci $tmp46 	%argrw{"wrr"}
+	add		Out_Ci $tmp47 transparencyClosure 	%argrw{"wrr"}
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/ubersurface.osl:330
+#     Ci = Out_Ci;
+	assign		Ci Out_Ci 	%line{330} %argrw{"wr"}
+	end

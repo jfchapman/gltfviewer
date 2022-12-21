@@ -1,0 +1,31 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.12.6.2
+# options: -q -IC:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders -IC:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders -IC:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders -o C:/db/build/S/VS1564R/build/osl/src/external_osl-build/src/shaders/image.oso
+shader image	%meta{string,help,"Texture lookup"} 
+param	string	filename	""		%meta{string,help,"Texture filename"}  %read{2,2} %write{2147483647,-1}
+param	float	s	0		%meta{string,help,"s coordinate for the lookup"}  %read{2,2} %write{0,0} %derivs %initexpr
+param	float	t	0		%meta{string,help,"t coordinate for the lookup"}  %read{2,2} %write{1,1} %derivs %initexpr
+param	float	sblur	0		%meta{string,help,"Blur in the s direction"} %meta{float,min,0} %meta{float,max,1}  %read{2,2} %write{2147483647,-1}
+param	float	tblur	0		%meta{string,help,"Blur in the s direction"} %meta{float,min,0} %meta{float,max,1}  %read{2,2} %write{2147483647,-1}
+param	string	swrap	"periodic"		%meta{string,help,"Wrap mode for the s direction"} %meta{string,widget,"popup"} %meta{string,options,"default|black|clamp|periodic|mirror"}  %read{2,2} %write{2147483647,-1}
+param	string	twrap	"periodic"		%meta{string,help,"Wrap mode for the t direction"} %meta{string,widget,"popup"} %meta{string,options,"default|black|clamp|periodic|mirror"}  %read{2,2} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%meta{string,help,"Output color"}  %read{2147483647,-1} %write{2,2}
+global	float	u	%read{0,0} %write{2147483647,-1} %derivs
+global	float	v	%read{1,1} %write{2147483647,-1} %derivs
+const	string	$const1	"sblur"		%read{2,2} %write{2147483647,-1}
+const	string	$const2	"tblur"		%read{2,2} %write{2147483647,-1}
+const	string	$const3	"swrap"		%read{2,2} %write{2147483647,-1}
+const	string	$const4	"twrap"		%read{2,2} %write{2147483647,-1}
+code s
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/image.osl:12
+#     float s = u
+	assign		s u 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/image.osl"} %line{12} %argrw{"wr"}
+code t
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/image.osl:14
+#     float t = v
+	assign		t v 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/image.osl"} %line{14} %argrw{"wr"}
+code ___main___
+# C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/image.osl:34
+#     Cout = texture (filename, s, t, "sblur", sblur, "tblur", tblur,
+	texture		Cout filename s t $const1 sblur $const2 tblur $const3 swrap $const4 twrap 	%filename{"C:/db/build/S/VS1564R/build/osl/src/external_osl/src/shaders/image.osl"} %line{34} %argrw{"wrrrrrrrrrrr"} %argderivs{2,3}
+	end

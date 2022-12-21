@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\device.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\denoise.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\graphics_interop.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\kernel.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\memory.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\queue.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\device.cpp">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\device_impl.cpp">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\kernel.cpp">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\kernel_thread_globals.cpp">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\device.cpp">
+      <Filter>cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\device_impl.cpp">
+      <Filter>cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\graphics_interop.cpp">
+      <Filter>cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\kernel.cpp">
+      <Filter>cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\queue.cpp">
+      <Filter>cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\util.cpp">
+      <Filter>cuda</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\device.cpp">
+      <Filter>hip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\device_impl.cpp">
+      <Filter>hip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\graphics_interop.cpp">
+      <Filter>hip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\kernel.cpp">
+      <Filter>hip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\queue.cpp">
+      <Filter>hip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\util.cpp">
+      <Filter>hip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\dummy\device.cpp">
+      <Filter>dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\multi\device.cpp">
+      <Filter>multi</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\optix\device.cpp">
+      <Filter>optix</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\optix\device_impl.cpp">
+      <Filter>optix</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\optix\queue.cpp">
+      <Filter>optix</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\oneapi\device_impl.cpp">
+      <Filter>oneapi</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\oneapi\device.cpp">
+      <Filter>oneapi</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\oneapi\queue.cpp">
+      <Filter>oneapi</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\device.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\device_impl.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\kernel.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\kernel_function.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cpu\kernel_thread_globals.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\device.h">
+      <Filter>cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\device_impl.h">
+      <Filter>cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\graphics_interop.h">
+      <Filter>cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\kernel.h">
+      <Filter>cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\queue.h">
+      <Filter>cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\cuda\util.h">
+      <Filter>cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\device.h">
+      <Filter>hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\device_impl.h">
+      <Filter>hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\graphics_interop.h">
+      <Filter>hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\kernel.h">
+      <Filter>hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\queue.h">
+      <Filter>hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\hip\util.h">
+      <Filter>hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\dummy\device.h">
+      <Filter>dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\multi\device.h">
+      <Filter>multi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\optix\device.h">
+      <Filter>optix</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\optix\device_impl.h">
+      <Filter>optix</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\optix\queue.h">
+      <Filter>optix</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\optix\util.h">
+      <Filter>optix</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\oneapi\device_impl.h">
+      <Filter>oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\oneapi\device.h">
+      <Filter>oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\oneapi\queue.h">
+      <Filter>oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\device.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\denoise.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\graphics_interop.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\memory.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\kernel.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\queue.h">
+      <Filter>common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\device\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{6A1606AF-D780-31B8-8F4B-CB63449C783D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cpu">
+      <UniqueIdentifier>{47D3C952-8043-3649-9C4B-05C67C3187F7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cuda">
+      <UniqueIdentifier>{113E3CC4-C494-3DAF-B9FA-022DF34B2D77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dummy">
+      <UniqueIdentifier>{F6FF38D5-4730-38E7-8914-998A0D755429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hip">
+      <UniqueIdentifier>{3C291A5A-7F8B-33E7-8A06-0C96EABDD3AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="multi">
+      <UniqueIdentifier>{3C450081-C52C-3208-A6D2-2334C845E73F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="oneapi">
+      <UniqueIdentifier>{76F6FD9A-E218-3A69-A7EA-147DB30B460B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="optix">
+      <UniqueIdentifier>{3962826C-F2FE-3633-A906-31DE2F3F197E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

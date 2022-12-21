@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Cycles Renderer">
+      <UniqueIdentifier>{50bd9b25-cc81-4f58-948c-3db336207c30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\glTF Extensions">
+      <UniqueIdentifier>{990f98d8-72f3-4a74-9dcf-25e532f84c0a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gltfviewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cycles_renderer.cpp">
+      <Filter>Source Files\Cycles Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="cycles_outputdriver.cpp">
+      <Filter>Source Files\Cycles Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cycles_displaydriver.cpp">
+      <Filter>Source Files\Cycles Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="gltf_extension_transmission.cpp">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="gltf_extension_ior.cpp">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="gltf_extension_volume.cpp">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="gltf_extension_clearcoat.cpp">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gltfviewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="models.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cycles_renderer.h">
+      <Filter>Source Files\Cycles Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="cycles_outputdriver.h">
+      <Filter>Source Files\Cycles Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vec.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cycles_displaydriver.h">
+      <Filter>Source Files\Cycles Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="gltf_extension_transmission.h">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="gltf_extension_ior.h">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="gltf_extension_volume.h">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="gltf_extension_clearcoat.h">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

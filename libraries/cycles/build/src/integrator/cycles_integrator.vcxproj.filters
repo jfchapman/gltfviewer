@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\adaptive_sampling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\denoiser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\denoiser_device.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\denoiser_oidn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\denoiser_optix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\pass_accessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\pass_accessor_cpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\pass_accessor_gpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_work.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_work_cpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_work_gpu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\render_scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\shader_eval.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\work_balancer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\work_tile_scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\adaptive_sampling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\denoiser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\denoiser_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\denoiser_oidn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\denoiser_optix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\pass_accessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\pass_accessor_cpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\pass_accessor_gpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_work.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_work_cpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\path_trace_work_gpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\render_scheduler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\shader_eval.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\work_balancer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\work_tile_scheduler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\integrator\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{8D5BC9AD-481B-37B6-9C24-9A67DCF889FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E6215A81-5278-322F-A10C-A7311655C8FD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

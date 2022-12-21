@@ -1,0 +1,5 @@
+# CMake generation dependency list for this directory.
+C:/Tools/cmake/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake
+C:/Tools/cmake/share/cmake-3.21/Modules/FindPackageMessage.cmake
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/src/CMakeLists.txt
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/src/cmake/Modules/FindOptiX.cmake

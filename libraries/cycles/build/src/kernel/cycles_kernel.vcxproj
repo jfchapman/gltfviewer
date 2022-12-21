@@ -1,0 +1,606 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{41EC1E07-DA66-33F8-9FD9-E71EFBD31CAA}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>cycles_kernel</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cycles_kernel.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cycles_kernel</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cycles_kernel.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cycles_kernel</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\lib\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">cycles_kernel.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">cycles_kernel</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\lib\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">cycles_kernel.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">cycles_kernel</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /J /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;BOOST_ALL_NO_LIB;DEBUG;_DEBUG;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;WITH_OCIO;WITH_SYSTEM_PUGIXML;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;BOOST_ALL_NO_LIB;DEBUG;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;WITH_OCIO;WITH_SYSTEM_PUGIXML;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /J /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;BOOST_ALL_NO_LIB;NDEBUG;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;WITH_OCIO;WITH_SYSTEM_PUGIXML;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_CRT_SECURE_NO_WARNINGS;BOOST_ALL_NO_LIB;NDEBUG;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;WITH_OCIO;WITH_SYSTEM_PUGIXML;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /J /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;BOOST_ALL_NO_LIB;NDEBUG;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;WITH_OCIO;WITH_SYSTEM_PUGIXML;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_CRT_SECURE_NO_WARNINGS;BOOST_ALL_NO_LIB;NDEBUG;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;WITH_OCIO;WITH_SYSTEM_PUGIXML;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /J /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;BOOST_ALL_NO_LIB;NDEBUG;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;WITH_OCIO;WITH_SYSTEM_PUGIXML;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_CRT_SECURE_NO_WARNINGS;BOOST_ALL_NO_LIB;NDEBUG;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;WITH_OCIO;WITH_SYSTEM_PUGIXML;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pthreads\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\cuew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\third_party\hipew\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\..\third_party\atomic;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\..;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\boost\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimageio\include\OpenImageIO;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openexr\include\OpenEXR;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\imath\include\Imath;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\pugixml\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.5.0\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\embree\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\openimagedenoise\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\tbb\include;C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\..\lib\win64_vc15\opencolorio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/src/kernel/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Tools\cmake\bin\cmake.exe -SC:/Users/James/Documents/Source/gltfviewer/libraries/cycles -BC:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build --check-stamp-file C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/kernel/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\src\kernel\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/src/kernel/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Tools\cmake\bin\cmake.exe -SC:/Users/James/Documents/Source/gltfviewer/libraries/cycles -BC:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build --check-stamp-file C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/kernel/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\src\kernel\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/src/kernel/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Tools\cmake\bin\cmake.exe -SC:/Users/James/Documents/Source/gltfviewer/libraries/cycles -BC:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build --check-stamp-file C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/kernel/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\src\kernel\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/src/kernel/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Tools\cmake\bin\cmake.exe -SC:/Users/James/Documents/Source/gltfviewer/libraries/cycles -BC:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build --check-stamp-file C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/kernel/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\src\kernel\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel.cpp">
+      <ObjectFileName>$(IntDir)/device/cpu/kernel.cpp.obj</ObjectFileName>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_sse2.cpp">
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_sse3.cpp">
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_sse41.cpp">
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_avx.cpp">
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_avx2.cpp">
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Fast</FloatingPointModel>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cuda\kernel.cu">
+    </None>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\hip\kernel.cpp">
+      <ObjectFileName>$(IntDir)/device/hip/kernel.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\kernel.cu">
+    </None>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\kernel_shader_raytrace.cu">
+    </None>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\kernel.metal">
+    </None>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bake\bake.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\bvh.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\nodes.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\shadow_all.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\local.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\traversal.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\types.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\util.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\volume.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\volume_all.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\camera\camera.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\camera\projection.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\alloc.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_ashikhmin_velvet.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_diffuse.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_diffuse_ramp.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_microfacet.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_microfacet_multi.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_microfacet_multi_impl.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_oren_nayar.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_phong_ramp.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_reflection.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_refraction.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_toon.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_transparent.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_util.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_ashikhmin_shirley.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_hair.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bssrdf.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\emissive.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\volume.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_principled_diffuse.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_principled_sheen.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_hair_principled.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\adaptive_sampling.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\aov_passes.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\data_passes.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\denoising_passes.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\cryptomatte_passes.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\light_passes.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\read.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\write.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\geom.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\attribute.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\curve.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\curve_intersect.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_curve.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_point.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_triangle.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_triangle_intersect.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_triangle_shader.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\object.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\patch.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\point.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\point_intersect.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\primitive.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\shader_data.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\subd_triangle.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\triangle.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\triangle_intersect.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\volume.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\displacement_shader.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\init_from_bake.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\init_from_camera.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\intersect_closest.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\intersect_shadow.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\intersect_subsurface.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\intersect_volume_stack.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\megakernel.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\mnee.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\path_state.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_background.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_light.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_shadow.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_surface.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_volume.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shadow_catcher.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shadow_state_template.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\state_flow.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\state.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\state_template.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\state_util.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\subsurface_disk.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\subsurface.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\subsurface_random_walk.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\surface_shader.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\volume_shader.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\volume_stack.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\light\light.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\light\background.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\light\common.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\light\sample.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\jitter.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\lcg.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\mapping.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\mis.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\pattern.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\sobol_burley.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\util.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\svm.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\ao.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\aov.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\attribute.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\bevel.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\blackbody.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\bump.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\camera.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\clamp.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\closure.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\convert.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\checker.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\color_util.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\brick.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\displace.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\fresnel.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\wireframe.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\wavelength.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\gamma.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\brightness.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\geometry.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\gradient.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\hsv.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\ies.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\image.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\invert.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\light_path.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\magic.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\map_range.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\mapping.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\mapping_util.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\math.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\math_util.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\mix.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\musgrave.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\node_types_template.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\noise.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\noisetex.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\normal.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\ramp.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\ramp_util.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\sepcomb_color.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\sepcomb_hsv.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\sepcomb_vector.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\sky.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\tex_coord.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\fractal_noise.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\types.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\value.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\vector_rotate.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\vector_transform.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\voronoi.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\voxel.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\wave.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\white_noise.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\vertex_color.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\data_arrays.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\data_template.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\tables.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\types.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\util\color.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\util\differential.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\util\lookup_table.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\util\profiling.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\bvh.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\compat.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\image.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\globals.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_arch.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_arch_impl.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\image.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\kernel.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\parallel_active_index.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\parallel_prefix_sum.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\parallel_sorted_index.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\work_stealing.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cuda\compat.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cuda\config.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cuda\globals.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\hip\compat.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\hip\config.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\hip\globals.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\bvh.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\compat.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\globals.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\bvh.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\compat.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\context_begin.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\context_end.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\function_constants.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\globals.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\compat.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\context_begin.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\context_end.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\globals.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\image.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\kernel.h" />
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\kernel_templates.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\ZERO_CHECK.vcxproj">
+      <Project>{5F8B6D8D-5336-302C-A66C-72A4746050B0}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

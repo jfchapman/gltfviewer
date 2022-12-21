@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\bvh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\bvh2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\binning.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\build.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\embree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\multi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\optix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\sort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\split.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\unaligned.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\bvh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\bvh2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\binning.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\build.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\embree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\multi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\optix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\params.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\sort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\split.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\unaligned.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\metal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\bvh\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{8D5BC9AD-481B-37B6-9C24-9A67DCF889FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E6215A81-5278-322F-A10C-A7311655C8FD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

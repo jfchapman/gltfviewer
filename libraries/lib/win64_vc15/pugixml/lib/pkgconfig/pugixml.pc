@@ -1,0 +1,11 @@
+prefix=E:/db25/build/S/VS1564R/Release/pugixml
+exec_prefix=${prefix}
+includedir=E:/db25/build/S/VS1564R/Release/pugixml/include
+libdir=E:/db25/build/S/VS1564R/Release/pugixml/lib
+
+Name: pugixml
+Description: Light-weight, simple and fast XML parser for C++ with XPath support.
+URL: https://pugixml.org/
+Version: 1.10
+Cflags: -I${includedir}
+Libs: -L${libdir} -lpugixml

@@ -1,0 +1,704 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel.cpp">
+      <Filter>device\cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_sse2.cpp">
+      <Filter>device\cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_sse3.cpp">
+      <Filter>device\cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_sse41.cpp">
+      <Filter>device\cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_avx.cpp">
+      <Filter>device\cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_avx2.cpp">
+      <Filter>device\cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\hip\kernel.cpp">
+      <Filter>device\hip</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bake\bake.h">
+      <Filter>bake</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\bvh.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\nodes.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\shadow_all.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\local.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\traversal.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\types.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\util.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\volume.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\bvh\volume_all.h">
+      <Filter>bvh</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\camera\camera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\camera\projection.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\alloc.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_ashikhmin_velvet.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_diffuse.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_diffuse_ramp.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_microfacet.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_microfacet_multi.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_microfacet_multi_impl.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_oren_nayar.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_phong_ramp.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_reflection.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_refraction.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_toon.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_transparent.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_util.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_ashikhmin_shirley.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_hair.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bssrdf.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\emissive.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\volume.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_principled_diffuse.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_principled_sheen.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\closure\bsdf_hair_principled.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\adaptive_sampling.h">
+      <Filter>film</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\aov_passes.h">
+      <Filter>film</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\data_passes.h">
+      <Filter>film</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\denoising_passes.h">
+      <Filter>film</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\cryptomatte_passes.h">
+      <Filter>film</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\light_passes.h">
+      <Filter>film</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\read.h">
+      <Filter>film</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\film\write.h">
+      <Filter>film</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\geom.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\attribute.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\curve.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\curve_intersect.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_curve.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_point.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_triangle.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_triangle_intersect.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\motion_triangle_shader.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\object.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\patch.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\point.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\point_intersect.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\primitive.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\shader_data.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\subd_triangle.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\triangle.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\triangle_intersect.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\geom\volume.h">
+      <Filter>geom</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\displacement_shader.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\init_from_bake.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\init_from_camera.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\intersect_closest.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\intersect_shadow.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\intersect_subsurface.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\intersect_volume_stack.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\megakernel.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\mnee.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\path_state.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_background.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_light.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_shadow.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_surface.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shade_volume.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shadow_catcher.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\shadow_state_template.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\state_flow.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\state.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\state_template.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\state_util.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\subsurface_disk.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\subsurface.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\subsurface_random_walk.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\surface_shader.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\volume_shader.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\integrator\volume_stack.h">
+      <Filter>integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\light\light.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\light\background.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\light\common.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\light\sample.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\jitter.h">
+      <Filter>sample</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\lcg.h">
+      <Filter>sample</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\mapping.h">
+      <Filter>sample</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\mis.h">
+      <Filter>sample</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\pattern.h">
+      <Filter>sample</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\sobol_burley.h">
+      <Filter>sample</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\sample\util.h">
+      <Filter>sample</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\svm.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\ao.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\aov.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\attribute.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\bevel.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\blackbody.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\bump.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\camera.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\clamp.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\closure.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\convert.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\checker.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\color_util.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\brick.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\displace.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\fresnel.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\wireframe.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\wavelength.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\gamma.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\brightness.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\geometry.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\gradient.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\hsv.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\ies.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\image.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\invert.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\light_path.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\magic.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\map_range.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\mapping.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\mapping_util.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\math.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\math_util.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\mix.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\musgrave.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\node_types_template.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\noise.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\noisetex.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\normal.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\ramp.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\ramp_util.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\sepcomb_color.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\sepcomb_hsv.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\sepcomb_vector.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\sky.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\tex_coord.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\fractal_noise.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\types.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\value.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\vector_rotate.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\vector_transform.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\voronoi.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\voxel.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\wave.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\white_noise.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\svm\vertex_color.h">
+      <Filter>svm</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\data_arrays.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\data_template.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\tables.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\types.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\util\color.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\util\differential.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\util\lookup_table.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\util\profiling.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\bvh.h">
+      <Filter>device\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\compat.h">
+      <Filter>device\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\image.h">
+      <Filter>device\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\globals.h">
+      <Filter>device\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel.h">
+      <Filter>device\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_arch.h">
+      <Filter>device\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cpu\kernel_arch_impl.h">
+      <Filter>device\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\image.h">
+      <Filter>device\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\kernel.h">
+      <Filter>device\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\parallel_active_index.h">
+      <Filter>device\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\parallel_prefix_sum.h">
+      <Filter>device\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\parallel_sorted_index.h">
+      <Filter>device\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\gpu\work_stealing.h">
+      <Filter>device\gpu</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cuda\compat.h">
+      <Filter>device\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cuda\config.h">
+      <Filter>device\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cuda\globals.h">
+      <Filter>device\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\hip\compat.h">
+      <Filter>device\hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\hip\config.h">
+      <Filter>device\hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\hip\globals.h">
+      <Filter>device\hip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\bvh.h">
+      <Filter>device\optix</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\compat.h">
+      <Filter>device\optix</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\globals.h">
+      <Filter>device\optix</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\bvh.h">
+      <Filter>device\metal</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\compat.h">
+      <Filter>device\metal</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\context_begin.h">
+      <Filter>device\metal</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\context_end.h">
+      <Filter>device\metal</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\function_constants.h">
+      <Filter>device\metal</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\globals.h">
+      <Filter>device\metal</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\compat.h">
+      <Filter>device\oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\context_begin.h">
+      <Filter>device\oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\context_end.h">
+      <Filter>device\oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\globals.h">
+      <Filter>device\oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\image.h">
+      <Filter>device\oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\kernel.h">
+      <Filter>device\oneapi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\oneapi\kernel_templates.h">
+      <Filter>device\oneapi</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\cuda\kernel.cu">
+      <Filter>device\cuda</Filter>
+    </None>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\kernel.cu">
+      <Filter>device\optix</Filter>
+    </None>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\optix\kernel_shader_raytrace.cu">
+      <Filter>device\optix</Filter>
+    </None>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\device\metal\kernel.metal">
+      <Filter>device\metal</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="bake">
+      <UniqueIdentifier>{91B92D97-BA19-38BC-8AA2-D130423BAE43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bvh">
+      <UniqueIdentifier>{1B54E040-8BF5-3232-A63F-7E772C13F313}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camera">
+      <UniqueIdentifier>{717C8680-5A9F-33B5-9BF3-3A1C20261DC2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="closure">
+      <UniqueIdentifier>{5531BB86-5ABD-3D34-B52A-A06F8A85EDF5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device">
+      <UniqueIdentifier>{56E21B69-FB31-3176-B065-A2907B0C6D6E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device\cpu">
+      <UniqueIdentifier>{BBA0B932-7C1E-3273-A3AB-9FC198EF258D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device\cuda">
+      <UniqueIdentifier>{58FCF4F6-F58C-3B15-B750-5D469F3C1909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device\gpu">
+      <UniqueIdentifier>{383E283B-1607-31EF-B336-48822C36CD9C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device\hip">
+      <UniqueIdentifier>{24859506-0D62-32C7-9959-ACAD405B22ED}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device\metal">
+      <UniqueIdentifier>{431F915A-441E-3FA2-A134-EFA5DE050901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device\oneapi">
+      <UniqueIdentifier>{C8AB22CC-ACF5-3D98-90D8-6DA0888EA625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="device\optix">
+      <UniqueIdentifier>{E3886672-9073-3153-937B-F73E89408539}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="film">
+      <UniqueIdentifier>{9EBCF9E8-BA5B-3D02-852D-49862A2A21A3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geom">
+      <UniqueIdentifier>{BEBCDE1B-A324-3D7B-B176-924A61A2A253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="integrator">
+      <UniqueIdentifier>{929F7E19-031B-3FF2-A8AC-22157091578F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kernel">
+      <UniqueIdentifier>{D658C8E5-D7BF-3781-94BD-24031FB82267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="light">
+      <UniqueIdentifier>{D328F45E-057C-3631-AB46-9B20947EA2C0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sample">
+      <UniqueIdentifier>{90B7DC88-DD91-3767-9D7B-0BBDECE369AE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="svm">
+      <UniqueIdentifier>{BA29346A-AD2E-30AF-A98B-CD4DC8C3BFEE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{5B8FE952-75EE-381B-A97F-416ED6220CBC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
