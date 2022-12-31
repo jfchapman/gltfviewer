@@ -51,6 +51,21 @@ Material::Material( const Microsoft::glTF::Document& document, const Microsoft::
       ReadTexture( document, resourceReader, *extension.m_clearcoatRoughnessTexture, *m_clearcoatRoughnessTexture, textureMap );
     }
   }
+
+  if ( material.HasExtension<KHR_materials_sheen>() ) {
+    const auto& extension = material.GetExtension<KHR_materials_sheen>();
+    m_sheenColorFactor = extension.m_sheenColorFactor;
+    if ( extension.m_sheenColorTexture ) {
+      m_sheenColorTexture = std::make_optional<Texture>();
+      ReadTexture( document, resourceReader, *extension.m_sheenColorTexture, *m_sheenColorTexture, textureMap );
+    }
+    m_sheenRoughnessFactor = extension.m_sheenRoughnessFactor;
+    if ( extension.m_sheenRoughnessTexture ) {
+      m_sheenRoughnessTexture = std::make_optional<Texture>();
+      ReadTexture( document, resourceReader, *extension.m_sheenRoughnessTexture, *m_sheenRoughnessTexture, textureMap );
+    }
+  }
+
 }
 
 void Material::ReadTextures( const Microsoft::glTF::Document& document, const Microsoft::glTF::GLTFResourceReader& resourceReader, const Microsoft::glTF::Material& material, TextureMap& textureMap )

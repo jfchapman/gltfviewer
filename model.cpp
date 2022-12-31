@@ -93,6 +93,7 @@ bool Model::Load( const std::filesystem::path& filepath )
       extensionDeserializer.AddHandler<KHR_materials_ior, Microsoft::glTF::Material>( KHR_materials_ior::Name, Deserialize_KHR_materials_ior );
       extensionDeserializer.AddHandler<KHR_materials_volume, Microsoft::glTF::Material>( KHR_materials_volume::Name, Deserialize_KHR_materials_volume );
       extensionDeserializer.AddHandler<KHR_materials_clearcoat, Microsoft::glTF::Material>( KHR_materials_clearcoat::Name, Deserialize_KHR_materials_clearcoat );
+      extensionDeserializer.AddHandler<KHR_materials_sheen, Microsoft::glTF::Material>( KHR_materials_sheen::Name, Deserialize_KHR_materials_sheen );
 
       m_document = Microsoft::glTF::Deserialize( manifest, extensionDeserializer );
     } catch ( const Microsoft::glTF::GLTFException& ex ) {

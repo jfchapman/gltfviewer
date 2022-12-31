@@ -12,6 +12,7 @@
 #include "gltf_extension_ior.h"
 #include "gltf_extension_volume.h"
 #include "gltf_extension_clearcoat.h"
+#include "gltf_extension_sheen.h"
 
 namespace gltfviewer {
 
@@ -67,6 +68,12 @@ public:
   std::optional<Texture> m_clearcoatTexture;
   std::optional<float> m_clearcoatRoughnessFactor;
   std::optional<Texture> m_clearcoatRoughnessTexture;
+
+  // Sheen extension
+  std::optional<Microsoft::glTF::Color3> m_sheenColorFactor;
+  std::optional<Texture> m_sheenColorTexture;
+  std::optional<float> m_sheenRoughnessFactor;
+  std::optional<Texture> m_sheenRoughnessTexture;
 
 private:
   void ReadTextures( const Microsoft::glTF::Document& document, const Microsoft::glTF::GLTFResourceReader& resourceReader, const Microsoft::glTF::Material& material, TextureMap& textureMap );

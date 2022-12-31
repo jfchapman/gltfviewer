@@ -114,6 +114,7 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClCompile Include="gltfviewer.cpp" />
     <ClCompile Include="gltf_extension_clearcoat.cpp" />
     <ClCompile Include="gltf_extension_ior.cpp" />
+    <ClCompile Include="gltf_extension_sheen.cpp" />
     <ClCompile Include="gltf_extension_transmission.cpp" />
     <ClCompile Include="gltf_extension_volume.cpp" />
     <ClCompile Include="libraries\MikkTSpace\mikktspace.c" />
@@ -133,6 +134,7 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClInclude Include="gltfviewer.h" />
     <ClInclude Include="gltf_extension_clearcoat.h" />
     <ClInclude Include="gltf_extension_ior.h" />
+    <ClInclude Include="gltf_extension_sheen.h" />
     <ClInclude Include="gltf_extension_transmission.h" />
     <ClInclude Include="gltf_extension_volume.h" />
     <ClInclude Include="libraries\MikkTSpace\mikktspace.h" />

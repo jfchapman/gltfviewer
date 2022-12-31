@@ -75,6 +75,9 @@
     <ClCompile Include="mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gltf_extension_sheen.cpp">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gltfviewer.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="libraries\MikkTSpace\mikktspace.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gltf_extension_sheen.h">
+      <Filter>Source Files\glTF Extensions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

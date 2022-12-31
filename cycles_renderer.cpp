@@ -366,6 +366,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
     graph->add( imageTextureNode );
     imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_pbrBaseTexture.filepath.string() ) );
     imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "sRGB" ) );
+    imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
     SetTextureWrapping( imageTextureNode, material.m_pbrBaseTexture );
 
     if ( ( material.m_pbrBaseColorFactor.r != 1.0f ) || ( material.m_pbrBaseColorFactor.g != 1.0f ) || ( material.m_pbrBaseColorFactor.b != 1.0f ) ) {
@@ -432,7 +433,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
     ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
     graph->add( imageTextureNode );
     imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_pbrMetallicRoughnessTexture.filepath.string() ) );
-    imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "linear" ) );
+    imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Linear" ) );
     imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
     SetTextureWrapping( imageTextureNode, material.m_pbrMetallicRoughnessTexture );
 
@@ -513,7 +514,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, material.m_emissiveTexture );
     }
 
-    if ( ccl::ShaderInput* materialSurfaceInput = graph->output()->input( "Surface" );  nullptr != materialSurfaceInput ) {
+    if ( ccl::ShaderInput* materialSurfaceInput = graph->output()->input( "Surface" ); nullptr != materialSurfaceInput ) {
       ccl::ShaderOutput* previousSurfaceOutput = materialSurfaceInput->link;
       previousSurfaceOutput->disconnect();
       {
@@ -542,7 +543,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
     ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
     graph->add( imageTextureNode );
     imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_transmissionTexture->filepath.string() ) );
-    imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "linear" ) );
+    imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Linear" ) );
     imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
     SetTextureWrapping( imageTextureNode, *material.m_transmissionTexture );
 
@@ -590,7 +591,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
       graph->add( imageTextureNode );
       imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_clearcoatTexture->filepath.string() ) );
-      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "linear" ) );
+      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Linear" ) );
       imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
       SetTextureWrapping( imageTextureNode, *material.m_clearcoatTexture );
 
@@ -614,7 +615,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
       graph->add( imageTextureNode );
       imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_clearcoatRoughnessTexture->filepath.string() ) );
-      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "linear" ) );
+      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Linear" ) );
       imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
       SetTextureWrapping( imageTextureNode, *material.m_clearcoatRoughnessTexture );
 
@@ -632,6 +633,71 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
         graph->connect( from, to );
       }
       AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, *material.m_clearcoatRoughnessTexture );
+    }
+  }
+
+  // Sheen extension
+  if ( material.m_sheenColorFactor || material.m_sheenColorTexture || material.m_sheenRoughnessFactor || material.m_sheenRoughnessTexture ) {
+    ccl::VelvetBsdfNode* velvetNode = graph->create_node<ccl::VelvetBsdfNode>();
+    graph->add( velvetNode );
+
+    if ( material.m_sheenColorFactor ) {
+      velvetNode->set_color( ccl::make_float3( material.m_sheenColorFactor->r, material.m_sheenColorFactor->g, material.m_sheenColorFactor->b ) ); 
+    } else {
+      velvetNode->set_color( ccl::make_float3( 0, 0, 0 ) );
+    }
+
+    velvetNode->set_sigma( material.m_sheenRoughnessFactor.value_or( 0.0f ) );
+
+    if ( material.m_sheenColorTexture && std::filesystem::exists( material.m_sheenColorTexture->filepath ) ) {
+      ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
+      graph->add( imageTextureNode );
+      imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_sheenColorTexture->filepath.string() ) );
+      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Non-Color" ) );
+      imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
+      SetTextureWrapping( imageTextureNode, *material.m_sheenColorTexture );
+      {
+        ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
+        ccl::ShaderInput* to = velvetNode->input( "Color" );
+        graph->connect( from, to );
+      }
+    }
+
+    if ( material.m_sheenRoughnessTexture && std::filesystem::exists( material.m_sheenRoughnessTexture->filepath ) ) {
+      ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
+      graph->add( imageTextureNode );
+      imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_sheenRoughnessTexture->filepath.string() ) );
+      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Non-Color" ) );
+      imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
+      SetTextureWrapping( imageTextureNode, *material.m_sheenRoughnessTexture );
+      {
+        ccl::ShaderOutput* from = imageTextureNode->output( "Alpha" );
+        ccl::ShaderInput* to = velvetNode->input( "Sigma" );
+        graph->connect( from, to );
+      }
+    }
+
+    if ( ccl::ShaderInput* materialSurfaceInput = graph->output()->input( "Surface" ); nullptr != materialSurfaceInput ) {
+      ccl::AddClosureNode* addClosureNode = graph->create_node<ccl::AddClosureNode>();
+      graph->add( addClosureNode );
+
+      ccl::ShaderOutput* previousSurfaceOutput = materialSurfaceInput->link;
+      previousSurfaceOutput->disconnect();
+      {
+        ccl::ShaderOutput* from = velvetNode->output( "BSDF" );
+        ccl::ShaderInput* to = addClosureNode->input( "Closure1" );
+        graph->connect( from, to );
+      }
+      {
+        ccl::ShaderOutput* from = previousSurfaceOutput;
+        ccl::ShaderInput* to = addClosureNode->input( "Closure2" );
+        graph->connect( from, to );
+      }
+      {
+        ccl::ShaderOutput* from = addClosureNode->output( "Closure" );
+        ccl::ShaderInput* to = graph->output()->input( "Surface" );
+        graph->connect( from, to );
+      }
     }
   }
 
