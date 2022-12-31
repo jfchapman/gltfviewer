@@ -23,6 +23,7 @@ public:
   std::array<std::array<float, 4>, 4>& GetValues() { return m_matrix; }
 
   Vec3 Transform( const Microsoft::glTF::Vector3& value ) const;
+  Vec3 Transform( const Vec4& value ) const;
   void TransformInPlace( Microsoft::glTF::Vector3& value ) const;
 
   static Matrix Translation( const Vec3& translation );

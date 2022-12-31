@@ -34,8 +34,8 @@ public:
   // Returns the number of cameras contained in the current gltfviewer model (for the default scene).
   size_t GetModelCameraCount() const { return m_model_cameras.size(); }
 
-  // Called when the client window size changes.
-  void OnSize();
+  // Called when the client window size changes, with the new width & height values.
+  void OnSize( const uint32_t width, const uint32_t height );
 
 private:
   // gltfviewer render callback (NOTE that the callback will be called from a separate thread).

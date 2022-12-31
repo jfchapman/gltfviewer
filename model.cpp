@@ -292,6 +292,9 @@ static bool ValidateMesh( const Mesh& mesh )
   if ( validMesh && !mesh.m_normals.empty() ) {
     validMesh = ( maxIndex < mesh.m_normals.size() );
   }
+  if ( validMesh && !mesh.m_tangents.empty() ) {
+    validMesh = ( maxIndex < mesh.m_tangents.size() );
+  }
   for ( auto tex = mesh.m_texcoords.begin(); validMesh && ( mesh.m_texcoords.end() != tex ); tex++ ) {
     validMesh = ( maxIndex < tex->size() );
   }
@@ -321,14 +324,25 @@ bool Model::ReadTriangles( const Microsoft::glTF::MeshPrimitive& primitive, cons
     if ( 0 == data.size() % 3 ) {
       const auto vertexCount = data.size() / 3;
       mesh.m_normals.reserve( vertexCount );
-      const auto zero = matrix.Transform( Vec3::ZERO );
       for ( size_t i = 0; i < vertexCount; i++ ) {
-        auto n = matrix.Transform( { data[ i * 3 ], data[ i * 3 + 1 ], data[ i * 3 + 2 ] } );
-        n.x -= zero.x;
-        n.y -= zero.y;
-        n.z -= zero.z;
+        // TODO for non-uniform scaling, we should transform with the inverse transpose matrix
+        auto n = matrix.Transform( { data[ i * 3 ], data[ i * 3 + 1 ], data[ i * 3 + 2 ], 0 } );
         n.Normalise();
         mesh.m_normals.push_back( n );
+      }
+    }
+  }
+
+  if ( std::string tangentID; primitive.TryGetAttributeAccessorId( "TANGENT", tangentID ) && m_document.accessors.Has( tangentID ) ) {
+    const auto& accessor = m_document.accessors.Get( tangentID );
+    const auto data = ReadData<float>( m_document, accessor, *m_resourceReader );
+    if ( 0 == data.size() % 4 ) {
+      const auto vertexCount = data.size() / 4;
+      mesh.m_tangents.reserve( vertexCount );
+      for ( size_t i = 0; i < vertexCount; i++ ) {
+        auto t = matrix.Transform( { data[ i * 4 ], data[ i * 4 + 1 ], data[ i * 4 + 2 ], 0 } );
+        t.Normalise();
+        mesh.m_tangents.push_back( { t.x, t.y, t.z, data[ i * 4 + 3 ] } );
       }
     }
   }
@@ -351,7 +365,7 @@ bool Model::ReadTriangles( const Microsoft::glTF::MeshPrimitive& primitive, cons
       break;
     }
   }
-
+  
   if ( primitive.indicesAccessorId.empty() ) {
     // Convert non-indexed mesh to an indexed mesh
     if ( !mesh.m_positions.empty() ) {
@@ -367,6 +381,15 @@ bool Model::ReadTriangles( const Microsoft::glTF::MeshPrimitive& primitive, cons
   }
 
   mesh.m_materialID = primitive.materialId;
+
+  if ( mesh.m_tangents.size() != mesh.m_positions.size() ) {
+    if ( const auto it = m_materials.find( mesh.m_materialID ); m_materials.end() != it ) {
+      const Material& material = it->second;
+      if ( !material.m_normalTexture.filepath.empty() && std::filesystem::exists( material.m_normalTexture.filepath ) ) {
+        mesh.GenerateTangents( material.m_normalTexture.textureCoordinateChannel );
+      }
+    }
+  }
 
   const bool validMesh = ValidateMesh( mesh );
   if ( validMesh ) {

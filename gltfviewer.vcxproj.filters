@@ -69,6 +69,12 @@
     <ClCompile Include="gltf_extension_clearcoat.cpp">
       <Filter>Source Files\glTF Extensions</Filter>
     </ClCompile>
+    <ClCompile Include="libraries\MikkTSpace\mikktspace.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gltfviewer.h">
@@ -121,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="gltf_extension_clearcoat.h">
       <Filter>Source Files\glTF Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\MikkTSpace\mikktspace.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

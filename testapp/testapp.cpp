@@ -264,8 +264,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         UpdateCameraMenu( GetMenu( hWnd ) );
         break;
     case WM_SIZE:
-        if ( gTestViewer && ( SIZE_MINIMIZED != wParam ) && ( SIZE_RESTORED != wParam ) )
-          gTestViewer->OnSize();
+        if ( gTestViewer && ( SIZE_MINIMIZED != wParam ) )
+          gTestViewer->OnSize( LOWORD( lParam ), HIWORD( lParam ) );
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

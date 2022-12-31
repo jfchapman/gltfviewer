@@ -5,6 +5,7 @@
 namespace gltfviewer {
 
 using Vec2 = Microsoft::glTF::Vector2;
+using Vec4 = Microsoft::glTF::Quaternion;
 
 struct Vec3 : public Microsoft::glTF::Vector3
 {

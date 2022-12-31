@@ -116,8 +116,10 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClCompile Include="gltf_extension_ior.cpp" />
     <ClCompile Include="gltf_extension_transmission.cpp" />
     <ClCompile Include="gltf_extension_volume.cpp" />
+    <ClCompile Include="libraries\MikkTSpace\mikktspace.c" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="mesh.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="models.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -133,6 +135,7 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClInclude Include="gltf_extension_ior.h" />
     <ClInclude Include="gltf_extension_transmission.h" />
     <ClInclude Include="gltf_extension_volume.h" />
+    <ClInclude Include="libraries\MikkTSpace\mikktspace.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="mesh.h" />

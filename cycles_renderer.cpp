@@ -46,6 +46,11 @@ static void SetTextureWrapping( ccl::ImageTextureNode* imageTextureNode, const g
   }
 }
 
+static OpenImageIO_v2_3::ustring GetUVAttributeName( const size_t textureCoordinateChannel )
+{
+  return OpenImageIO_v2_3::ustring( std::to_string( textureCoordinateChannel ) );
+}
+
 CyclesRenderer::CyclesRenderer( const gltfviewer::Model& model ) : gltfviewer::Renderer( model )
 {
 }
@@ -168,11 +173,6 @@ ccl::DeviceInfo CyclesRenderer::SelectDevice( const bool forceCPU )
   return devices.front();
 }
 
-static OpenImageIO_v2_3::ustring GetUVAttributeName( const size_t textureCoordinateChannel )
-{
-  return OpenImageIO_v2_3::ustring( std::to_string( textureCoordinateChannel ) );
-}
-
 bool CyclesRenderer::BuildScene( const int32_t scene_index )
 {
   const auto& meshes = m_model.GetMeshes( scene_index );
@@ -194,7 +194,6 @@ bool CyclesRenderer::BuildScene( const int32_t scene_index )
         targetMesh->add_triangle( v0, v1, v2, 0, true );
       }
 
-      // TODO fix normals, as they don't seem to be working
       if ( sourceMesh.m_normals.size() == sourceMesh.m_positions.size() ) {
         if ( ccl::Attribute* attribute = targetMesh->attributes.add( ccl::ATTR_STD_VERTEX_NORMAL ); ( nullptr != attribute ) ) {
           if ( ccl::float3* normal = attribute->data_float3(); nullptr != normal ) {
@@ -208,7 +207,7 @@ bool CyclesRenderer::BuildScene( const int32_t scene_index )
 
       for ( size_t channel = 0; channel < sourceMesh.m_texcoords.size(); channel++ ) {
         const auto& texCoords = sourceMesh.m_texcoords[ channel ];
-        if ( ccl::Attribute* attribute = targetMesh->attributes.add( GetUVAttributeName( channel ), OpenImageIO_v2_3::TypeFloat2, ccl::ATTR_ELEMENT_CORNER ); ( nullptr != attribute ) ) {
+        if ( ccl::Attribute* attribute = targetMesh->attributes.add( GetUVAttributeName( channel ), OpenImageIO_v2_3::TypeFloat2, ccl::ATTR_ELEMENT_CORNER ); nullptr != attribute ) {
           if ( ccl::float2* uv = attribute->data_float2(); nullptr != uv ) {
             uint32_t texIndex = 0;
             for ( auto i = sourceMesh.m_indices.begin(); sourceMesh.m_indices.end() != i; ) {
@@ -218,6 +217,36 @@ bool CyclesRenderer::BuildScene( const int32_t scene_index )
               uv[ texIndex++ ] = ccl::make_float2( texCoords[ v0 ].x, texCoords[ v0 ].y );
               uv[ texIndex++ ] = ccl::make_float2( texCoords[ v1 ].x, texCoords[ v1 ].y );
               uv[ texIndex++ ] = ccl::make_float2( texCoords[ v2 ].x, texCoords[ v2 ].y );
+            }
+          }
+        }
+      }
+
+      const auto& material = m_model.GetMaterial( sourceMesh.m_materialID );
+      if ( !material.m_normalTexture.filepath.empty() && std::filesystem::exists( material.m_normalTexture.filepath ) && ( material.m_normalTexture.textureCoordinateChannel < sourceMesh.m_texcoords.size() ) ) {
+        if ( sourceMesh.m_tangents.size() == sourceMesh.m_positions.size() ) {
+          const auto tangentAttributeName = OpenImageIO_v2_3::ustring::concat( GetUVAttributeName( material.m_normalTexture.textureCoordinateChannel ), ".tangent" );
+          if ( ccl::Attribute* attribute = targetMesh->attributes.add( tangentAttributeName, OpenImageIO_v2_3::TypeVector, ccl::ATTR_ELEMENT_CORNER ); nullptr != attribute ) {
+            if ( ccl::float3* tangent = attribute->data_float3(); nullptr != tangent ) {
+              uint32_t tangentIndex = 0;
+              for ( auto i = sourceMesh.m_indices.begin(); sourceMesh.m_indices.end() != i; ) {
+                const int v0 = static_cast<int>( *i++ );
+                const int v1 = static_cast<int>( *i++ );
+                const int v2 = static_cast<int>( *i++ );
+                tangent[ tangentIndex++ ] = ccl::make_float3( sourceMesh.m_tangents[ v0 ].x, sourceMesh.m_tangents[ v0 ].y, sourceMesh.m_tangents[ v0 ].z );
+                tangent[ tangentIndex++ ] = ccl::make_float3( sourceMesh.m_tangents[ v1 ].x, sourceMesh.m_tangents[ v1 ].y, sourceMesh.m_tangents[ v1 ].z );
+                tangent[ tangentIndex++ ] = ccl::make_float3( sourceMesh.m_tangents[ v2 ].x, sourceMesh.m_tangents[ v2 ].y, sourceMesh.m_tangents[ v2 ].z );
+              }
+            }
+          }
+          const auto tangentSignName = OpenImageIO_v2_3::ustring::concat( GetUVAttributeName( material.m_normalTexture.textureCoordinateChannel ), ".tangent_sign" );
+          if ( ccl::Attribute* attribute = targetMesh->attributes.add( tangentSignName, OpenImageIO_v2_3::TypeFloat, ccl::ATTR_ELEMENT_CORNER ); nullptr != attribute ) {
+            if ( float* tangentSign = attribute->data_float(); nullptr != tangentSign ) {
+              uint32_t tangentsignIndex = 0;
+              for ( auto i = sourceMesh.m_indices.begin(); sourceMesh.m_indices.end() != i; ) {
+                const int v = *i++;
+                tangentSign[ tangentsignIndex++ ] = sourceMesh.m_tangents[ v ].w;
+              }
             }
           }
         }
@@ -429,18 +458,19 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
     AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, material.m_pbrMetallicRoughnessTexture );
   }
 
-  // TODO fix normal maps, as they don't seem to be working
+  // Normal texture
   if ( !material.m_normalTexture.filepath.empty() && std::filesystem::exists( material.m_normalTexture.filepath, ec ) ) {
     ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
     graph->add( imageTextureNode );
     imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_normalTexture.filepath.string() ) );
-    imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "linear" ) );
+    imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Non-Color" ) );
     imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
     SetTextureWrapping( imageTextureNode, material.m_normalTexture );
 
     ccl::NormalMapNode* normalMapNode = graph->create_node<ccl::NormalMapNode>();
     normalMapNode->set_strength( 1.0f );
     normalMapNode->set_attribute( GetUVAttributeName( material.m_normalTexture.textureCoordinateChannel ) );
+    normalMapNode->set_space( ccl::NODE_NORMAL_MAP_TANGENT );
     graph->add( normalMapNode );
 
     {
@@ -611,6 +641,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
 
   shader->set_graph( graph );
   shader->tag_used( m_session->scene );
+  shader->tag_update( m_session->scene );
   return shader;
 }
 

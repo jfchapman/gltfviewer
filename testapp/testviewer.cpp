@@ -121,7 +121,9 @@ void TestViewer::SetCameraFromModel( const size_t camera_index )
   }
 }
 
-void TestViewer::OnSize()
+void TestViewer::OnSize( const uint32_t width, const uint32_t height )
 {
-  StartRender();
+  if ( ( m_render_settings.width != width ) || ( m_render_settings.height != height ) ) {
+    StartRender();
+  }
 }
