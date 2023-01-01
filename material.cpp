@@ -32,6 +32,11 @@ Material::Material( const Microsoft::glTF::Document& document, const Microsoft::
      m_ior = extension.m_ior;
   }
 
+  if ( material.HasExtension<KHR_materials_emissive_strength>() ) {
+     const auto& extension = material.GetExtension<KHR_materials_emissive_strength>();
+     m_emissiveStrength = extension.m_emissive_strength;
+  }
+
   if ( material.HasExtension<KHR_materials_volume>() ) {
     const auto& extension = material.GetExtension<KHR_materials_volume>();
     m_volumeDensity = ( extension.m_attenutationDistance > 0 ) ? ( 1 / extension.m_attenutationDistance ) : 0;

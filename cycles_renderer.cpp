@@ -222,8 +222,9 @@ bool CyclesRenderer::BuildScene( const int32_t scene_index )
         }
       }
 
+      std::error_code ec;
       const auto& material = m_model.GetMaterial( sourceMesh.m_materialID );
-      if ( !material.m_normalTexture.filepath.empty() && std::filesystem::exists( material.m_normalTexture.filepath ) && ( material.m_normalTexture.textureCoordinateChannel < sourceMesh.m_texcoords.size() ) ) {
+      if ( !material.m_normalTexture.filepath.empty() && std::filesystem::exists( material.m_normalTexture.filepath, ec ) && ( material.m_normalTexture.textureCoordinateChannel < sourceMesh.m_texcoords.size() ) ) {
         if ( sourceMesh.m_tangents.size() == sourceMesh.m_positions.size() ) {
           const auto tangentAttributeName = OpenImageIO_v2_3::ustring::concat( GetUVAttributeName( material.m_normalTexture.textureCoordinateChannel ), ".tangent" );
           if ( ccl::Attribute* attribute = targetMesh->attributes.add( tangentAttributeName, OpenImageIO_v2_3::TypeVector, ccl::ATTR_ELEMENT_CORNER ); nullptr != attribute ) {
@@ -494,6 +495,9 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
     emissionNode->set_color( ccl::make_float3( material.m_emissiveFactor.r, material.m_emissiveFactor.g, material.m_emissiveFactor.b ) );
     graph->add( emissionNode );
 
+    // Emissive strength extension
+    emissionNode->set_strength( material.m_emissiveStrength );
+
     ccl::AddClosureNode* addClosureNode = graph->create_node<ccl::AddClosureNode>();
     graph->add( addClosureNode );
 
@@ -505,7 +509,24 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
       SetTextureWrapping( imageTextureNode, material.m_emissiveTexture );
 
-      {
+      const auto& color = emissionNode->get_color();
+      if ( ( color.x != 1.0f ) || ( color.y != 1.0f ) || ( color.z != 1.0f ) ) {
+        ccl::MixNode* mixNode = graph->create_node<ccl::MixNode>();
+        graph->add( mixNode );
+        mixNode->set_mix_type( ccl::NODE_MIX_MUL );
+        mixNode->set_fac( 1.0f );
+        mixNode->set_color1( color );
+        {
+          ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
+          ccl::ShaderInput* to = mixNode->input( "Color2" );
+          graph->connect( from, to );
+        }
+        {
+          ccl::ShaderOutput* from = mixNode->output( "Color" );
+          ccl::ShaderInput* to = emissionNode->input( "Color" );
+          graph->connect( from, to );
+        }
+      } else {
         ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
         ccl::ShaderInput* to = emissionNode->input( "Color" );
         graph->connect( from, to );
@@ -587,7 +608,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       principledBsdfNode->set_clearcoat_roughness( *material.m_clearcoatRoughnessFactor );
     }
 
-    if ( material.m_clearcoatTexture && std::filesystem::exists( material.m_clearcoatTexture->filepath ) ) {
+    if ( material.m_clearcoatTexture && std::filesystem::exists( material.m_clearcoatTexture->filepath, ec ) ) {
       ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
       graph->add( imageTextureNode );
       imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_clearcoatTexture->filepath.string() ) );
@@ -611,7 +632,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, *material.m_clearcoatTexture );
     }
 
-    if ( material.m_clearcoatRoughnessTexture && std::filesystem::exists( material.m_clearcoatRoughnessTexture->filepath ) ) {
+    if ( material.m_clearcoatRoughnessTexture && std::filesystem::exists( material.m_clearcoatRoughnessTexture->filepath, ec ) ) {
       ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
       graph->add( imageTextureNode );
       imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_clearcoatRoughnessTexture->filepath.string() ) );
@@ -649,7 +670,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
 
     velvetNode->set_sigma( material.m_sheenRoughnessFactor.value_or( 0.0f ) );
 
-    if ( material.m_sheenColorTexture && std::filesystem::exists( material.m_sheenColorTexture->filepath ) ) {
+    if ( material.m_sheenColorTexture && std::filesystem::exists( material.m_sheenColorTexture->filepath, ec ) ) {
       ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
       graph->add( imageTextureNode );
       imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_sheenColorTexture->filepath.string() ) );
@@ -681,7 +702,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       }
     }
 
-    if ( material.m_sheenRoughnessTexture && std::filesystem::exists( material.m_sheenRoughnessTexture->filepath ) ) {
+    if ( material.m_sheenRoughnessTexture && std::filesystem::exists( material.m_sheenRoughnessTexture->filepath, ec ) ) {
       ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
       graph->add( imageTextureNode );
       imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_sheenRoughnessTexture->filepath.string() ) );
@@ -742,7 +763,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
   if ( material.m_specularFactor || material.m_specularTexture ) {
     principledBsdfNode->set_specular( material.m_specularFactor.value_or( 1.0f ) );
 
-    if ( material.m_specularTexture && std::filesystem::exists( material.m_specularTexture->filepath ) ) {
+    if ( material.m_specularTexture && std::filesystem::exists( material.m_specularTexture->filepath, ec ) ) {
       ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
       graph->add( imageTextureNode );
       imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_specularTexture->filepath.string() ) );

@@ -113,6 +113,7 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="gltfviewer.cpp" />
     <ClCompile Include="gltf_extension_clearcoat.cpp" />
+    <ClCompile Include="gltf_extension_emissive_strength.cpp" />
     <ClCompile Include="gltf_extension_ior.cpp" />
     <ClCompile Include="gltf_extension_sheen.cpp" />
     <ClCompile Include="gltf_extension_specular.cpp" />
@@ -134,6 +135,7 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClInclude Include="cycles_renderer.h" />
     <ClInclude Include="gltfviewer.h" />
     <ClInclude Include="gltf_extension_clearcoat.h" />
+    <ClInclude Include="gltf_extension_emissive_strength.h" />
     <ClInclude Include="gltf_extension_ior.h" />
     <ClInclude Include="gltf_extension_sheen.h" />
     <ClInclude Include="gltf_extension_specular.h" />

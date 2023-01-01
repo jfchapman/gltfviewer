@@ -14,6 +14,7 @@
 #include "gltf_extension_clearcoat.h"
 #include "gltf_extension_sheen.h"
 #include "gltf_extension_specular.h"
+#include "gltf_extension_emissive_strength.h"
 
 namespace gltfviewer {
 
@@ -59,6 +60,9 @@ public:
 
   // IOR extension
   float m_ior = 1.5f;
+
+  // Emissive strength extension
+  float m_emissiveStrength = 1.0f;
 
   // Volume extension
   std::optional<float> m_volumeDensity;
