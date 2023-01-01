@@ -305,6 +305,7 @@ bool CyclesRenderer::SetBackground( const gltfviewer_environment_settings& envir
     sky->set_sun_intensity( environment_settings.sun_intensity );
     sky->set_sun_elevation( DegreeToRadian( std::clamp( environment_settings.sun_elevation, 0.0f, 90.0f ) ) );
     sky->set_sun_rotation( DegreeToRadian( environment_settings.sun_rotation ) );
+    sky->set_sun_disc( false );
     m_session->scene->default_background->graph->add( sky );
 
     {

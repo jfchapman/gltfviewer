@@ -13,25 +13,25 @@
 class StreamReader : public Microsoft::glTF::IStreamReader
 {
 public:
-    StreamReader( std::filesystem::path pathBase ) : m_pathBase( std::move( pathBase ) )
-    {
-    }
+  StreamReader( std::filesystem::path pathBase ) : m_pathBase( std::move( pathBase ) )
+  {
+  }
 
-    // Resolves the relative URIs of any external resources declared in the glTF manifest
-    std::shared_ptr<std::istream> GetInputStream( const std::string& filename ) const override
-    {
-        auto streamPath = m_pathBase / std::filesystem::path( filename );
-        auto stream = std::make_shared<std::ifstream>( streamPath, std::ios_base::binary );
-        if (!stream || !(*stream))
-        {
-            throw std::runtime_error( "Unable to create a valid input stream for uri: " + filename );
-        }
-
-        return stream;
+  // Resolves the relative URIs of any external resources declared in the glTF manifest
+  std::shared_ptr<std::istream> GetInputStream( const std::string& filename ) const override
+  {
+    std::wstring wFilename = FromUTF8( filename );
+    UnescapeURL( wFilename );
+    auto streamPath = m_pathBase / wFilename;
+    auto stream = std::make_shared<std::ifstream>( streamPath, std::ios_base::binary );
+    if ( !stream || !( *stream ) ) {
+      throw std::runtime_error( "Unable to create a valid input stream for uri: " + filename );
     }
+    return stream;
+  }
 
 private:
-    std::filesystem::path m_pathBase;
+  std::filesystem::path m_pathBase;
 };
 
 std::string str_tolower( std::string s )
@@ -66,7 +66,7 @@ bool Model::Load( const std::filesystem::path& filepath )
     const auto extension = str_tolower( filepath.extension().string() );
 
     if ( extension == ".gltf" ) {
-      auto gltfStream = streamReader->GetInputStream( filepath.string() );
+      auto gltfStream = streamReader->GetInputStream( ToUTF8( filepath ) );
       auto gltfResourceReader = std::make_unique<Microsoft::glTF::GLTFResourceReader>( std::move( streamReader ) );
 
       std::stringstream manifestStream;
@@ -75,7 +75,7 @@ bool Model::Load( const std::filesystem::path& filepath )
 
       m_resourceReader = std::move( gltfResourceReader );
     } else if ( extension == ".glb" ) {
-      auto glbStream = streamReader->GetInputStream( filepath.string() );
+      auto glbStream = streamReader->GetInputStream( ToUTF8( filepath ) );
       auto glbResourceReader = std::make_unique<Microsoft::glTF::GLBResourceReader>( std::move( streamReader ), std::move( glbStream ) );
 
       manifest = glbResourceReader->GetJson();
@@ -218,61 +218,63 @@ std::vector<T> ReadData( const Microsoft::glTF::Document& document, const Micros
   std::vector<T> data;
 
   static_assert( std::is_same<T, float>::value || std::is_same<T, uint32_t>::value );
-
-  switch ( accessor.componentType ) {
-    case Microsoft::glTF::COMPONENT_FLOAT : {
-      if ( std::is_same<T, float>::value ) {
-        data = resourceReader.ReadBinaryData<T>( document, accessor );
+  try {
+    switch ( accessor.componentType ) {
+      case Microsoft::glTF::COMPONENT_FLOAT : {
+        if ( std::is_same<T, float>::value ) {
+          data = resourceReader.ReadBinaryData<T>( document, accessor );
+        }
+        break;
       }
-      break;
-    }
-    case Microsoft::glTF::COMPONENT_UNSIGNED_INT : {
-      if ( std::is_same<T, uint32_t>::value ) {
-        data = resourceReader.ReadBinaryData<T>( document, accessor );
-      } else {
-        const auto tempData = resourceReader.ReadBinaryData<uint32_t>( document, accessor );
+      case Microsoft::glTF::COMPONENT_UNSIGNED_INT : {
+        if ( std::is_same<T, uint32_t>::value ) {
+          data = resourceReader.ReadBinaryData<T>( document, accessor );
+        } else {
+          const auto tempData = resourceReader.ReadBinaryData<uint32_t>( document, accessor );
+          data.reserve( tempData.size() );
+          for ( const auto& i : tempData ) {
+            data.push_back( static_cast<T>( i ) );
+          }
+        }
+        break;
+      }
+      case Microsoft::glTF::COMPONENT_UNSIGNED_SHORT : {
+        const auto tempData = resourceReader.ReadBinaryData<uint16_t>( document, accessor );
         data.reserve( tempData.size() );
         for ( const auto& i : tempData ) {
           data.push_back( static_cast<T>( i ) );
         }
+        break;
       }
-      break;
-    }
-    case Microsoft::glTF::COMPONENT_UNSIGNED_SHORT : {
-      const auto tempData = resourceReader.ReadBinaryData<uint16_t>( document, accessor );
-      data.reserve( tempData.size() );
-      for ( const auto& i : tempData ) {
-        data.push_back( static_cast<T>( i ) );
+      case Microsoft::glTF::COMPONENT_SHORT : {
+        const auto tempData = resourceReader.ReadBinaryData<int16_t>( document, accessor );
+        data.reserve( tempData.size() );
+        for ( const auto& i : tempData ) {
+          data.push_back( static_cast<T>( i ) );
+        }
+        break;
       }
-      break;
-    }
-    case Microsoft::glTF::COMPONENT_SHORT : {
-      const auto tempData = resourceReader.ReadBinaryData<int16_t>( document, accessor );
-      data.reserve( tempData.size() );
-      for ( const auto& i : tempData ) {
-        data.push_back( static_cast<T>( i ) );
+      case Microsoft::glTF::COMPONENT_UNSIGNED_BYTE : {
+        const auto tempData = resourceReader.ReadBinaryData<uint8_t>( document, accessor );
+        data.reserve( tempData.size() );
+        for ( const auto& i : tempData ) {
+          data.push_back( static_cast<T>( i ) );
+        }
+        break;
       }
-      break;
-    }
-    case Microsoft::glTF::COMPONENT_UNSIGNED_BYTE : {
-      const auto tempData = resourceReader.ReadBinaryData<uint8_t>( document, accessor );
-      data.reserve( tempData.size() );
-      for ( const auto& i : tempData ) {
-        data.push_back( static_cast<T>( i ) );
+      case Microsoft::glTF::COMPONENT_BYTE : {
+        const auto tempData = resourceReader.ReadBinaryData<int8_t>( document, accessor );
+        data.reserve( tempData.size() );
+        for ( const auto& i : tempData ) {
+          data.push_back( static_cast<T>( i ) );
+        }
+        break;
       }
-      break;
-    }
-    case Microsoft::glTF::COMPONENT_BYTE : {
-      const auto tempData = resourceReader.ReadBinaryData<int8_t>( document, accessor );
-      data.reserve( tempData.size() );
-      for ( const auto& i : tempData ) {
-        data.push_back( static_cast<T>( i ) );
+      default : {
+        break;
       }
-      break;
     }
-    default : {
-      break;
-    }
+  } catch ( const std::runtime_error& ) {
   }
 
   return data;

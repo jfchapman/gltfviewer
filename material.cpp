@@ -105,69 +105,73 @@ void Material::ReadTextures( const Microsoft::glTF::Document& document, const Mi
 std::string Material::ReadTexture( const Microsoft::glTF::Document& document, const Microsoft::glTF::GLTFResourceReader& resourceReader, const Microsoft::glTF::TextureInfo& textureInfo, Texture& texture, TextureMap& textureMap )
 {
   std::string imageID;
-  if ( document.textures.Has( textureInfo.textureId ) ) {
-    imageID = document.textures.Get( textureInfo.textureId ).imageId;
-    if ( ( textureMap.end() == textureMap.find( imageID ) ) && document.images.Has( imageID ) ) {
-      const auto& image = document.images.Get( imageID );
-      if ( const auto imageData = resourceReader.ReadBinaryData( document, image ); !imageData.empty() ) {
-        auto filename = GenerateGUID();
-        std::string extension;
-        if ( !image.uri.empty() ) {
-          std::filesystem::path p( image.uri );
-          if ( p.has_extension() ) {
-            extension = p.extension().string();
+  try {
+    if ( document.textures.Has( textureInfo.textureId ) ) {
+      imageID = document.textures.Get( textureInfo.textureId ).imageId;
+      if ( ( textureMap.end() == textureMap.find( imageID ) ) && document.images.Has( imageID ) ) {
+        const auto& image = document.images.Get( imageID );
+        if ( const auto imageData = resourceReader.ReadBinaryData( document, image ); !imageData.empty() ) {
+          auto filename = GenerateGUID();
+          std::string extension;
+          if ( !image.uri.empty() ) {
+            std::filesystem::path p( image.uri );
+            if ( p.has_extension() ) {
+              extension = p.extension().string();
+            }
           }
-        }
-        if ( extension.empty() ) {
-          if ( !image.mimeType.empty() ) {
-            if ( "image/jpeg" == image.mimeType ) {
+          if ( extension.empty() ) {
+            if ( !image.mimeType.empty() ) {
+              if ( "image/jpeg" == image.mimeType ) {
+                extension = ".jpg";
+              } else if ( "image/png" == image.mimeType ) {
+                extension = ".png";
+              }
+            } else if ( ( imageData.size() >= 3 ) && ( imageData[ 0 ] == 0xFF ) && ( imageData[ 1 ] == 0xD8 ) && ( imageData[ 2 ] == 0xFF ) ) {
               extension = ".jpg";
-            } else if ( "image/png" == image.mimeType ) {
+            } else if ( ( imageData.size() >= 8 ) && ( imageData[ 0 ] == 0x89 ) && ( imageData[ 1 ] == 0x50 ) && ( imageData[ 2 ] == 0x4E ) && ( imageData[ 3 ] == 0x47 ) &&
+              ( imageData[ 4 ] == 0x0D ) && ( imageData[ 5 ] == 0x0A ) && ( imageData[ 6 ] == 0x1A ) && ( imageData[ 7 ] == 0x0A ) ) {
               extension = ".png";
             }
-          } else if ( ( imageData.size() >= 3 ) && ( imageData[ 0 ] == 0xFF ) && ( imageData[ 1 ] == 0xD8 ) && ( imageData[ 2 ] == 0xFF ) ) {
-            extension = ".jpg";
-          } else if ( ( imageData.size() >= 8 ) && ( imageData[ 0 ] == 0x89 ) && ( imageData[ 1 ] == 0x50 ) && ( imageData[ 2 ] == 0x4E ) && ( imageData[ 3 ] == 0x47 ) &&
-            ( imageData[ 4 ] == 0x0D ) && ( imageData[ 5 ] == 0x0A ) && ( imageData[ 6 ] == 0x1A ) && ( imageData[ 7 ] == 0x0A ) ) {
-            extension = ".png";
+          }
+          if ( !extension.empty() ) {
+            filename += extension;
+          }
+
+          std::error_code ec;
+          const auto filepath = std::filesystem::temp_directory_path( ec ) / filename;
+
+          if ( std::ofstream stream( filepath, std::ios::binary ); stream.good() ) {
+            stream.write( reinterpret_cast<const char*>( imageData.data() ), imageData.size() );
+            textureMap.insert( { imageID, filepath } );
           }
         }
-        if ( !extension.empty() ) {
-          filename += extension;
-        }
-
-        std::error_code ec;
-        const auto filepath = std::filesystem::temp_directory_path( ec ) / filename;
-
-        if ( std::ofstream stream( filepath, std::ios::binary ); stream.good() ) {
-          stream.write( reinterpret_cast<const char*>( imageData.data() ), imageData.size() );
-          textureMap.insert( { imageID, filepath } );
-        }
       }
-    }
 
-    if ( const auto it = textureMap.find( imageID ); textureMap.end() != it ) {
-      texture.filepath = it->second;
-      texture.textureCoordinateChannel = textureInfo.texCoord;
+      if ( const auto it = textureMap.find( imageID ); textureMap.end() != it ) {
+        texture.filepath = it->second;
+        texture.textureCoordinateChannel = textureInfo.texCoord;
  
-      const auto& samplerID = document.textures.Get( textureInfo.textureId ).samplerId;
-      if ( !samplerID.empty() && document.samplers.Has( samplerID ) ) {
-        const auto& sampler = document.samplers.Get( samplerID );
-        texture.wrapS = sampler.wrapS;
-        texture.wrapT = sampler.wrapT;
-      }
+        const auto& samplerID = document.textures.Get( textureInfo.textureId ).samplerId;
+        if ( !samplerID.empty() && document.samplers.Has( samplerID ) ) {
+          const auto& sampler = document.samplers.Get( samplerID );
+          texture.wrapS = sampler.wrapS;
+          texture.wrapT = sampler.wrapT;
+        }
 
-      if ( textureInfo.HasExtension<Microsoft::glTF::KHR::TextureInfos::TextureTransform>() ) {
-        const auto& textureTransform = textureInfo.GetExtension<Microsoft::glTF::KHR::TextureInfos::TextureTransform>();
-        texture.offset = textureTransform.offset;
-        texture.rotation = textureTransform.rotation;
-        texture.scale = textureTransform.scale;
-        if ( textureTransform.texCoord.HasValue() ) {
-          texture.textureCoordinateChannel = textureTransform.texCoord.Get();
+        if ( textureInfo.HasExtension<Microsoft::glTF::KHR::TextureInfos::TextureTransform>() ) {
+          const auto& textureTransform = textureInfo.GetExtension<Microsoft::glTF::KHR::TextureInfos::TextureTransform>();
+          texture.offset = textureTransform.offset;
+          texture.rotation = textureTransform.rotation;
+          texture.scale = textureTransform.scale;
+          if ( textureTransform.texCoord.HasValue() ) {
+            texture.textureCoordinateChannel = textureTransform.texCoord.Get();
+          }
         }
       }
     }
+  } catch ( const std::runtime_error& ) {
   }
+
   return imageID;
 }
 
