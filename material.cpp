@@ -66,6 +66,19 @@ Material::Material( const Microsoft::glTF::Document& document, const Microsoft::
     }
   }
 
+  if ( material.HasExtension<KHR_materials_specular>() ) {
+    const auto& extension = material.GetExtension<KHR_materials_specular>();
+    m_specularFactor = extension.m_specularFactor;
+    if ( extension.m_specularTexture ) {
+      m_specularTexture = std::make_optional<Texture>();
+      ReadTexture( document, resourceReader, *extension.m_specularTexture, *m_specularTexture, textureMap );
+    }
+    m_specularColorFactor = extension.m_specularColorFactor;
+    if ( extension.m_specularColorTexture ) {
+      m_specularColorTexture = std::make_optional<Texture>();
+      ReadTexture( document, resourceReader, *extension.m_specularColorTexture, *m_specularColorTexture, textureMap );
+    }
+  }
 }
 
 void Material::ReadTextures( const Microsoft::glTF::Document& document, const Microsoft::glTF::GLTFResourceReader& resourceReader, const Microsoft::glTF::Material& material, TextureMap& textureMap )

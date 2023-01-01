@@ -13,6 +13,7 @@
 #include "gltf_extension_volume.h"
 #include "gltf_extension_clearcoat.h"
 #include "gltf_extension_sheen.h"
+#include "gltf_extension_specular.h"
 
 namespace gltfviewer {
 
@@ -74,6 +75,12 @@ public:
   std::optional<Texture> m_sheenColorTexture;
   std::optional<float> m_sheenRoughnessFactor;
   std::optional<Texture> m_sheenRoughnessTexture;
+
+  // Specular extension
+  std::optional<float> m_specularFactor;
+  std::optional<Texture> m_specularTexture;
+  std::optional<Microsoft::glTF::Color3> m_specularColorFactor;
+  std::optional<Texture> m_specularColorTexture;
 
 private:
   void ReadTextures( const Microsoft::glTF::Document& document, const Microsoft::glTF::GLTFResourceReader& resourceReader, const Microsoft::glTF::Material& material, TextureMap& textureMap );

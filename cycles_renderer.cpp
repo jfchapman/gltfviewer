@@ -737,6 +737,43 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
     }
   }
 
+  // Specular extension
+  // TODO if/when possible, support specular tint
+  if ( material.m_specularFactor || material.m_specularTexture ) {
+    principledBsdfNode->set_specular( material.m_specularFactor.value_or( 1.0f ) );
+
+    if ( material.m_specularTexture && std::filesystem::exists( material.m_specularTexture->filepath ) ) {
+      ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
+      graph->add( imageTextureNode );
+      imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_specularTexture->filepath.string() ) );
+      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Non-Color" ) );
+      imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
+      SetTextureWrapping( imageTextureNode, *material.m_specularTexture );
+
+      const auto specular = principledBsdfNode->get_specular();
+      if ( specular != 1.0f ) {
+        ccl::MathNode* mathNode = graph->create_node<ccl::MathNode>();
+        graph->add( mathNode );
+        mathNode->set_math_type( ccl::NODE_MATH_MULTIPLY );
+        mathNode->set_value1( specular );
+        {
+          ccl::ShaderOutput* from = imageTextureNode->output( "Alpha" );
+          ccl::ShaderInput* to = mathNode->input( "Value2" );
+          graph->connect( from, to );
+        }
+        {
+          ccl::ShaderOutput* from = mathNode->output( "Value" );
+          ccl::ShaderInput* to = principledBsdfNode->input( "Specular" );
+          graph->connect( from, to );
+        }
+      } else {
+        ccl::ShaderOutput* from = imageTextureNode->output( "Alpha" );
+        ccl::ShaderInput* to = principledBsdfNode->input( "Specular" );
+        graph->connect( from, to );
+      }
+    }
+  }
+
   if ( !material.m_doubleSided ) {
     AddBackfaceCulling( graph );
   }

@@ -78,6 +78,9 @@
     <ClCompile Include="gltf_extension_sheen.cpp">
       <Filter>Source Files\glTF Extensions</Filter>
     </ClCompile>
+    <ClCompile Include="gltf_extension_specular.cpp">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gltfviewer.h">
@@ -135,6 +138,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="gltf_extension_sheen.h">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="gltf_extension_specular.h">
       <Filter>Source Files\glTF Extensions</Filter>
     </ClInclude>
   </ItemGroup>
