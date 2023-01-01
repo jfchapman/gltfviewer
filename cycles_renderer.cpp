@@ -656,7 +656,25 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Non-Color" ) );
       imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
       SetTextureWrapping( imageTextureNode, *material.m_sheenColorTexture );
-      {
+
+      const auto& color = velvetNode->get_color();
+      if ( ( color.x != 1.0f ) || ( color.y != 1.0f ) || ( color.z != 1.0f ) ) {
+        ccl::MixNode* mixNode = graph->create_node<ccl::MixNode>();
+        graph->add( mixNode );
+        mixNode->set_mix_type( ccl::NODE_MIX_MUL );
+        mixNode->set_fac( 1.0f );
+        mixNode->set_color1( color );
+        {
+          ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
+          ccl::ShaderInput* to = mixNode->input( "Color2" );
+          graph->connect( from, to );
+        }
+        {
+          ccl::ShaderOutput* from = mixNode->output( "Color" );
+          ccl::ShaderInput* to = velvetNode->input( "Color" );
+          graph->connect( from, to );
+        }
+      } else {
         ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
         ccl::ShaderInput* to = velvetNode->input( "Color" );
         graph->connect( from, to );
@@ -670,33 +688,51 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
       imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Non-Color" ) );
       imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
       SetTextureWrapping( imageTextureNode, *material.m_sheenRoughnessTexture );
-      {
+
+      const auto sigma = velvetNode->get_sigma();
+      if ( sigma != 1.0f ) {
+        ccl::MathNode* mathNode = graph->create_node<ccl::MathNode>();
+        graph->add( mathNode );
+        mathNode->set_math_type( ccl::NODE_MATH_MULTIPLY );
+        mathNode->set_value1( sigma );
+        {
+          ccl::ShaderOutput* from = imageTextureNode->output( "Alpha" );
+          ccl::ShaderInput* to = mathNode->input( "Value2" );
+          graph->connect( from, to );
+        }
+        {
+          ccl::ShaderOutput* from = mathNode->output( "Value" );
+          ccl::ShaderInput* to = velvetNode->input( "Sigma" );
+          graph->connect( from, to );
+        }
+      } else {
         ccl::ShaderOutput* from = imageTextureNode->output( "Alpha" );
         ccl::ShaderInput* to = velvetNode->input( "Sigma" );
         graph->connect( from, to );
       }
     }
 
-    if ( ccl::ShaderInput* materialSurfaceInput = graph->output()->input( "Surface" ); nullptr != materialSurfaceInput ) {
-      ccl::AddClosureNode* addClosureNode = graph->create_node<ccl::AddClosureNode>();
-      graph->add( addClosureNode );
+    if ( ccl::ShaderOutput* principledBsdfOutput = principledBsdfNode->output( "BSDF" ); ( nullptr != principledBsdfOutput ) && ( 1 == principledBsdfOutput->links.size() ) ) {
+      if ( ccl::ShaderInput* previousBsdfTarget = principledBsdfOutput->links.front(); nullptr != previousBsdfTarget ) {
+        principledBsdfOutput->disconnect();
 
-      ccl::ShaderOutput* previousSurfaceOutput = materialSurfaceInput->link;
-      previousSurfaceOutput->disconnect();
-      {
-        ccl::ShaderOutput* from = velvetNode->output( "BSDF" );
-        ccl::ShaderInput* to = addClosureNode->input( "Closure1" );
-        graph->connect( from, to );
-      }
-      {
-        ccl::ShaderOutput* from = previousSurfaceOutput;
-        ccl::ShaderInput* to = addClosureNode->input( "Closure2" );
-        graph->connect( from, to );
-      }
-      {
-        ccl::ShaderOutput* from = addClosureNode->output( "Closure" );
-        ccl::ShaderInput* to = graph->output()->input( "Surface" );
-        graph->connect( from, to );
+        ccl::AddClosureNode* addClosureNode = graph->create_node<ccl::AddClosureNode>();
+        graph->add( addClosureNode );
+        {
+          ccl::ShaderOutput* from = velvetNode->output( "BSDF" );
+          ccl::ShaderInput* to = addClosureNode->input( "Closure1" );
+          graph->connect( from, to );
+        }
+        {
+          ccl::ShaderOutput* from = principledBsdfOutput;
+          ccl::ShaderInput* to = addClosureNode->input( "Closure2" );
+          graph->connect( from, to );
+        }
+        {
+          ccl::ShaderOutput* from = addClosureNode->output( "Closure" );
+          ccl::ShaderInput* to = previousBsdfTarget;
+          graph->connect( from, to );
+        }
       }
     }
   }
