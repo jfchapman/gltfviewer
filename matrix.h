@@ -16,8 +16,9 @@ public:
   Matrix( const Matrix& matrix );
   Matrix( const float matrix[ 4 ][ 4 ] );
 
-  Matrix operator*( Matrix const& other ) const;
-  Matrix& operator*=( Matrix const& other );
+  Matrix operator*( const Matrix& other ) const;
+  Matrix& operator*=( const Matrix& other );
+  bool operator==( const Matrix& other ) const { return m_matrix == other.m_matrix; };
 
   const std::array<std::array<float, 4>, 4>& GetValues() const { return m_matrix; }
   std::array<std::array<float, 4>, 4>& GetValues() { return m_matrix; }

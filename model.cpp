@@ -10,6 +10,8 @@
 #include <GLTFSDK/exceptions.h>
 #include <GLTFSDK/IStreamReader.h>
 
+#include "gltf_extension_lights_punctual.h"
+
 class StreamReader : public Microsoft::glTF::IStreamReader
 {
 public:
@@ -97,6 +99,8 @@ bool Model::Load( const std::filesystem::path& filepath )
       extensionDeserializer.AddHandler<KHR_materials_specular, Microsoft::glTF::Material>( KHR_materials_specular::Name, Deserialize_KHR_materials_specular );
       extensionDeserializer.AddHandler<KHR_materials_emissive_strength, Microsoft::glTF::Material>( KHR_materials_emissive_strength::Name, Deserialize_KHR_materials_emissive_strength );
 
+      extensionDeserializer.AddHandler<KHR_lights_punctual>( KHR_lights_punctual::Name, Deserialize_KHR_lights_punctual );
+
       m_document = Microsoft::glTF::Deserialize( manifest, extensionDeserializer );
     } catch ( const Microsoft::glTF::GLTFException& ex ) {
       throw std::runtime_error( ex.what() );
@@ -115,6 +119,11 @@ bool Model::ReadScenes()
 {
   if ( 0 == m_document.scenes.Size() ) {
     return false;
+  }
+
+  if ( m_document.HasExtension<KHR_lights_punctual>() ) {
+    const auto& extension = m_document.GetExtension<KHR_lights_punctual>();
+    m_lights = extension.m_lights;
   }
 
   Matrix matrix;
@@ -155,6 +164,13 @@ bool Model::ReadNode( const std::string& nodeID, Matrix matrix, Scene& scene )
 
   ReadMesh( node.meshId, matrix, scene );
   ReadCamera( node.cameraId, matrix, scene );
+
+  if ( node.HasExtension<KHR_lights_punctual>() ) {
+    const auto& extension = node.GetExtension<KHR_lights_punctual>();
+    if ( extension.m_lightIndex && ( *extension.m_lightIndex < m_lights.size() ) ) {
+      ReadLight( m_lights[ *extension.m_lightIndex ], matrix, scene );
+    }
+  }
 
   for ( const auto& child : node.children ) {
     ReadNode( child, matrix, scene );
@@ -403,6 +419,13 @@ bool Model::ReadTriangles( const Microsoft::glTF::MeshPrimitive& primitive, cons
   return validMesh;
 }
 
+bool Model::ReadLight( Light light, const Matrix& matrix, Scene& scene )
+{
+  light.m_transform = matrix;
+  scene.lights.emplace_back( light );
+  return true;
+}
+
 bool Model::StartRender( const int32_t scene_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
 {
   render_settings;
@@ -443,6 +466,11 @@ const Model::Scene& Model::GetScene( const int32_t scene_index ) const
 const std::vector<Mesh>& Model::GetMeshes( const int32_t scene_index ) const
 {
   return GetScene( scene_index ).meshes;
+}
+
+const std::vector<Light>& Model::GetLights( const int32_t scene_index ) const
+{
+  return GetScene( scene_index ).lights;
 }
 
 const std::vector<Camera>& Model::GetCameras( const int32_t scene_index ) const

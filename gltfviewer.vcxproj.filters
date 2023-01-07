@@ -84,6 +84,9 @@
     <ClCompile Include="gltf_extension_emissive_strength.cpp">
       <Filter>Source Files\glTF Extensions</Filter>
     </ClCompile>
+    <ClCompile Include="gltf_extension_lights_punctual.cpp">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gltfviewer.h">
@@ -147,6 +150,12 @@
       <Filter>Source Files\glTF Extensions</Filter>
     </ClInclude>
     <ClInclude Include="gltf_extension_emissive_strength.h">
+      <Filter>Source Files\glTF Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gltf_extension_lights_punctual.h">
       <Filter>Source Files\glTF Extensions</Filter>
     </ClInclude>
   </ItemGroup>

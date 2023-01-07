@@ -18,6 +18,8 @@ public:
 private:
   bool InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, void* render_callback_context, const bool forceCPU = false );
   bool BuildScene( const int32_t scene_index );
+  bool SetMeshes( const int32_t scene_index );
+  bool SetLights( const int32_t scene_index );
   bool SetCamera( const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings );
   bool SetBackground( const gltfviewer_environment_settings& environment_settings );
 

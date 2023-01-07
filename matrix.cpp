@@ -88,7 +88,7 @@ Matrix Matrix::operator*( const Matrix& other ) const
   return result;
 }
 
-Matrix& Matrix::operator*=( Matrix const& other )
+Matrix& Matrix::operator*=( const Matrix& other )
 {
   const Matrix result = *this * other;
   m_matrix = result.m_matrix;

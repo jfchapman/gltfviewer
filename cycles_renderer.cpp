@@ -25,6 +25,21 @@ static ccl::Transform ToTransform( const gltfviewer::Matrix& matrix )
   return transform;
 }
 
+static float ConvertLightStrength( const gltfviewer::Light& light )
+{
+  constexpr float kCandela = 683.0f;
+
+  switch ( light.m_type ) {
+    case gltfviewer::Light::Type::Point :
+    case gltfviewer::Light::Type::Spot :
+      return light.m_intensity * 4 * M_PI / kCandela;
+    case gltfviewer::Light::Type::Directional :
+      return light.m_intensity / kCandela;
+    default :
+      return light.m_intensity;
+  }
+}
+
 static void SetTextureWrapping( ccl::ImageTextureNode* imageTextureNode, const gltfviewer::Material::Texture& textureSettings )
 {
   // TODO support for mirrored repeat and mixed S/T wrap modes (these will require a more complex shader chain, a la Blender).
@@ -175,6 +190,11 @@ ccl::DeviceInfo CyclesRenderer::SelectDevice( const bool forceCPU )
 
 bool CyclesRenderer::BuildScene( const int32_t scene_index )
 {
+  return SetMeshes( scene_index ) && SetLights( scene_index );
+}
+
+bool CyclesRenderer::SetMeshes( const int32_t scene_index )
+{
   const auto& meshes = m_model.GetMeshes( scene_index );
   for ( const auto& sourceMesh : meshes ) {
     if ( ccl::Mesh* targetMesh = m_session->scene->create_node<ccl::Mesh>(); nullptr != targetMesh ) {
@@ -268,6 +288,73 @@ bool CyclesRenderer::BuildScene( const int32_t scene_index )
         obj->set_tfm( kRootTransform );
         obj->tag_update( m_session->scene );
       }
+    }
+  }
+  return true;
+}
+
+bool CyclesRenderer::SetLights( const int32_t scene_index )
+{
+  constexpr float kDefaultRadius = 0.025f;
+  constexpr float kDefaultAngle = 0.01f;
+
+  const auto& lights = m_model.GetLights( scene_index );
+  for ( const auto& sourceLight : lights ) {
+    ccl::Light* light = m_session->scene->create_node<ccl::Light>();
+    switch ( sourceLight.m_type ) {
+      case gltfviewer::Light::Type::Point : {
+        light->set_light_type( ccl::LIGHT_POINT );
+        light->set_angle( 0 );
+        light->set_size( kDefaultRadius );
+        break;
+      }
+      case gltfviewer::Light::Type::Spot : {
+        light->set_light_type( ccl::LIGHT_SPOT );
+        light->set_angle( 0 );
+        light->set_size( kDefaultRadius );
+        light->set_spot_angle( sourceLight.m_outerConeAngle );
+        light->set_spot_smooth( ( ( sourceLight.m_outerConeAngle > 0 ) && ( sourceLight.m_outerConeAngle >= sourceLight.m_innerConeAngle ) ) ? ( 1.0f - sourceLight.m_innerConeAngle / sourceLight.m_outerConeAngle ) : 0.5f );
+        break;
+      }
+      case gltfviewer::Light::Type::Directional : {
+        light->set_light_type( ccl::LIGHT_DISTANT );
+        light->set_angle( kDefaultAngle );
+        light->set_size( 0 );
+        break;
+      }
+      default : {
+        break;
+      }
+    }
+
+    const ccl::Transform transform = kRootTransform * ToTransform( sourceLight.m_transform );
+    light->set_co( ccl::transform_get_column( &transform, 3 ) );
+    light->set_dir( -ccl::transform_get_column( &transform, 2 ) );
+    light->set_tfm( transform );
+
+    const float strength = ConvertLightStrength( sourceLight );
+    light->set_strength( ccl::make_float3( strength, strength, strength ) );
+
+    light->set_use_mis( true );
+    light->set_use_camera( false );
+    
+    if ( ccl::Shader* shader = m_session->scene->create_node<ccl::Shader>(); nullptr != shader ) {
+      ccl::ShaderGraph* graph = new ccl::ShaderGraph();
+
+      ccl::EmissionNode* emissionNode = graph->create_node<ccl::EmissionNode>();
+      emissionNode->set_strength( 1.0f );
+      emissionNode->set_color( ccl::make_float3( sourceLight.m_color.r, sourceLight.m_color.g, sourceLight.m_color.b ) );
+      graph->add( emissionNode );
+
+      ccl::ShaderOutput* from = emissionNode->output( "Emission" );
+      ccl::ShaderInput* to = graph->output()->input( "Surface" );
+      graph->connect( from, to );
+
+      light->set_shader( shader );
+
+      shader->set_graph( graph );
+      shader->tag_used( m_session->scene );
+      shader->tag_update( m_session->scene );
     }
   }
   return true;

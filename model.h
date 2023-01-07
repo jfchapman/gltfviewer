@@ -6,6 +6,7 @@
 #include "material.h"
 #include "mesh.h"
 #include "vec.h"
+#include "light.h"
 
 #include <GLTFSDK/Document.h>
 #include <GLTFSDK/GLTF.h>
@@ -30,6 +31,7 @@ public:
   uint32_t GetSceneCount() const;
 
   const std::vector<Mesh>& GetMeshes( const int32_t scene_index = -1 ) const;
+  const std::vector<Light>& GetLights( const int32_t scene_index = -1 ) const;
   const std::vector<Camera>& GetCameras( const int32_t scene_index = -1 ) const;
 
   const Material& GetMaterial( const std::string materialID ) const;
@@ -45,6 +47,7 @@ private:
     std::string id;
     std::string name;
     std::vector<Mesh> meshes;
+    std::vector<Light> lights;
     std::vector<Camera> cameras;
   };
 
@@ -56,10 +59,13 @@ private:
   bool ReadMaterial( const std::string& materialID );
   bool ReadTriangles( const Microsoft::glTF::MeshPrimitive& primitive, const Matrix& matrix, Scene& scene );
   bool ReadCamera( const std::string& cameraID, const Matrix& matrix, Scene& scene );
+  bool ReadLight( Light light, const Matrix& matrix, Scene& scene );
 
   std::vector<Scene> m_scenes;
   
   std::map<std::string, Material> m_materials;
+
+  std::vector<Light> m_lights;
 
   TextureMap m_textures;
  
