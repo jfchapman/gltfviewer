@@ -11,6 +11,7 @@
 #include <GLTFSDK/IStreamReader.h>
 
 #include "gltf_extension_lights_punctual.h"
+#include "gltf_extension_materials_variants.h"
 
 class StreamReader : public Microsoft::glTF::IStreamReader
 {
@@ -100,6 +101,7 @@ bool Model::Load( const std::filesystem::path& filepath )
       extensionDeserializer.AddHandler<KHR_materials_emissive_strength, Microsoft::glTF::Material>( KHR_materials_emissive_strength::Name, Deserialize_KHR_materials_emissive_strength );
 
       extensionDeserializer.AddHandler<KHR_lights_punctual>( KHR_lights_punctual::Name, Deserialize_KHR_lights_punctual );
+      extensionDeserializer.AddHandler<KHR_materials_variants>( KHR_materials_variants::Name, Deserialize_KHR_materials_variants );
 
       m_document = Microsoft::glTF::Deserialize( manifest, extensionDeserializer );
     } catch ( const Microsoft::glTF::GLTFException& ex ) {
@@ -124,6 +126,11 @@ bool Model::ReadScenes()
   if ( m_document.HasExtension<KHR_lights_punctual>() ) {
     const auto& extension = m_document.GetExtension<KHR_lights_punctual>();
     m_lights = extension.m_lights;
+  }
+
+  if ( m_document.HasExtension<KHR_materials_variants>() ) {
+    const auto& extension = m_document.GetExtension<KHR_materials_variants>();
+    m_materials_variants = extension.m_variants;
   }
 
   Matrix matrix;
@@ -189,7 +196,6 @@ bool Model::ReadMesh( const std::string& meshID, const Matrix& matrix, Scene& sc
   for ( const auto& primitive : mesh.primitives ) {
     switch ( primitive.mode ) {
       case Microsoft::glTF::MESH_TRIANGLES : {
-        ReadMaterial( primitive.materialId );
         ReadTriangles( primitive, matrix, scene );
         break;
       }
@@ -401,7 +407,16 @@ bool Model::ReadTriangles( const Microsoft::glTF::MeshPrimitive& primitive, cons
     }
   }
 
+  ReadMaterial( primitive.materialId );
   mesh.m_materialID = primitive.materialId;
+
+  if ( primitive.HasExtension<KHR_materials_variants>() ) {
+    const auto& extension = primitive.GetExtension<KHR_materials_variants>();
+    for ( const auto& [ variantIndex, materialID ] : extension.m_mappings ) {
+      ReadMaterial( materialID );
+    }
+    mesh.m_materialVariants = extension.m_mappings;
+  }
 
   if ( mesh.m_tangents.size() != mesh.m_positions.size() ) {
     if ( const auto it = m_materials.find( mesh.m_materialID ); m_materials.end() != it ) {
@@ -426,11 +441,11 @@ bool Model::ReadLight( Light light, const Matrix& matrix, Scene& scene )
   return true;
 }
 
-bool Model::StartRender( const int32_t scene_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
+bool Model::StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
 {
   render_settings;
   m_renderer = std::make_unique<CyclesRenderer>( *this );
-  return m_renderer->StartRender( scene_index, camera, render_settings, environment_settings, render_callback, render_callback_context );
+  return m_renderer->StartRender( scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, render_callback_context );
 }
 
 void Model::StopRender()
@@ -441,7 +456,17 @@ void Model::StopRender()
 
 uint32_t Model::GetSceneCount() const
 {
-  return static_cast<uint32_t>( m_document.scenes.Size() );
+  return static_cast<uint32_t>( m_scenes.size() );
+}
+
+std::vector<std::string> Model::GetSceneNames() const
+{
+  std::vector<std::string> names;
+  names.reserve( m_scenes.size() );
+  for ( const auto& scene : m_scenes ) {
+    names.emplace_back( scene.name );
+  }
+  return names;
 }
 
 const Model::Scene& Model::GetScene( const int32_t scene_index ) const
@@ -478,13 +503,28 @@ const std::vector<Camera>& Model::GetCameras( const int32_t scene_index ) const
   return GetScene( scene_index ).cameras;
 }
 
-const Material& Model::GetMaterial( const std::string materialID ) const
+uint32_t Model::GetVariantCount() const
+{
+  return m_materials_variants.size();
+}
+
+const std::vector<std::string>& Model::GetVariants() const
+{
+  return m_materials_variants;
+}
+
+const Material& Model::GetMaterial( const std::string& materialID ) const
 {
   if ( const auto material = m_materials.find( materialID ); m_materials.end() != material ) {
     return material->second;
   } else {
     return kDefaultMaterial;
   }
+}
+
+bool Model::HasMaterial( const std::string& materialID ) const
+{
+  return ( m_materials.end() != m_materials.find( materialID ) );
 }
 
 std::pair<Microsoft::glTF::Vector3 /*minBounds*/, Microsoft::glTF::Vector3 /*maxBounds*/> Model::GetBounds( const int32_t scene_index ) const

@@ -12,19 +12,19 @@ public:
   CyclesRenderer( const gltfviewer::Model& model );
   ~CyclesRenderer() final;
 
-  bool StartRender( const int32_t scene_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context ) final;
+  bool StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context ) final;
   void StopRender() final;
 
 private:
   bool InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, void* render_callback_context, const bool forceCPU = false );
-  bool BuildScene( const int32_t scene_index );
-  bool SetMeshes( const int32_t scene_index );
+  bool BuildScene( const int32_t scene_index, const int32_t material_variant_index );
+  bool SetMeshes( const int32_t scene_index, const int32_t material_variant_index );
   bool SetLights( const int32_t scene_index );
   bool SetCamera( const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings );
   bool SetBackground( const gltfviewer_environment_settings& environment_settings );
 
   ccl::DeviceInfo SelectDevice( const bool forceCPU = false );
-  ccl::Shader* GetShader( const std::string& materialID );
+  ccl::Shader* GetShader( const std::string& materialID, const gltfviewer::VariantIndexToMaterialIDMap& material_variants, const int32_t material_variant_index );
   ccl::Shader* CreateShader( const gltfviewer::Material& material );
   void AddBackfaceCulling( ccl::ShaderGraph* graph );
   void AddUVMapping( ccl::ShaderGraph* graph, ccl::ShaderInput* shader_input, ccl::AttributeRequestSet& attributes, const gltfviewer::Material::Texture& texture );

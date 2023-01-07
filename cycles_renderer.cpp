@@ -75,10 +75,10 @@ CyclesRenderer::~CyclesRenderer()
    StopRender();
 }
 
-bool CyclesRenderer::StartRender( const int32_t scene_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
+bool CyclesRenderer::StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
 {
   StopRender();
-  if ( InitialiseSession( render_settings, render_callback, render_callback_context, true ) && BuildScene( scene_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
+  if ( InitialiseSession( render_settings, render_callback, render_callback_context, true ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
     m_session->start();
     return true;
   } else {
@@ -188,12 +188,12 @@ ccl::DeviceInfo CyclesRenderer::SelectDevice( const bool forceCPU )
   return devices.front();
 }
 
-bool CyclesRenderer::BuildScene( const int32_t scene_index )
+bool CyclesRenderer::BuildScene( const int32_t scene_index, const int32_t material_variant_index )
 {
-  return SetMeshes( scene_index ) && SetLights( scene_index );
+  return SetMeshes( scene_index, material_variant_index ) && SetLights( scene_index );
 }
 
-bool CyclesRenderer::SetMeshes( const int32_t scene_index )
+bool CyclesRenderer::SetMeshes( const int32_t scene_index, const int32_t material_variant_index )
 {
   const auto& meshes = m_model.GetMeshes( scene_index );
   for ( const auto& sourceMesh : meshes ) {
@@ -274,7 +274,7 @@ bool CyclesRenderer::SetMeshes( const int32_t scene_index )
       }
 
       ccl::array<ccl::Node*> usedShaders = targetMesh->get_used_shaders();
-      usedShaders.push_back_slow( GetShader( sourceMesh.m_materialID ) );
+      usedShaders.push_back_slow( GetShader( sourceMesh.m_materialID, sourceMesh.m_materialVariants, material_variant_index ) );
       targetMesh->set_used_shaders( usedShaders );
 
       targetMesh->tag_update( m_session->scene, true );
@@ -413,12 +413,19 @@ bool CyclesRenderer::SetBackground( const gltfviewer_environment_settings& envir
   return true;
 }
 
-ccl::Shader* CyclesRenderer::GetShader( const std::string& materialID )
+ccl::Shader* CyclesRenderer::GetShader( const std::string& materialID, const gltfviewer::VariantIndexToMaterialIDMap& material_variants, const int32_t material_variant_index )
 {
-  auto it = m_shader_map.find( materialID );
+  std::string id = materialID;
+  if ( material_variant_index >= 0 ) {
+    if ( const auto it = material_variants.find( material_variant_index ); ( material_variants.end() != it ) && m_model.HasMaterial( it->second ) ) {
+      id = it->second;
+    }
+  }
+
+  auto it = m_shader_map.find( id );
   if ( m_shader_map.end() == it ) {
-    const auto& material = m_model.GetMaterial( materialID );
-    it = m_shader_map.insert( { materialID, CreateShader( material ) } ).first;   
+    const auto& material = m_model.GetMaterial( id );
+    it = m_shader_map.insert( { id, CreateShader( material ) } ).first;   
   }
   return it->second;
 }

@@ -119,6 +119,7 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClCompile Include="gltf_extension_sheen.cpp" />
     <ClCompile Include="gltf_extension_specular.cpp" />
     <ClCompile Include="gltf_extension_transmission.cpp" />
+    <ClCompile Include="gltf_extension_materials_variants.cpp" />
     <ClCompile Include="gltf_extension_volume.cpp" />
     <ClCompile Include="libraries\MikkTSpace\mikktspace.c" />
     <ClCompile Include="material.cpp" />
@@ -142,6 +143,7 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClInclude Include="gltf_extension_sheen.h" />
     <ClInclude Include="gltf_extension_specular.h" />
     <ClInclude Include="gltf_extension_transmission.h" />
+    <ClInclude Include="gltf_extension_materials_variants.h" />
     <ClInclude Include="gltf_extension_volume.h" />
     <ClInclude Include="libraries\MikkTSpace\mikktspace.h" />
     <ClInclude Include="light.h" />

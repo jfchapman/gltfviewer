@@ -34,6 +34,18 @@ public:
   // Returns the number of cameras contained in the current gltfviewer model (for the default scene).
   size_t GetModelCameraCount() const { return m_model_cameras.size(); }
 
+  // Returns the names of the scenes contained in the current gltfviewer model.
+  const std::vector<std::string>& GetSceneNames() const { return m_scenes; };
+
+  // Returns the material variants contained in the current gltfviewer model.
+  const std::vector<std::string>& GetMaterialVariants() const { return m_material_variants; };
+
+  // Sets the current scene index for the current model (and restarts the render if necessary);
+  void SetSceneIndex( const int32_t scene_index );
+
+  // Sets the current material variant index for the current model (and restarts the render if necessary).
+  void SetMaterialVariantIndex( const int32_t material_variant_index );
+
   // Called when the client window size changes, with the new width & height values.
   void OnSize( const uint32_t width, const uint32_t height );
 
@@ -52,6 +64,18 @@ private:
 
   // Current gltfviewer model handle.
   gltfviewer_handle m_model_handle = 0;
+
+  // Current gltfviewer scene index to render.
+  int32_t m_scene_index = gltfviewer_default_scene_index;
+
+  // Current gltfviewer material variant index to use.
+  int32_t m_material_variant_index = gltfviewer_default_scene_materials;
+
+  // Material variants contained in the current gltfviewer model.
+  std::vector<std::string> m_material_variants;
+
+  // Names of the scenes in the current gltfviewer model.
+  std::vector<std::string> m_scenes;
 
   // Cameras contained in the current gltfviewer model (for the default scene).
   std::vector<gltfviewer_camera> m_model_cameras;

@@ -29,17 +29,22 @@ public:
   bool Load( const std::filesystem::path& filepath );
 
   uint32_t GetSceneCount() const;
+  std::vector<std::string> GetSceneNames() const;
 
   const std::vector<Mesh>& GetMeshes( const int32_t scene_index = -1 ) const;
   const std::vector<Light>& GetLights( const int32_t scene_index = -1 ) const;
   const std::vector<Camera>& GetCameras( const int32_t scene_index = -1 ) const;
 
-  const Material& GetMaterial( const std::string materialID ) const;
+  uint32_t GetVariantCount() const;
+  const std::vector<std::string>& GetVariants() const;
+
+  const Material& GetMaterial( const std::string& materialID ) const;
+  bool HasMaterial( const std::string& materialID ) const;
 
   Bounds GetBounds( const int32_t scene_index = -1 ) const;
 
   // TODO move rendering methods outside of the model, they do not really belong here.
-  bool StartRender( const int32_t scene_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context );
+  bool StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context );
   void StopRender();
 
 private:
@@ -51,7 +56,7 @@ private:
     std::vector<Camera> cameras;
   };
 
-  const Model::Scene& GetScene( const int32_t scene_index ) const;
+  const Scene& GetScene( const int32_t scene_index ) const;
 
   bool ReadScenes();
   bool ReadNode( const std::string& nodeID, Matrix matrix, Scene& scene );
@@ -64,6 +69,8 @@ private:
   std::vector<Scene> m_scenes;
   
   std::map<std::string, Material> m_materials;
+
+  std::vector<std::string> m_materials_variants;
 
   std::vector<Light> m_lights;
 

@@ -55,11 +55,41 @@ bool TestViewer::LoadFile( const std::filesystem::path& filepath )
   if ( gltfviewer_error == m_model_handle )
     return false;
 
-  // Query the number of cameras contained in the model's default scene.
-  const uint32_t camera_count = gltfviewer_get_camera_count( m_model_handle, gltfviewer_default_scene_index );
+  // Get the names of all scenes contained in the model.
+  const uint32_t scene_count = gltfviewer_get_scene_count( m_model_handle );
+  for ( uint32_t index = 0; index < scene_count; index++ ) {
+    std::string scene_name;
+    if ( const auto nameSize = gltfviewer_get_scene_name( m_model_handle, index, nullptr, 0 ); nameSize > 0 ) {
+      std::vector<char> name( nameSize );
+      gltfviewer_get_scene_name( m_model_handle, index, name.data(), nameSize );
+      scene_name = name.data();
+    }
+    if ( scene_name.empty() ) {
+      scene_name = "Scene " + std::to_string( m_scenes.size() );
+    }
+    m_scenes.push_back( scene_name );
+  }
+
+  // Get the names of all material variants contained in the model.
+  const uint32_t material_variant_count = gltfviewer_get_material_variants_count( m_model_handle );
+  for ( uint32_t index = 0; index < material_variant_count; index++ ) {
+    std::string variant_name;
+    if ( const auto nameSize = gltfviewer_get_material_variant_name( m_model_handle, index, nullptr, 0 ); nameSize > 0 ) {
+      std::vector<char> name( nameSize );
+      gltfviewer_get_material_variant_name( m_model_handle, index, name.data(), nameSize );
+      variant_name = name.data();
+    }
+    if ( variant_name.empty() ) {
+      variant_name = "Variant " + std::to_string( m_material_variants.size() );
+    }
+    m_material_variants.push_back( variant_name );
+  }
+
+  // Query the number of cameras contained in the model's current scene.
+  const uint32_t camera_count = gltfviewer_get_camera_count( m_model_handle, m_scene_index );
   m_model_cameras.resize( camera_count );
   if ( camera_count > 0 ) {
-    gltfviewer_get_cameras( m_model_handle, gltfviewer_default_scene_index, m_model_cameras.data(), camera_count );
+    gltfviewer_get_cameras( m_model_handle, m_scene_index, m_model_cameras.data(), camera_count );
   }
 
   StartRender();
@@ -93,7 +123,7 @@ void TestViewer::StartRender()
 
   // Start the render. 
   // This function call will return after a startup lag, after which render results will be returned via the supplied callback.
-  gltfviewer_start_render( m_model_handle, gltfviewer_default_scene_index, m_camera, m_render_settings, m_environment_settings, render_callback, this );
+  gltfviewer_start_render( m_model_handle, m_scene_index, m_material_variant_index, m_camera, m_render_settings, m_environment_settings, render_callback, this );
 }
 
 void TestViewer::Redraw()
@@ -117,6 +147,22 @@ void TestViewer::SetCameraFromModel( const size_t camera_index )
 {
   if ( camera_index < m_model_cameras.size() ) {
     m_camera = m_model_cameras[ camera_index ];
+    StartRender();
+  }
+}
+
+void TestViewer::SetSceneIndex( const int32_t scene_index )
+{
+  if ( ( scene_index != m_scene_index ) && ( scene_index < static_cast<int32_t>( m_scenes.size() ) ) ) {
+    m_scene_index = scene_index;
+    StartRender();
+  }
+}
+
+void TestViewer::SetMaterialVariantIndex( const int32_t material_variant_index )
+{
+  if ( ( material_variant_index != m_material_variant_index ) && ( material_variant_index < static_cast<int32_t>( m_material_variants.size() ) ) ) {
+    m_material_variant_index = material_variant_index;
     StartRender();
   }
 }

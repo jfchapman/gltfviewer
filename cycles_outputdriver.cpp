@@ -39,9 +39,7 @@ void CyclesOutputDriver::write_render_tile( const Tile& tile )
       targetImageBuf = OpenImageIO_v2_3::ImageBufAlgo::channels( targetImageBuf, kNumChannels, { 2, 1, 0, 3 } );
       targetImageBuf.get_pixels( OpenImageIO_v2_3::ROI(), OpenImageIO_v2_3::TypeDesc::UINT8, bitmapPixels.data() );
 
-      OutputDebugString( L"[CyclesOutputDriver] - callback start\r\n" );
       m_callback( &bitmap, m_context );
-      OutputDebugString( L"[CyclesOutputDriver] - callback finish\r\n" );
     }
   }
 }

@@ -4,10 +4,13 @@
 
 #include "vec.h"
 
+#include <map>
 #include <string>
 #include <vector>
 
 namespace gltfviewer {
+
+using VariantIndexToMaterialIDMap = std::map<uint32_t, std::string>;
 
 class Mesh
 {
@@ -20,6 +23,7 @@ public:
   std::vector<Vec4> m_tangents;
 
   std::string m_materialID;
+  VariantIndexToMaterialIDMap m_materialVariants;
 
   void GenerateTangents( const size_t textureCoordinateIndex );
 };

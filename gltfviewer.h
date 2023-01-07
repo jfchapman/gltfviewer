@@ -14,10 +14,11 @@ extern "C" {
 #define gltfviewer_export
 #endif
 
-#define gltfviewer_success              1
-#define gltfviewer_error                0
+#define gltfviewer_success                  1
+#define gltfviewer_error                    0
 
-#define gltfviewer_default_scene_index -1
+#define gltfviewer_default_scene_index     -1
+#define gltfviewer_default_scene_materials -1
 
 typedef int32_t gltfviewer_handle;
 
@@ -110,6 +111,15 @@ gltfviewer_export void gltfviewer_free_model( gltfviewer_handle model_handle );
 // Returns the number of scenes in a glTF/glb model.
 gltfviewer_export uint32_t gltfviewer_get_scene_count( gltfviewer_handle model_handle );
 
+// Gets the name (UTF-8 encoded) of a scene in a glTF/glb model.
+// 'model_handle' - the model handle returned from gltfviewer_load_model.
+// 'scene_index' - for glTF models with n scenes, this specifies the index of the scene to query (from 0 to n-1).
+// 'name_buffer' - name buffer supplied by the client.
+// 'name_buffer_size' - the size of the name buffer.
+// Returns the required size of the name buffer to hold the scene name (including terminating null), or zero if the scene was not found.
+// The name buffer is filled with the scene name (including terminating null) if the name buffer size is large enough.
+gltfviewer_export uint32_t gltfviewer_get_scene_name( gltfviewer_handle model_handle, uint32_t scene_index, char* name_buffer, uint32_t name_buffer_size );
+
 // Gets the number of cameras in a glTF/glb model.
 // 'model_handle' - the model handle returned from gltfviewer_load_model.
 // 'scene_index' - for glTF models with n scenes, this selects the index of the scene to query (from 0 to n-1). Alternatively, use a value of 'gltfviewer_default_scene_index' (-1) to query the default scene.
@@ -124,9 +134,23 @@ gltfviewer_export uint32_t gltfviewer_get_camera_count( gltfviewer_handle model_
 // Returns true if the size of the gltfviewer_camera object array was sufficient to store the results, false otherwise.
 gltfviewer_export bool gltfviewer_get_cameras( gltfviewer_handle model_handle, int32_t scene_index, gltfviewer_camera* cameras, uint32_t camera_count );
 
+// Returns the number of material variants in a glTF/glb model.
+// 'model_handle' - the model handle returned from gltfviewer_load_model.
+gltfviewer_export uint32_t gltfviewer_get_material_variants_count( gltfviewer_handle model_handle );
+
+// Gets the name (UTF-8 encoded) of a material variant in a glTF/glb model.
+// 'model_handle' - the model handle returned from gltfviewer_load_model.
+// 'material_variant_index' - for glTF models with n material variants, this specifies the index of the variant to query (from 0 to n-1).
+// 'name_buffer' - name buffer supplied by the client.
+// 'name_buffer_size' - the size of the name buffer.
+// Returns the required size of the name buffer to hold the material variant name (including terminating null), or zero if the material variant was not found.
+// The name buffer is filled with the material variant name (including terminating null) if the name buffer size is large enough.
+gltfviewer_export uint32_t gltfviewer_get_material_variant_name( gltfviewer_handle model_handle, uint32_t material_variant_index, char* name_buffer, uint32_t name_buffer_size );
+
 // Starts a render for a model.
 // 'model_handle' - the model handle returned from gltfviewer_load_model.
-// 'scene_index' - for glTF models with n scenes, this selects the index of the scene to render (from 0 to n-1). Alternatively, use a value of 'gltfviewer_default_scene_index' (-1) to select the default scene.
+// 'scene_index' - for glTF models with n scenes, this selects the index of the scene to render (from 0 to n-1). Use a value of 'gltfviewer_default_scene_index' (-1) to select the default scene.
+// 'material_variant_index' - for glTF models with n material variants, this selects the index of the variant to use (from 0 to n-1). Use a value of 'gltfviewer_default_scene_materials' (-1) to use the default materials.
 // 'camera' - camera settings.
 // 'render_settings' - render settings.
 // 'environment_settings' - environment settings (background, skylight, etc.)
@@ -135,7 +159,8 @@ gltfviewer_export bool gltfviewer_get_cameras( gltfviewer_handle model_handle, i
 // Returns true if the render was started successfully, false otherwise.
 gltfviewer_export bool gltfviewer_start_render( 
   gltfviewer_handle                 model_handle, 
-  int32_t                           scene_index, 
+  int32_t                           scene_index,
+  int32_t                           material_variant_index,
   gltfviewer_camera                 camera, 
   gltfviewer_render_settings        render_settings, 
   gltfviewer_environment_settings   environment_settings, 

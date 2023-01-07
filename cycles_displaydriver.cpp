@@ -51,9 +51,7 @@ void CyclesDisplayDriver::update_end()
     OpenImageIO_v2_3::ImageBuf targetImageBuf( targetImageSpec, m_bitmap_pixels.data() );
     OpenImageIO_v2_3::ImageBufAlgo::paste( targetImageBuf, m_params.full_offset.x, m_params.full_offset.y, 0, 0, scratchImageBuf );
 
-    OutputDebugString( L"[CyclesDisplayDriver] - callback start\r\n" );
     m_callback( &m_bitmap, m_context );
-    OutputDebugString( L"[CyclesDisplayDriver] - callback finish\r\n" );
   }
 }
 
