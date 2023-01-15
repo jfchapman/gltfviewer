@@ -29,7 +29,6 @@ void CyclesDisplayDriver::update_end()
   if ( m_callback && ( m_params.full_size.x > 0 ) && ( m_params.full_size.y > 0 ) && ( ( m_params.size.x + m_params.full_offset.x ) <= m_params.full_size.x ) && ( ( m_params.size.y + m_params.full_offset.y ) <= m_params.full_size.y ) ) {
     if ( const size_t pixel_size = m_params.full_size.x * m_params.full_size.y * kNumChannels; pixel_size != m_bitmap_pixels.size() ) {
       m_bitmap_pixels.resize( pixel_size );
-      std::fill( m_bitmap_pixels.begin(), m_bitmap_pixels.end(), 1.0f );
     }
     m_bitmap.pixel_format = gltfviewer_image_pixelformat_floatRGBA;
     m_bitmap.width = m_params.full_size.x;

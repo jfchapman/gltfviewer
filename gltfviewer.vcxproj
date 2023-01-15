@@ -47,7 +47,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;GLTFVIEWER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};BOOST_ALL_NO_LIB;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;NOMINMAX;_USE_MATH_DEFINES;WITH_TBB;WITH_TBB_MALLOC;WITH_OCIO</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;GLTFVIEWER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};BOOST_ALL_NO_LIB;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;WITH_CUDA;WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;NOMINMAX;_USE_MATH_DEFINES;WITH_TBB;WITH_TBB_MALLOC;WITH_OCIO</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -72,6 +72,8 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb_debug.dll $(ProjectDir)o
 xcopy $(ProjectDir)libraries\filmic-blender\config.ocio $(ProjectDir)output\bin\debug\ /Y
 xcopy $(ProjectDir)libraries\filmic-blender\looks\* $(ProjectDir)output\bin\debug\looks\ /Y
 xcopy $(ProjectDir)libraries\filmic-blender\luts\* $(ProjectDir)output\bin\debug\luts\ /Y
+xcopy $(ProjectDir)libraries\cycles\install\lib\*.cubin $(ProjectDir)output\bin\debug\lib\ /Y
+xcopy $(ProjectDir)libraries\cycles\install\lib\*.ptx $(ProjectDir)output\bin\debug\lib\ /Y
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -81,7 +83,7 @@ xcopy $(ProjectDir)libraries\filmic-blender\luts\* $(ProjectDir)output\bin\debug
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;GLTFVIEWER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};BOOST_ALL_NO_LIB;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;NOMINMAX;_USE_MATH_DEFINES;WITH_OCIO</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;GLTFVIEWER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};BOOST_ALL_NO_LIB;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;WITH_CUDA;WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;NOMINMAX;_USE_MATH_DEFINES;WITH_OCIO</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -109,6 +111,8 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
 xcopy $(ProjectDir)libraries\filmic-blender\config.ocio $(ProjectDir)output\bin\release\ /Y
 xcopy $(ProjectDir)libraries\filmic-blender\looks\* $(ProjectDir)output\bin\release\looks\ /Y
 xcopy $(ProjectDir)libraries\filmic-blender\luts\* $(ProjectDir)output\bin\release\luts\ /Y
+xcopy $(ProjectDir)libraries\cycles\install\lib\*.cubin $(ProjectDir)output\bin\release\lib\ /Y
+xcopy $(ProjectDir)libraries\cycles\install\lib\*.ptx $(ProjectDir)output\bin\release\lib\ /Y
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\CMakeFiles\151d48ac56df278a942b8c1a821547fb\kernel_compute_75.ptx.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\CMakeFiles\151d48ac56df278a942b8c1a821547fb\kernel_sm_60.cubin.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\CMakeFiles\151d48ac56df278a942b8c1a821547fb\kernel_sm_61.cubin.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\CMakeFiles\151d48ac56df278a942b8c1a821547fb\kernel_sm_70.cubin.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\CMakeFiles\151d48ac56df278a942b8c1a821547fb\kernel_sm_75.cubin.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\CMakeFiles\151d48ac56df278a942b8c1a821547fb\kernel_sm_86.cubin.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\CMakeFiles\151d48ac56df278a942b8c1a821547fb\kernel_sm_89.cubin.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\CMakeFiles\7223d6f3b471dc85f4129e9a33064e5e\cycles_kernel_cuda.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\src\kernel\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\src\kernel\CMakeFiles\cycles_kernel_cuda" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{0BCCE471-FBE8-35AF-AE89-650F0CE9559C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

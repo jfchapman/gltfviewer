@@ -16,14 +16,15 @@ public:
   void StopRender() final;
 
 private:
-  bool InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, void* render_callback_context, const bool forceCPU = false );
+  bool InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, void* render_callback_context );
   bool BuildScene( const int32_t scene_index, const int32_t material_variant_index );
   bool SetMeshes( const int32_t scene_index, const int32_t material_variant_index );
   bool SetLights( const int32_t scene_index );
   bool SetCamera( const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings );
   bool SetBackground( const gltfviewer_environment_settings& environment_settings );
+  void Cleanup();
 
-  ccl::DeviceInfo SelectDevice( const bool forceCPU = false );
+  ccl::DeviceInfo SelectDevice();
   ccl::Shader* GetShader( const std::string& materialID, const gltfviewer::VariantIndexToMaterialIDMap& material_variants, const int32_t material_variant_index );
   ccl::Shader* CreateShader( const gltfviewer::Material& material );
   void AddBackfaceCulling( ccl::ShaderGraph* graph );
@@ -32,4 +33,6 @@ private:
   std::unique_ptr<ccl::Session> m_session;
   std::map<std::string, ccl::Shader*> m_shader_map;
   std::filesystem::path m_temp_folder;
+  std::thread m_render_thread;
+  bool m_forceCPU = false;
 };

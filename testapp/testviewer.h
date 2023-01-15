@@ -117,7 +117,7 @@ private:
   gltfviewer_camera m_camera = { gltfviewer_camera_projection_perspective, gltfviewer_camera_preset_default };
 
   // Current gltfviewer render settings.
-  gltfviewer_render_settings m_render_settings = { 1920 /*width*/, 1080 /*height*/, 32 /*samples*/, 256 /*tile size*/ };
+  gltfviewer_render_settings m_render_settings = { 1920 /*width*/, 1080 /*height*/, 64 /*samples*/, 256 /*tile size*/ };
 
   // Current gltfviewer environment settings.
   gltfviewer_environment_settings m_environment_settings = { 0.3f /*sky intensity*/, 0.3f /*sun intensity*/, 15.0f /*sun elevation*/, 45.0f /*sun rotation*/, false /*transparent background*/ };

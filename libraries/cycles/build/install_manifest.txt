@@ -4,6 +4,15 @@ C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/license/MIT-
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/license/readme.txt
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/license/SPDX-license-identifiers.txt
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/license/Zlib-license.txt
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_sm_60.cubin
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_sm_61.cubin
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_sm_70.cubin
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_sm_75.cubin
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_sm_86.cubin
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_sm_89.cubin
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_compute_75.ptx
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_optix.ptx
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/lib/kernel_optix_shader_raytrace.ptx
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/source/kernel/bake/bake.h
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/source/kernel/bvh/bvh.h
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/install/source/kernel/bvh/nodes.h

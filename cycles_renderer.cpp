@@ -78,34 +78,55 @@ CyclesRenderer::~CyclesRenderer()
 bool CyclesRenderer::StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
 {
   StopRender();
-  if ( InitialiseSession( render_settings, render_callback, render_callback_context, true ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
-    m_session->start();
-    return true;
-  } else {
-    return false;
-  }
+
+  m_render_thread = std::thread( [ this, scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, render_callback_context ] () {
+    if ( InitialiseSession( render_settings, render_callback, render_callback_context ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
+      m_session->start();
+      m_session->wait();
+
+      if ( m_session->progress.get_error() && ( nullptr != m_session->device ) && !m_forceCPU && ( ccl::DeviceType::DEVICE_CPU != m_session->device->info.type ) ) {
+        m_forceCPU = true;
+        Cleanup();
+        if ( InitialiseSession( render_settings, render_callback, render_callback_context ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
+          m_session->start();
+          m_session->wait();
+        }
+      }
+    }
+  } );
+
+  return true;
 }
 
 void CyclesRenderer::StopRender()
 {
-  if ( m_session ) {
-    m_session->cancel();
-    m_session->wait();
-
-    std::error_code ec;
-    if ( std::filesystem::exists( m_temp_folder, ec ) ) {
-      std::filesystem::remove_all( m_temp_folder, ec );
+  if ( m_render_thread.joinable() ) {
+    if ( m_session ) {
+      m_session->cancel();
+      m_session->wait();
     }
+    m_render_thread.join();
+  }
+  Cleanup();
+}
+
+void CyclesRenderer::Cleanup()
+{
+  m_shader_map.clear();
+
+  std::error_code ec;
+  if ( std::filesystem::exists( m_temp_folder, ec ) ) {
+    std::filesystem::remove_all( m_temp_folder, ec );
   }
 }
 
-bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, void* render_callback_context, const bool forceCPU )
+bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
 {
   constexpr int kDefaultTileSize = 2048;
   const uint32_t tileSize = ( 0 == render_settings.tile_size ) ? kDefaultTileSize : render_settings.tile_size;
 
   ccl::SessionParams sessionParams;
-  sessionParams.device = SelectDevice( forceCPU );
+  sessionParams.device = SelectDevice();
   sessionParams.tile_size = std::clamp( tileSize, 32u, 4096u );
   sessionParams.use_auto_tile = true;
   sessionParams.background = true;
@@ -174,10 +195,10 @@ bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render
   return true;
 }
 
-ccl::DeviceInfo CyclesRenderer::SelectDevice( const bool forceCPU )
+ccl::DeviceInfo CyclesRenderer::SelectDevice()
 {
   ccl::DeviceInfo deviceInfo = {};
-  auto devices = ccl::Device::available_devices( forceCPU ? ccl::DeviceTypeMask::DEVICE_MASK_CPU : ccl::DeviceTypeMask::DEVICE_MASK_ALL );
+  auto devices = ccl::Device::available_devices( m_forceCPU ? ccl::DeviceTypeMask::DEVICE_MASK_CPU : ccl::DeviceTypeMask::DEVICE_MASK_ALL );
   if ( devices.empty() ) {
     return {};
   }

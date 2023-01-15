@@ -85,6 +85,8 @@ C:/Tools/cmake/share/cmake-3.21/Modules/Compiler/XLClang-CXX-DetermineCompiler.c
 C:/Tools/cmake/share/cmake-3.21/Modules/Compiler/zOS-C-DetermineCompiler.cmake
 C:/Tools/cmake/share/cmake-3.21/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake
 C:/Tools/cmake/share/cmake-3.21/Modules/CompilerId/VS-10.vcxproj.in
+C:/Tools/cmake/share/cmake-3.21/Modules/FindCUDA.cmake
+C:/Tools/cmake/share/cmake-3.21/Modules/FindCUDA/select_compute_arch.cmake
 C:/Tools/cmake/share/cmake-3.21/Modules/FindJPEG.cmake
 C:/Tools/cmake/share/cmake-3.21/Modules/FindPNG.cmake
 C:/Tools/cmake/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake

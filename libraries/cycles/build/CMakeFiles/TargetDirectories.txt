@@ -14,6 +14,8 @@ C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/graph/CMak
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/graph/CMakeFiles/INSTALL.dir
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/integrator/CMakeFiles/cycles_integrator.dir
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/integrator/CMakeFiles/INSTALL.dir
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/kernel/CMakeFiles/cycles_kernel_cuda.dir
+C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/kernel/CMakeFiles/cycles_kernel_optix.dir
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/kernel/CMakeFiles/cycles_kernel.dir
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/kernel/CMakeFiles/INSTALL.dir
 C:/Users/James/Documents/Source/gltfviewer/libraries/cycles/build/src/scene/CMakeFiles/cycles_scene.dir

@@ -599,6 +599,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\James\Documents\Source\gltfviewer\libraries\cycles\build\src\kernel\cycles_kernel_optix.vcxproj">
+      <Project>{1D2D2F50-5568-3FE4-8A38-D4040363B0E3}</Project>
+      <Name>cycles_kernel_optix</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
