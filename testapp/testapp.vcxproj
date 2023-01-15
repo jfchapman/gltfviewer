@@ -63,9 +63,8 @@
       </Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>xcopy $(SolutionDir)output\bin\debug\gltfviewer.dll $(TargetDir) /Y
-xcopy $(SolutionDir)output\bin\debug\gltfviewer.pdb $(TargetDir) /Y
-xcopy $(SolutionDir)output\bin\debug\tbb_debug.dll $(TargetDir) /Y</Command>
+      <Command>xcopy $(SolutionDir)output\bin\debug\* $(TargetDir) /S /Y
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -90,8 +89,7 @@ xcopy $(SolutionDir)output\bin\debug\tbb_debug.dll $(TargetDir) /Y</Command>
       <AdditionalDependencies>$(SolutionDir)output\lib\release\gltfviewer.lib;%(AdditionalDependencies);gdiplus.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(SolutionDir)output\bin\release\gltfviewer.dll $(TargetDir) /Y
-xcopy $(SolutionDir)output\bin\release\tbb.dll $(TargetDir) /Y
+      <Command>xcopy $(SolutionDir)output\bin\release\* $(TargetDir) /S /Y
 </Command>
     </PostBuildEvent>
     <PreLinkEvent>

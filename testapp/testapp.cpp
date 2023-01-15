@@ -203,6 +203,88 @@ void UpdateCameraMenu( HMENU menu )
   UpdateCameraMenuCheckState( menu );
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// Display menu
+
+// A limit to the range of color conversion command IDs.
+#define ID_DISPLAY_LOOK_LAST    ID_DISPLAY_LOOK_FIRST + 100
+
+// Currently selected color conversion look.
+int gCurrentDisplayLook = ID_DISPLAY_DEFAULT;
+
+// Currently selected exposure.
+int gCurrentExposure = ID_EXPOSURE_DEFAULT;
+
+// Maps the exposure menu command ID to the corresponding exposure value.
+const std::map<int, float> kExposureValues = {
+  { ID_EXPOSURE_PLUS_3_0, 3.0f },
+  { ID_EXPOSURE_PLUS_2_5, 2.5f },
+  { ID_EXPOSURE_PLUS_2_0, 2.0f },
+  { ID_EXPOSURE_PLUS_1_5, 1.5f },
+  { ID_EXPOSURE_PLUS_1_0, 1.0f },
+  { ID_EXPOSURE_PLUS_0_5, 0.5f },
+  { ID_EXPOSURE_DEFAULT, 0.0f },
+  { ID_EXPOSURE_MINUS_0_5, -0.5f },
+  { ID_EXPOSURE_MINUS_1_0, -1.0f },
+  { ID_EXPOSURE_MINUS_1_5, -1.5f },
+  { ID_EXPOSURE_MINUS_2_0, -2.0f },
+  { ID_EXPOSURE_MINUS_2_5, -2.5f },
+  { ID_EXPOSURE_MINUS_3_0, -3.0f }
+};
+
+// Updates the check states for the exposure sub menu.
+void UpdateExposureMenuCheckState( HMENU menu )
+{
+  for ( const auto& [ commandID, value ] : kExposureValues ) {
+    CheckMenuItem( menu, commandID, ( commandID == gCurrentExposure ) ? MF_CHECKED : MF_UNCHECKED );
+  }
+}
+
+// Updates the check states for the display menu.
+void UpdateDisplayMenuCheckState( HMENU menu )
+{
+  CheckMenuItem( menu, ID_DISPLAY_DEFAULT, ( ID_DISPLAY_DEFAULT == gCurrentDisplayLook ) ? MF_CHECKED : MF_UNCHECKED );
+
+  if ( !gTestViewer )
+    return;
+
+  const size_t look_count = gTestViewer->GetColorConversionLooks().size();
+  for ( int id = ID_DISPLAY_LOOK_FIRST; id < ID_DISPLAY_LOOK_FIRST + look_count; id++ ) {
+    CheckMenuItem( menu, id, ( id == gCurrentDisplayLook ) ? MF_CHECKED : MF_UNCHECKED );
+  }
+
+  UpdateExposureMenuCheckState( menu );
+}
+
+// Updates the display menu with commands for color conversion.
+void UpdateDisplayMenu( HMENU menu )
+{
+  for ( uint32_t i = ID_DISPLAY_LOOK_LAST; i > ID_DISPLAY_LOOK_FIRST; i-- ) {
+    RemoveMenu( menu, i, MF_BYCOMMAND );
+  }
+  ModifyMenu( menu, ID_DISPLAY_LOOK_FIRST, MF_BYCOMMAND | MF_STRING | MF_GRAYED, ID_DISPLAY_LOOK_FIRST, L"No Color Looks" );
+
+  UpdateDisplayMenuCheckState( menu );
+
+  if ( !gTestViewer )
+    return;
+
+  const auto& looks = gTestViewer->GetColorConversionLooks();
+  if ( !looks.empty() ) {
+    const int look_count = static_cast<int>( min( looks.size(), ID_DISPLAY_LOOK_LAST - ID_DISPLAY_LOOK_FIRST ) );
+
+    std::wstring look_name = FromUTF8( looks.back() );
+    ModifyMenu( menu, ID_DISPLAY_LOOK_FIRST, MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_DISPLAY_LOOK_FIRST + look_count - 1, look_name.c_str() );
+
+    for ( int i = look_count - 1; i > 0; i-- ) {
+      look_name = FromUTF8( looks[ i - 1 ] );
+      InsertMenu( menu, ID_DISPLAY_LOOK_FIRST + i, MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_DISPLAY_LOOK_FIRST + i - 1, look_name.c_str() );
+    }
+  }
+
+  UpdateDisplayMenuCheckState( menu );
+}
+
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -353,6 +435,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
                   gCurrentCameraPreset = ID_CAMERA_DEFAULT;
                   UpdateCameraMenu( GetMenu( hWnd ) );
+
+                  gCurrentDisplayLook = ID_DISPLAY_DEFAULT;
+                  gCurrentExposure = ID_EXPOSURE_DEFAULT;
+                  UpdateDisplayMenu( GetMenu( hWnd ) );
                 }
                 break;
             }
@@ -378,12 +464,42 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 UpdateSceneMenuCheckState( GetMenu( hWnd ) );
               }
               break;
-             }
+            }
             case ID_MATERIAL_VARIANT_NONE: {
               if ( gTestViewer ) {
                 gTestViewer->SetMaterialVariantIndex( gltfviewer_default_scene_materials );
                 gCurrentMaterialVariant = ID_MATERIAL_VARIANT_NONE;
                 UpdateVariantMenuCheckState( GetMenu( hWnd ) );
+              }
+              break;
+            }
+            case ID_DISPLAY_DEFAULT: {
+              if ( gTestViewer ) {
+                gTestViewer->SetColorConversionLookIndex( gltfviewer_image_convert_linear_to_srgb );
+                gCurrentDisplayLook = ID_DISPLAY_DEFAULT;
+                UpdateDisplayMenuCheckState( GetMenu( hWnd ) );
+              }
+              break;
+            }
+            case ID_EXPOSURE_PLUS_3_0:
+            case ID_EXPOSURE_PLUS_2_5:
+            case ID_EXPOSURE_PLUS_2_0:
+            case ID_EXPOSURE_PLUS_1_5:
+            case ID_EXPOSURE_PLUS_1_0:
+            case ID_EXPOSURE_PLUS_0_5:
+            case ID_EXPOSURE_DEFAULT:
+            case ID_EXPOSURE_MINUS_0_5:
+            case ID_EXPOSURE_MINUS_1_0:
+            case ID_EXPOSURE_MINUS_1_5:
+            case ID_EXPOSURE_MINUS_2_0:
+            case ID_EXPOSURE_MINUS_2_5:
+            case ID_EXPOSURE_MINUS_3_0: {
+              if ( gTestViewer ) {
+                gCurrentExposure = wmId;
+                UpdateExposureMenuCheckState( GetMenu( hWnd ) );
+                if ( const auto it = kExposureValues.find( wmId ); kExposureValues.end() != it ) {
+                  gTestViewer->SetExposure( it->second );
+                }
               }
               break;
             }
@@ -408,6 +524,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                   gTestViewer->SetCameraFromModel( wmId - ID_CAMERA_MODEL_FIRST );
                   gCurrentCameraPreset = wmId;
                   UpdateCameraMenuCheckState( GetMenu( hWnd ) );
+                }
+                break;
+              } else if ( ( wmId >= ID_DISPLAY_LOOK_FIRST ) && ( wmId <= ID_DISPLAY_LOOK_LAST ) ) {
+                if ( gTestViewer ) {
+                  gTestViewer->SetColorConversionLookIndex( wmId - ID_DISPLAY_LOOK_FIRST );
+                  gCurrentDisplayLook = wmId;
+                  UpdateDisplayMenuCheckState( GetMenu( hWnd ) );
                 }
                 break;
               } else {
@@ -436,6 +559,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         UpdateSceneMenu( GetMenu( hWnd ) );
         UpdateCameraMenu( GetMenu( hWnd ) );
         UpdateVariantMenu( GetMenu( hWnd ) );
+        UpdateDisplayMenu( GetMenu( hWnd ) );
         break;
     case WM_SIZE:
         if ( gTestViewer && ( SIZE_MINIMIZED != wParam ) )

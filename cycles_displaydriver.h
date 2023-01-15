@@ -22,8 +22,7 @@ private:
   gltfviewer_render_callback m_callback = nullptr;
   void* m_context = nullptr;
   gltfviewer_image m_bitmap = {};
-  std::vector<uint8_t> m_bitmap_pixels;
+  std::vector<float> m_bitmap_pixels;
   std::vector<ccl::half4> m_texture_buffer;
-  std::vector<ccl::half4> m_scratch_buffer;
   Params m_params = {};
 };

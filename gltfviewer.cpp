@@ -1,20 +1,24 @@
 #include "gltfviewer.h"
 #include "models.h"
+#include "color_processor.h"
 #include "cycles_renderer.h"
 
 #include <string>
 
 static std::unique_ptr<gltfviewer::Models> g_models;
+static std::unique_ptr<gltfviewer::ColorProcessor> g_color_processor;
 
 int32_t gltfviewer_init()
 {
   g_models = std::make_unique<gltfviewer::Models>();
+  g_color_processor = std::make_unique<gltfviewer::ColorProcessor>( GetLibraryPath() / "config.ocio" );
   return gltfviewer_success;
 }
 
 void gltfviewer_free()
 {
   g_models.reset();
+  g_color_processor.reset();
 }
 
 gltfviewer_handle gltfviewer_load_model( const char* filename )
@@ -132,4 +136,34 @@ void gltfviewer_stop_render( gltfviewer_handle model_handle )
   gltfviewer::Model* const model = g_models ? g_models->FindModel( model_handle ) : nullptr;
   if ( nullptr != model )
     model->StopRender();
+}
+
+uint32_t gltfviewer_get_look_count()
+{
+  return g_color_processor ? static_cast<uint32_t>( g_color_processor->GetLooks().size() ) : 0;
+}
+
+uint32_t gltfviewer_get_look_name( uint32_t look_index, char* name_buffer, uint32_t name_buffer_size )
+{
+  if ( !g_color_processor )
+    return 0;
+
+  const auto& looks = g_color_processor->GetLooks();
+  if ( look_index >= looks.size() )
+    return 0;
+
+  const auto& name = looks[ look_index ];
+  if ( ( nullptr != name_buffer ) && ( name_buffer_size > name.size() ) ) {
+    strncpy_s( name_buffer, name_buffer_size, name.c_str(), name_buffer_size );
+  }
+
+  return 1 + name.size();
+}
+
+bool gltfviewer_image_convert( gltfviewer_image* source_image, gltfviewer_image* target_image, int32_t look_index, float exposure )
+{
+  if ( !g_color_processor || ( nullptr == source_image ) || ( nullptr == target_image ) )
+    return false;
+
+  return g_color_processor->Convert( exposure, look_index, *source_image, *target_image );
 }

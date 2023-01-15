@@ -50,3 +50,13 @@ std::string ToUTF8( const std::wstring& str )
 	}
 	return result;
 }
+
+std::filesystem::path GetLibraryPath()
+{
+  std::vector<WCHAR> filename( MAX_PATH );
+  if ( GetModuleFileName( nullptr, filename.data(), MAX_PATH ) ) {
+    std::filesystem::path filepath( filename.data() );
+    return filepath.parent_path();
+  }
+  return {};
+}

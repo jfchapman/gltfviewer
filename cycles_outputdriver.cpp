@@ -20,24 +20,11 @@ void CyclesOutputDriver::write_render_tile( const Tile& tile )
     if ( tile.get_pass_pixels( m_pass, kNumChannels, renderPixels.data() ) ) {
       std::vector<uint8_t> bitmapPixels( renderPixels.size() );
       gltfviewer_image bitmap = {};
+      bitmap.pixel_format = gltfviewer_image_pixelformat_floatRGBA;
       bitmap.width = tile.full_size.x;
       bitmap.height = tile.full_size.y;
-      bitmap.bits_per_pixel = 32;
-      bitmap.stride = bitmap.width * bitmap.bits_per_pixel / 8;
-      bitmap.pixels = bitmapPixels.data();
-
-      OpenImageIO_v2_3::ImageSpec sourceImageSpec( tile.full_size.x, tile.full_size.y, kNumChannels, OpenImageIO_v2_3::TypeDesc::FLOAT );
-      OpenImageIO_v2_3::ImageBuf sourceImageBuf( sourceImageSpec, renderPixels.data() );
-
-      // TODO proper color space conversion (for now, just gamma-correct by 2.2 channels 0-2 of the image, in-place)
-      const float gamma = 1.0f / 2.2f;
-      OpenImageIO_v2_3::ImageBufAlgo::pow( sourceImageBuf, sourceImageBuf, { gamma, gamma, gamma, 1.0f } );
-
-      OpenImageIO_v2_3::ImageSpec targetImageSpec( tile.full_size.x, tile.full_size.y, kNumChannels, OpenImageIO_v2_3::TypeDesc::UINT8 );
-      OpenImageIO_v2_3::ImageBuf targetImageBuf( targetImageSpec );
-      targetImageBuf.copy( sourceImageBuf, OpenImageIO_v2_3::TypeDesc::UINT8 );
-      targetImageBuf = OpenImageIO_v2_3::ImageBufAlgo::channels( targetImageBuf, kNumChannels, { 2, 1, 0, 3 } );
-      targetImageBuf.get_pixels( OpenImageIO_v2_3::ROI(), OpenImageIO_v2_3::TypeDesc::UINT8, bitmapPixels.data() );
+      bitmap.stride_bytes = bitmap.width * 4 * 4;
+      bitmap.pixels = renderPixels.data();
 
       m_callback( &bitmap, m_context );
     }

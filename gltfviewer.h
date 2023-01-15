@@ -14,11 +14,13 @@ extern "C" {
 #define gltfviewer_export
 #endif
 
-#define gltfviewer_success                  1
-#define gltfviewer_error                    0
+#define gltfviewer_success                            1
+#define gltfviewer_error                              0
 
-#define gltfviewer_default_scene_index     -1
-#define gltfviewer_default_scene_materials -1
+#define gltfviewer_default_scene_index               -1
+#define gltfviewer_default_scene_materials           -1
+#define gltfviewer_image_convert_linear_to_srgb      -1
+#define gltfviewer_default_exposure                   0
 
 typedef int32_t gltfviewer_handle;
 
@@ -78,20 +80,31 @@ typedef struct {
   bool transparent_background;              // Renders to a transparent canvas (i.e. the background is not visible).
 } gltfviewer_environment_settings;
 
-// Image structure used by the render callback.
-// TODO change callback to pass linear floating point data instead of sRGB (add library function/settings to do full colorspace conversion, filmic look, etc.)
+// Image pixel formats.
+typedef enum {
+  gltfviewer_image_pixelformat_floatRGBA,   // 4 floats (fp32) per pixel, 4 channels, RGBA channel order (used by gltfviewer_render_callback).
+  gltfviewer_image_pixelformat_ucharBGRA    // 4 bytes per pixel, 4 channels, BGRA channel order (equivalent to Windows PixelFormat32bppARGB).
+} gltfviewer_image_pixelformat;
+
+// Image structure.
 typedef struct {
-  uint32_t  width;
-  uint32_t  height;
-  uint8_t   bits_per_pixel;
-  uint32_t  stride;
-  void*     pixels;
+  gltfviewer_image_pixelformat  pixel_format;
+  uint32_t                      width;
+  uint32_t                      height;
+  uint32_t                      stride_bytes; // If zero, then the stride will be deduced based on the pixel_format & width.
+  void*                         pixels;
 } gltfviewer_image;
 
 // Callback used to return results when rendering.
-// 'image' - current render result (the image is temporary, so the client should make its own copy of the data).
+// 'image' - current render result, floatRGBA pixel format, in a linear colorspace (the image is temporary, so the client should make its own copy of the data).
 // 'context' - client context.
+// NOTE except for the image helper conversion functions, no other gltfviewer library functions should be called from within the callback.
 typedef void ( *gltfviewer_render_callback ) ( gltfviewer_image* image, void* context );
+
+
+///////////////////////////////////////////////////////////////////////////////
+// General functions
+///////////////////////////////////////////////////////////////////////////////
 
 // Initialises the gltfviewer library - call once on startup.
 // Returns gltfviewer_success, or (TODO) an error code.
@@ -99,6 +112,11 @@ gltfviewer_export int32_t gltfviewer_init();
 
 // Frees the gltfviewer library and all model handles - call once on shutdown.
 gltfviewer_export void gltfviewer_free();
+
+
+///////////////////////////////////////////////////////////////////////////////
+// glTF/glb functions
+///////////////////////////////////////////////////////////////////////////////
 
 // Loads a glTF/glb model.
 // 'filename' - glTF/glb filename (UTF-8 encoded).
@@ -147,6 +165,11 @@ gltfviewer_export uint32_t gltfviewer_get_material_variants_count( gltfviewer_ha
 // The name buffer is filled with the material variant name (including terminating null) if the name buffer size is large enough.
 gltfviewer_export uint32_t gltfviewer_get_material_variant_name( gltfviewer_handle model_handle, uint32_t material_variant_index, char* name_buffer, uint32_t name_buffer_size );
 
+
+///////////////////////////////////////////////////////////////////////////////
+// Render functions
+///////////////////////////////////////////////////////////////////////////////
+
 // Starts a render for a model.
 // 'model_handle' - the model handle returned from gltfviewer_load_model.
 // 'scene_index' - for glTF models with n scenes, this selects the index of the scene to render (from 0 to n-1). Use a value of 'gltfviewer_default_scene_index' (-1) to select the default scene.
@@ -169,6 +192,31 @@ gltfviewer_export bool gltfviewer_start_render(
 
 // Stops a render for a model.
 gltfviewer_export void gltfviewer_stop_render( gltfviewer_handle model_handle );
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Image conversion helper functions
+///////////////////////////////////////////////////////////////////////////////
+
+// Returns the number of 'looks' supported by the library (where a 'look' determines how an image in linear colorspace is to be converted).
+gltfviewer_export uint32_t gltfviewer_get_look_count();
+
+// Gets the name (UTF-8 encoded) of a look.
+// 'look_index' - specifies the index of the look to query (from 0 to n-1, where n is the value returned by gltfviewer_image_get_look_count).
+// 'name_buffer' - name buffer supplied by the client.
+// 'name_buffer_size' - the size of the name buffer.
+// Returns the required size of the name buffer to hold the look name (including terminating null), or zero if the look was not found.
+// The name buffer is filled with the look name (including terminating null) if the name buffer size is large enough.
+gltfviewer_export uint32_t gltfviewer_get_look_name( uint32_t look_index, char* name_buffer, uint32_t name_buffer_size );
+
+// Converts an image.
+// 'source_image' - the source image to convert from.
+// 'target_image' - the target image to convert into (note that the caller should supply an image pointing to a pixel buffer of the appropriate size).
+// 'look_index' - specifies the index of the look to use (from 0 to n-1, where n is the value returned by gltfviewer_image_get_look_count). 
+//                Alternatively, use a value of 'gltfviewer_image_convert_linear_to_srgb' (-1) to convert a linear image to the sRGB color space.
+// 'exposure' - exposure value. Use values < 0 to darken the image, values > 0 to lighten the image, or 0 (gltfviewer_default_exposure) to use the default exposure level.
+// Returns true if the image was converted successfully.
+gltfviewer_export bool gltfviewer_image_convert( gltfviewer_image* source_image, gltfviewer_image* target_image, int32_t look_index, float exposure );
 
 #ifdef __cplusplus
 }

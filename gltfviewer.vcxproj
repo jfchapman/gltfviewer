@@ -47,7 +47,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;GLTFVIEWER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};BOOST_ALL_NO_LIB;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;NOMINMAX;_USE_MATH_DEFINES;WITH_OCIO;WITH_TBB;WITH_TBB_MALLOC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;GLTFVIEWER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);CCL_NAMESPACE_BEGIN=namespace ccl {;CCL_NAMESPACE_END=};BOOST_ALL_NO_LIB;OIIO_STATIC_BUILD;OIIO_STATIC_DEFINE;WITH_KERNEL_SSE2;WITH_KERNEL_SSE3;WITH_KERNEL_SSE41;WITH_KERNEL_AVX;WITH_KERNEL_AVX2;WITH_OPTIX;WITH_EMBREE;WITH_OPENIMAGEDENOISE;NOMINMAX;_USE_MATH_DEFINES;WITH_TBB;WITH_TBB_MALLOC;WITH_OCIO</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -69,6 +69,9 @@ xcopy $(TargetDir)gltfviewer.lib $(ProjectDir)output\lib\debug\ /Y
 xcopy $(TargetDir)gltfviewer.dll $(ProjectDir)output\bin\debug\ /Y
 xcopy $(TargetDir)gltfviewer.pdb $(ProjectDir)output\bin\debug\ /Y
 xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb_debug.dll $(ProjectDir)output\bin\debug\ /Y
+xcopy $(ProjectDir)libraries\filmic-blender\config.ocio $(ProjectDir)output\bin\debug\ /Y
+xcopy $(ProjectDir)libraries\filmic-blender\looks\* $(ProjectDir)output\bin\debug\looks\ /Y
+xcopy $(ProjectDir)libraries\filmic-blender\luts\* $(ProjectDir)output\bin\debug\luts\ /Y
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -102,11 +105,19 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb_debug.dll $(ProjectDir)o
       <Command>xcopy $(ProjectDir)gltfviewer.h $(ProjectDir)output\ /Y
 xcopy $(TargetDir)gltfviewer.lib $(ProjectDir)output\lib\release\ /Y
 xcopy $(TargetDir)gltfviewer.dll $(ProjectDir)output\bin\release\ /Y
-xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\bin\release\ /Y</Command>
+xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\bin\release\ /Y
+xcopy $(ProjectDir)libraries\filmic-blender\config.ocio $(ProjectDir)output\bin\release\ /Y
+xcopy $(ProjectDir)libraries\filmic-blender\looks\* $(ProjectDir)output\bin\release\looks\ /Y
+xcopy $(ProjectDir)libraries\filmic-blender\luts\* $(ProjectDir)output\bin\release\luts\ /Y
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="color_processor.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4146; 4217; 4244; 4267; 4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4146; 4217; 4244; 4267; 4305</DisableSpecificWarnings>
+    </ClCompile>
     <ClCompile Include="cycles_displaydriver.cpp" />
     <ClCompile Include="cycles_outputdriver.cpp" />
     <ClCompile Include="cycles_renderer.cpp" />
@@ -132,6 +143,7 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="color_processor.h" />
     <ClInclude Include="cycles_displaydriver.h" />
     <ClInclude Include="cycles_outputdriver.h" />
     <ClInclude Include="cycles_renderer.h" />
@@ -153,8 +165,12 @@ xcopy $(ProjectDir)libraries\lib\win64_vc15\tbb\bin\tbb.dll $(ProjectDir)output\
     <ClInclude Include="renderer.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="models.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vec.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="gltfviewer.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -26,6 +26,24 @@
 #define ID_MATERIAL_VARIANT_FIRST       33801
 #define ID_SCENE_DEFAULT                34800
 #define ID_SCENE_FIRST                  34801
+#define ID_DISPLAY_DEFAULT              35800
+#define ID_DISPLAY_LOOK_FIRST           35801
+#define ID_EXPOSURE_DEFAULT             36814
+#define ID_EXPOSURE_PLUS_30             36815
+#define ID_EXPOSURE_PLUS_25             36816
+#define ID_EXPOSURE_PLUS_3_0            36817
+#define ID_EXPOSURE_PLUS_2_5            36818
+#define ID_EXPOSURE_PLUS_2_0            36819
+#define ID_EXPOSURE_PLUS_1_5            36820
+#define ID_EXPOSURE_PLUS_1_0            36821
+#define ID_EXPOSURE_PLUA_0_5            36822
+#define ID_EXPOSURE_PLUS_0_5            36823
+#define ID_EXPOSURE_MINUS_0_5           36824
+#define ID_EXPOSURE_MINUS_1_0           36825
+#define ID_EXPOSURE_MINUS_1_5           36826
+#define ID_EXPOSURE_MINUS_2_0           36827
+#define ID_EXPOSURE_MINUS_2_5           36828
+#define ID_EXPOSURE_MINUS_3_0           36829
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
@@ -34,7 +52,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        129
-#define _APS_NEXT_COMMAND_VALUE         35800
+#define _APS_NEXT_COMMAND_VALUE         36830
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           110
 #endif

@@ -40,11 +40,20 @@ public:
   // Returns the material variants contained in the current gltfviewer model.
   const std::vector<std::string>& GetMaterialVariants() const { return m_material_variants; };
 
+  // Returns the color conversion looks provided by the gltfviewer library.
+  const std::vector<std::string>& GetColorConversionLooks() const { return m_color_conversion_looks; }
+
   // Sets the current scene index for the current model (and restarts the render if necessary);
   void SetSceneIndex( const int32_t scene_index );
 
   // Sets the current material variant index for the current model (and restarts the render if necessary).
   void SetMaterialVariantIndex( const int32_t material_variant_index );
+
+  // Sets the current gltfviewer library color conversion look index to use.
+  void SetColorConversionLookIndex( const int32_t color_conversion_look_index );
+
+  // Sets the current gltfviewer exposure value to use.
+  void SetExposure( const float exposure );
 
   // Called when the client window size changes, with the new width & height values.
   void OnSize( const uint32_t width, const uint32_t height );
@@ -53,14 +62,29 @@ private:
   // gltfviewer render callback (NOTE that the callback will be called from a separate thread).
   static void renderCallback( gltfviewer_image* image, void* context );
 
+	// Thread for handling the conversion of the current render image result (linear color space) to a display bitmap, using the current display options.
+	static DWORD WINAPI DisplayThreadProc( LPVOID lpParam );
+
   // Handles a render callback.
-  void HandleRenderCallback( gltfviewer_image* image );
+  void RenderCallbackThreadHandler( gltfviewer_image* image );
+
+  // Handles a change in display options by updating the display bitmap and notifying that the window needs repainting.
+  void DisplayThreadHandler();
 
   // Starts a render (restarts if currently rendering).
   void StartRender();
 
   // Client window handle.
   const HWND m_hWnd;
+
+  // Display thread stop event handle.
+  const HANDLE m_display_thread_stop_event;
+
+  // Display thread update event handle.
+	const HANDLE m_display_thread_update_event;
+
+  // Display thread handle.
+  const HANDLE m_display_thread;
 
   // Current gltfviewer model handle.
   gltfviewer_handle m_model_handle = 0;
@@ -71,11 +95,20 @@ private:
   // Current gltfviewer material variant index to use.
   int32_t m_material_variant_index = gltfviewer_default_scene_materials;
 
-  // Material variants contained in the current gltfviewer model.
-  std::vector<std::string> m_material_variants;
+  // Current gltfviewer color conversion look index to use.
+  std::atomic<int32_t> m_color_conversion_look_index = gltfviewer_image_convert_linear_to_srgb;
+
+  // Current gltfviewer exposure value to use.
+  std::atomic<float> m_exposure = gltfviewer_default_exposure;
 
   // Names of the scenes in the current gltfviewer model.
   std::vector<std::string> m_scenes;
+
+  // Material variants contained in the current gltfviewer model.
+  std::vector<std::string> m_material_variants;
+
+  // Color conversion looks provided by the gltfviewer library.
+  std::vector<std::string> m_color_conversion_looks;
 
   // Cameras contained in the current gltfviewer model (for the default scene).
   std::vector<gltfviewer_camera> m_model_cameras;
@@ -89,11 +122,17 @@ private:
   // Current gltfviewer environment settings.
   gltfviewer_environment_settings m_environment_settings = { 0.3f /*sky intensity*/, 0.3f /*sun intensity*/, 15.0f /*sun elevation*/, 45.0f /*sun rotation*/, false /*transparent background*/ };
 
-  // Currently displayed render result.
+  // Current render image result.
+  gltfviewer_image m_render_image;
+
+  // Current render image pixel data.
+  std::vector<float> m_render_image_pixels;
+
+  // Currently displayed render bitmap.
   std::unique_ptr<Gdiplus::Bitmap> m_display_bitmap;
 
-  // Bitmap mutex.
-  std::mutex m_mutex;
+  // Display bitmap mutex.
+  std::mutex m_display_mutex;
 
   // GDI+ token
   ULONG_PTR m_gdiplusToken = 0;
