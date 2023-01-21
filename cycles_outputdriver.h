@@ -7,13 +7,19 @@
 class CyclesOutputDriver : public ccl::OutputDriver
 {
 public:
-  CyclesOutputDriver( const std::string& pass, gltfviewer_render_callback render_callback, void* render_callback_context );
+  CyclesOutputDriver( const std::string& pass_noisy, const std::string& pass_denoised, gltfviewer_image& result_noisy, gltfviewer_image& result_denoised );
 
   void write_render_tile( const Tile& tile ) final;
 
 private:
-  const std::string m_pass;
+  void UpdateImage( const Tile& tile, const std::string& pass, gltfviewer_image& image, std::vector<float>& image_pixels );
 
-  gltfviewer_render_callback m_callback = nullptr;
-  void* m_context = nullptr;
+  const std::string m_pass_noisy;
+  const std::string m_pass_denoised;
+
+  gltfviewer_image& m_image_noisy;
+  std::vector<float> m_pixels_noisy;
+
+  gltfviewer_image& m_image_denoised;
+  std::vector<float> m_pixels_denoised;
 };

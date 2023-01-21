@@ -5,6 +5,8 @@
 #include <Windows.h>
 #include <Shlwapi.h>
 
+namespace gltfviewer {
+
 std::string GenerateGUID()
 {
 	std::string result;
@@ -60,3 +62,5 @@ std::filesystem::path GetLibraryPath()
   }
   return {};
 }
+
+} // namespace gltfviewer

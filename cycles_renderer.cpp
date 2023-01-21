@@ -75,21 +75,35 @@ CyclesRenderer::~CyclesRenderer()
    StopRender();
 }
 
-bool CyclesRenderer::StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
+bool CyclesRenderer::StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, gltfviewer_progress_callback progress_callback, gltfviewer_finish_callback finish_callback, void* context )
 {
   StopRender();
 
-  m_render_thread = std::thread( [ this, scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, render_callback_context ] () {
-    if ( InitialiseSession( render_settings, render_callback, render_callback_context ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
+  m_render_thread = std::thread( [ this, scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, progress_callback, finish_callback, context ] () {
+    if ( InitialiseSession( render_settings, render_callback, progress_callback, context ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
       m_session->start();
       m_session->wait();
 
       if ( m_session->progress.get_error() && ( nullptr != m_session->device ) && !m_forceCPU && ( ccl::DeviceType::DEVICE_CPU != m_session->device->info.type ) ) {
         m_forceCPU = true;
         Cleanup();
-        if ( InitialiseSession( render_settings, render_callback, render_callback_context ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
+        if ( InitialiseSession( render_settings, render_callback, progress_callback, context ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
           m_session->start();
           m_session->wait();
+        }
+      }
+
+      if ( ( nullptr != finish_callback ) && !m_session->progress.get_cancel() && !m_session->progress.get_error() ) {
+        gltfviewer_image* noisy_image = ( ( m_result_noisy.width > 0 ) && ( m_result_noisy.height > 0 ) && ( nullptr != m_result_noisy.pixels ) ) ? &m_result_noisy : nullptr;
+        gltfviewer_image* denoised_image = ( ( m_result_denoised.width > 0 ) && ( m_result_denoised.height > 0 ) && ( nullptr != m_result_denoised.pixels ) ) ? &m_result_denoised : nullptr;
+        finish_callback( &m_result_noisy, &m_result_denoised, context );
+      }
+
+      if ( nullptr != progress_callback ) {
+        if ( m_session->progress.get_cancel() ) {
+          progress_callback( static_cast<float>( m_session->progress.get_progress() ), "Cancelled", context );
+        } else {
+          progress_callback( 1.0f, m_session->progress.get_error() ? "Error" : "Finished", context );
         }
       }
     }
@@ -120,7 +134,7 @@ void CyclesRenderer::Cleanup()
   }
 }
 
-bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
+bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, gltfviewer_progress_callback progress_callback, void* context )
 {
   constexpr int kDefaultTileSize = 2048;
   const uint32_t tileSize = ( 0 == render_settings.tile_size ) ? kDefaultTileSize : render_settings.tile_size;
@@ -133,7 +147,7 @@ bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render
   sessionParams.samples = render_settings.samples;
 
   std::error_code ec;
-  m_temp_folder = std::filesystem::temp_directory_path( ec ) / GenerateGUID();
+  m_temp_folder = std::filesystem::temp_directory_path( ec ) / gltfviewer::GenerateGUID();
   std::filesystem::create_directory( m_temp_folder, ec );
   sessionParams.temp_dir = m_temp_folder.string();
 
@@ -154,34 +168,40 @@ bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render
   m_session->scene->integrator->set_use_denoise_pass_normal( true );
 
   m_session->scene->passes.clear();
-  const std::string kPassName( "combined" );
+  constexpr char kNoisyPassName[] = "combined_noisy";
   if ( ccl::Pass* pass = m_session->scene->create_node<ccl::Pass>(); pass ) {
-    pass->set_name( OpenImageIO_v2_3::ustring( kPassName ) );
+    pass->set_name( OpenImageIO_v2_3::ustring( kNoisyPassName ) );
+    pass->set_type( ccl::PassType::PASS_COMBINED );
+    pass->set_mode( ccl::PassMode::NOISY );
+  }
+  constexpr char kDenoisedPassName[] = "combined_denoised";
+  if ( ccl::Pass* pass = m_session->scene->create_node<ccl::Pass>(); pass ) {
+    pass->set_name( OpenImageIO_v2_3::ustring( kDenoisedPassName ) );
     pass->set_type( ccl::PassType::PASS_COMBINED );
     pass->set_mode( ccl::PassMode::DENOISED );
   }
 
-  m_session->set_display_driver( std::make_unique<CyclesDisplayDriver>( render_callback, render_callback_context ) );
-  m_session->set_output_driver( std::make_unique<CyclesOutputDriver>( kPassName, render_callback, render_callback_context ) );
+  m_session->set_display_driver( std::make_unique<CyclesDisplayDriver>( render_callback, context ) );
+  m_session->set_output_driver( std::make_unique<CyclesOutputDriver>( kNoisyPassName, kDenoisedPassName, m_result_noisy, m_result_denoised ) );
 
-#ifdef _DEBUG
-  m_session->progress.set_update_callback( [this]() {
-    std::string status;
-    std::string subStatus;
-    m_session->progress.get_status( status, subStatus );
-    std::string str = status;
-    if ( !subStatus.empty() ) {
-      if ( !str.empty() ) {
-        str += " - ";
+  if ( nullptr != progress_callback ) {
+    m_session->progress.set_update_callback( [this, progress_callback, context]() {
+      const float progress = static_cast<float>( m_session->progress.get_progress() );
+
+      std::string status;
+      std::string subStatus;
+      m_session->progress.get_status( status, subStatus );
+      std::string str = status;
+      if ( !subStatus.empty() ) {
+        if ( !str.empty() ) {
+          str += " - ";
+        }
+        str += subStatus;
       }
-      str += subStatus;
-    }
-    if ( !str.empty() ) {
-      str += "\r\n";
-      OutputDebugStringA( str.c_str() );
-    }
-  } );
-#endif
+
+      progress_callback( progress, str.c_str(), context );
+    } );
+  }
 
   ccl::BufferParams bufferParams = {};
   bufferParams.width = render_settings.width;
@@ -411,8 +431,8 @@ bool CyclesRenderer::SetBackground( const gltfviewer_environment_settings& envir
     ccl::SkyTextureNode* sky = m_session->scene->default_background->graph->create_node<ccl::SkyTextureNode>();
     sky->set_sky_type( ccl::NODE_SKY_NISHITA );
     sky->set_sun_intensity( environment_settings.sun_intensity );
-    sky->set_sun_elevation( DegreeToRadian( std::clamp( environment_settings.sun_elevation, 0.0f, 90.0f ) ) );
-    sky->set_sun_rotation( DegreeToRadian( environment_settings.sun_rotation ) );
+    sky->set_sun_elevation( gltfviewer::DegreeToRadian( std::clamp( environment_settings.sun_elevation, 0.0f, 90.0f ) ) );
+    sky->set_sun_rotation( gltfviewer::DegreeToRadian( environment_settings.sun_rotation ) );
     sky->set_sun_disc( false );
     m_session->scene->default_background->graph->add( sky );
 

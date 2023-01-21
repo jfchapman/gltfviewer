@@ -6,6 +6,10 @@
 
 #include <filesystem>
 #include <memory>
+#include <string>
+
+// Windows command ID for updating the render status in the title bar.
+constexpr int MSG_UPDATE_PROGRRESS = WM_APP + 73;
 
 namespace Gdiplus {
   class Bitmap;
@@ -58,18 +62,30 @@ public:
   // Called when the client window size changes, with the new width & height values.
   void OnSize( const uint32_t width, const uint32_t height );
 
+  // Called when the render status in the title bar needs to be updated.
+  void OnUpdateProgress();
+
+  // UTF-8 to wide string conversion function
+  static std::wstring FromUTF8( const std::string& str );
+
 private:
-  // gltfviewer render callback (NOTE that the callback will be called from a separate thread).
+  // gltfviewer render callback (NOTE that the callback will be called from a separate thread, NOT the main UI thread).
   static void renderCallback( gltfviewer_image* image, void* context );
 
-	// Thread for handling the conversion of the current render image result (linear color space) to a display bitmap, using the current display options.
-	static DWORD WINAPI DisplayThreadProc( LPVOID lpParam );
+  // gltfviewer progress callback (NOTE that the callback will be called from a separate thread, NOT the main UI thread).
+  static void progressCallback( float progress, const char* status, void* context );
 
-  // Handles a render callback.
-  void RenderCallbackThreadHandler( gltfviewer_image* image );
+  // gltfviewer finish callback (NOTE that the callback will be called from a separate thread, NOT the main UI thread).
+  static void finishCallback( gltfviewer_image* original_image, gltfviewer_image* denoised_image, void* context );
+
+  // Thread for handling the conversion of the current render image result (linear color space) to a display bitmap, using the current display options.
+	static DWORD WINAPI DisplayThreadProc( LPVOID lpParam );
 
   // Handles a change in display options by updating the display bitmap and notifying that the window needs repainting.
   void DisplayThreadHandler();
+
+  // Makes a copy of the render image supplied from a callback.
+  void CopyRenderImage( gltfviewer_image* image );
 
   // Starts a render (restarts if currently rendering).
   void StartRender();
@@ -133,6 +149,18 @@ private:
 
   // Display bitmap mutex.
   std::mutex m_display_mutex;
+
+  // Current render progress, in the range 0.0 to 1.0 (used for the title bar).
+  std::atomic<float> m_render_progess = 0;
+
+  // Current render status (used for the title bar).
+  std::wstring m_render_status;
+
+  // Render status mutex.
+  std::mutex m_status_mutex;
+
+  // Current model path (used for the title bar).
+  std::filesystem::path m_model_path;
 
   // GDI+ token
   ULONG_PTR m_gdiplusToken = 0;

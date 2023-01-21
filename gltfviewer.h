@@ -95,11 +95,30 @@ typedef struct {
   void*                         pixels;
 } gltfviewer_image;
 
-// Callback used to return results when rendering.
-// 'image' - current render result, floatRGBA pixel format, in a linear colorspace (the image is temporary, so the client should make its own copy of the data).
+
+///////////////////////////////////////////////////////////////////////////////
+// Callbacks
+///////////////////////////////////////////////////////////////////////////////
+
+// Callback used to return the current image result while rendering.
+// 'image' - render image, floatRGBA pixel format, in a linear colorspace (the image is temporary, so the client should make its own copy of the pixel data).
 // 'context' - client context.
 // NOTE except for the image helper conversion functions, no other gltfviewer library functions should be called from within the callback.
 typedef void ( *gltfviewer_render_callback ) ( gltfviewer_image* image, void* context );
+
+// Callback used to return the current progress status while rendering.
+// 'progress' - render progress, in the range 0.0 to 1.0.
+// 'status' - status information (if not null, this is a temporary string, so the client should make its own copy).
+// 'context' - client context.
+// NOTE except for the image helper conversion functions, no other gltfviewer library functions should be called from within the callback.
+typedef void ( *gltfviewer_progress_callback ) ( float progress, const char* status, void* context );
+
+// Callback used to return the final image results when rendering has completed.
+// 'original_image' - original (noisy) render image, floatRGBA pixel format, in a linear colorspace (the image is temporary, so the client should make its own copy of the pixel data).
+// 'denoised_image' - denoised render image, floatRGBA pixel format, in a linear colorspace (the image is temporary, so the client should make its own copy of the pixel data).
+// 'context' - client context.
+// NOTE except for the image helper conversion functions, no other gltfviewer library functions should be called from within the callback.
+typedef void ( *gltfviewer_finish_callback ) ( gltfviewer_image* original_image, gltfviewer_image* denoised_image, void* context );
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -177,8 +196,10 @@ gltfviewer_export uint32_t gltfviewer_get_material_variant_name( gltfviewer_hand
 // 'camera' - camera settings.
 // 'render_settings' - render settings.
 // 'environment_settings' - environment settings (background, skylight, etc.)
-// 'render_callback' - callback which supplies the render results.
-// 'render_callback_context' - client context supplied to the render callback.
+// 'render_callback' - callback which supplies the current render image.
+// 'progress_callback' - callback which supplies the current render status (can be null).
+// 'finish_callback' - callback which supplies the final (original & denoised) render image results (can be null).
+// 'context' - client context supplied to the callback functions.
 // Returns true if the render was started successfully, false otherwise.
 gltfviewer_export bool gltfviewer_start_render( 
   gltfviewer_handle                 model_handle, 
@@ -187,8 +208,10 @@ gltfviewer_export bool gltfviewer_start_render(
   gltfviewer_camera                 camera, 
   gltfviewer_render_settings        render_settings, 
   gltfviewer_environment_settings   environment_settings, 
-  gltfviewer_render_callback        render_callback, 
-  void*                             render_callback_context );
+  gltfviewer_render_callback        render_callback,
+  gltfviewer_progress_callback      progress_callback,
+  gltfviewer_finish_callback        finish_callback,
+  void*                             context );
 
 // Stops a render for a model.
 gltfviewer_export void gltfviewer_stop_render( gltfviewer_handle model_handle );

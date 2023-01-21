@@ -23,8 +23,8 @@ public:
   // Resolves the relative URIs of any external resources declared in the glTF manifest
   std::shared_ptr<std::istream> GetInputStream( const std::string& filename ) const override
   {
-    std::wstring wFilename = FromUTF8( filename );
-    UnescapeURL( wFilename );
+    std::wstring wFilename = gltfviewer::FromUTF8( filename );
+    gltfviewer::UnescapeURL( wFilename );
     auto streamPath = m_pathBase / wFilename;
     auto stream = std::make_shared<std::ifstream>( streamPath, std::ios_base::binary );
     if ( !stream || !( *stream ) ) {
@@ -441,11 +441,11 @@ bool Model::ReadLight( Light light, const Matrix& matrix, Scene& scene )
   return true;
 }
 
-bool Model::StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
+bool Model::StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, gltfviewer_progress_callback progress_callback, gltfviewer_finish_callback finish_callback, void* context )
 {
   render_settings;
   m_renderer = std::make_unique<CyclesRenderer>( *this );
-  return m_renderer->StartRender( scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, render_callback_context );
+  return m_renderer->StartRender( scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, progress_callback, finish_callback, context );
 }
 
 void Model::StopRender()

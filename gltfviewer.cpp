@@ -11,7 +11,7 @@ static std::unique_ptr<gltfviewer::ColorProcessor> g_color_processor;
 int32_t gltfviewer_init()
 {
   g_models = std::make_unique<gltfviewer::Models>();
-  g_color_processor = std::make_unique<gltfviewer::ColorProcessor>( GetLibraryPath() / "config.ocio" );
+  g_color_processor = std::make_unique<gltfviewer::ColorProcessor>( gltfviewer::GetLibraryPath() / "config.ocio" );
   return gltfviewer_success;
 }
 
@@ -122,13 +122,13 @@ uint32_t gltfviewer_get_material_variant_name( gltfviewer_handle model_handle, u
   return 1 + name.size();
 }
 
-bool gltfviewer_start_render( gltfviewer_handle model_handle, int32_t scene_index, int32_t material_variant_index, gltfviewer_camera camera, gltfviewer_render_settings render_settings, gltfviewer_environment_settings environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context )
+bool gltfviewer_start_render( gltfviewer_handle model_handle, int32_t scene_index, int32_t material_variant_index, gltfviewer_camera camera, gltfviewer_render_settings render_settings, gltfviewer_environment_settings environment_settings, gltfviewer_render_callback render_callback, gltfviewer_progress_callback progress_callback, gltfviewer_finish_callback finish_callback, void* context )
 {
   gltfviewer::Model* const model = g_models ? g_models->FindModel( model_handle ) : nullptr;
   if ( nullptr == model )
     return false;
 
-  return model->StartRender( scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, render_callback_context );
+  return model->StartRender( scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, progress_callback, finish_callback, context );
 }
 
 void gltfviewer_stop_render( gltfviewer_handle model_handle )

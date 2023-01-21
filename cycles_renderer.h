@@ -12,11 +12,11 @@ public:
   CyclesRenderer( const gltfviewer::Model& model );
   ~CyclesRenderer() final;
 
-  bool StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, void* render_callback_context ) final;
+  bool StartRender( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, gltfviewer_progress_callback progress_callback, gltfviewer_finish_callback finish_callback, void* context ) final;
   void StopRender() final;
 
 private:
-  bool InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, void* render_callback_context );
+  bool InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, gltfviewer_progress_callback progress_callback, void* context );
   bool BuildScene( const int32_t scene_index, const int32_t material_variant_index );
   bool SetMeshes( const int32_t scene_index, const int32_t material_variant_index );
   bool SetLights( const int32_t scene_index );
@@ -35,4 +35,6 @@ private:
   std::filesystem::path m_temp_folder;
   std::thread m_render_thread;
   bool m_forceCPU = false;
+  gltfviewer_image m_result_noisy = {};
+  gltfviewer_image m_result_denoised = {};
 };

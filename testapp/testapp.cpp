@@ -17,21 +17,6 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
 std::unique_ptr<TestViewer> gTestViewer;        // Test object that consumes the gltfviewer library
 
-// UTF-8 to wide string conversion function
-std::wstring FromUTF8( const std::string& str )
-{
-	std::wstring result;
-	if ( !str.empty() ) {
-		if ( const int bufferSize = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1 /*strLen*/, nullptr /*buffer*/, 0 /*bufferSize*/ ); bufferSize > 0 ) {
-			std::vector<WCHAR> buffer( bufferSize );
-			if ( 0 != MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1 /*strLen*/, buffer.data(), bufferSize ) ) {
-				result = buffer.data();
-			}
-		}
-	}
-	return result;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // Scene menu
 
@@ -72,11 +57,11 @@ void UpdateSceneMenu( HMENU menu )
   if ( !scenes.empty() ) {
     const int scene_count = static_cast<int>( min( scenes.size(), ID_SCENE_LAST - ID_SCENE_FIRST ) );
 
-    std::wstring scene_name = FromUTF8( scenes.back() );
+    std::wstring scene_name = TestViewer::FromUTF8( scenes.back() );
     ModifyMenu( menu, ID_SCENE_FIRST, MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_SCENE_FIRST + scene_count - 1, scene_name.c_str() );
 
     for ( int i = scene_count - 1; i > 0; i-- ) {
-      scene_name = FromUTF8( scenes[ i - 1 ] );
+      scene_name = TestViewer::FromUTF8( scenes[ i - 1 ] );
       InsertMenu( menu, ID_SCENE_FIRST + i, MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_SCENE_FIRST + i - 1, scene_name.c_str() );
     }
   }
@@ -124,11 +109,11 @@ void UpdateVariantMenu( HMENU menu )
   if ( !material_variants.empty() ) {
     const int variant_count = static_cast<int>( min( material_variants.size(), ID_MATERIAL_VARIANT_LAST - ID_MATERIAL_VARIANT_FIRST ) );
 
-    std::wstring variant_name = FromUTF8( material_variants.back() );
+    std::wstring variant_name = TestViewer::FromUTF8( material_variants.back() );
     ModifyMenu( menu, ID_MATERIAL_VARIANT_FIRST, MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_MATERIAL_VARIANT_FIRST + variant_count - 1, variant_name.c_str() );
 
     for ( int i = variant_count - 1; i > 0; i-- ) {
-      variant_name = FromUTF8( material_variants[ i - 1 ] );
+      variant_name = TestViewer::FromUTF8( material_variants[ i - 1 ] );
       InsertMenu( menu, ID_MATERIAL_VARIANT_FIRST + i, MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_MATERIAL_VARIANT_FIRST + i - 1, variant_name.c_str() );
     }
   }
@@ -273,11 +258,11 @@ void UpdateDisplayMenu( HMENU menu )
   if ( !looks.empty() ) {
     const int look_count = static_cast<int>( min( looks.size(), ID_DISPLAY_LOOK_LAST - ID_DISPLAY_LOOK_FIRST ) );
 
-    std::wstring look_name = FromUTF8( looks.back() );
+    std::wstring look_name = TestViewer::FromUTF8( looks.back() );
     ModifyMenu( menu, ID_DISPLAY_LOOK_FIRST, MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_DISPLAY_LOOK_FIRST + look_count - 1, look_name.c_str() );
 
     for ( int i = look_count - 1; i > 0; i-- ) {
-      look_name = FromUTF8( looks[ i - 1 ] );
+      look_name = TestViewer::FromUTF8( looks[ i - 1 ] );
       InsertMenu( menu, ID_DISPLAY_LOOK_FIRST + i, MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_DISPLAY_LOOK_FIRST + i - 1, look_name.c_str() );
     }
   }
@@ -565,6 +550,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         if ( gTestViewer && ( SIZE_MINIMIZED != wParam ) )
           gTestViewer->OnSize( LOWORD( lParam ), HIWORD( lParam ) );
         break;
+    case MSG_UPDATE_PROGRRESS:
+        if ( gTestViewer )
+          gTestViewer->OnUpdateProgress();
+        return 0;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

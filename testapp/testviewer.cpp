@@ -100,14 +100,38 @@ void TestViewer::DisplayThreadHandler()
 
 void TestViewer::renderCallback( gltfviewer_image* image, void* context )
 {
+  // The render callback will be called from the gltfviewer library on a background thread, so we must make a copy of the result and indicate that the display bitmap should be updated.
   if ( TestViewer* tester = static_cast<TestViewer*>( context ); nullptr != tester ) {
-    tester->RenderCallbackThreadHandler( image );
+    tester->CopyRenderImage( image );
   }
 }
 
-void TestViewer::RenderCallbackThreadHandler( gltfviewer_image* image )
+void TestViewer::finishCallback( gltfviewer_image* original_image, gltfviewer_image* denoised_image, void* context )
 {
-  // The render callback will be called from the gltfviewer library on a background thread, so we must make a copy of the result and indicate that the display bitmap should be updated.
+  // The finish callback will be called from the gltfviewer library on a background thread, so we must make a copy of the result and indicate that the display bitmap should be updated.
+  if ( TestViewer* tester = static_cast<TestViewer*>( context ); nullptr != tester ) {
+    tester->CopyRenderImage( ( nullptr != denoised_image ) ? denoised_image : original_image );
+  }
+}
+
+void TestViewer::progressCallback( float progress, const char* status, void* context )
+{
+  if ( TestViewer* tester = static_cast<TestViewer*>( context ); nullptr != tester ) {
+    tester->m_render_progess = progress;
+
+    std::lock_guard<std::mutex> lock( tester->m_status_mutex );
+    if ( nullptr != status )
+      tester->m_render_status = FromUTF8( status );
+    else
+      tester->m_render_status.clear();
+
+    // Note that we should update the UI from the main thread.
+    PostMessage( tester->m_hWnd, MSG_UPDATE_PROGRRESS, 0, 0 );
+  }
+}
+
+void TestViewer::CopyRenderImage( gltfviewer_image* image )
+{
   if ( ( nullptr != image ) && ( image->width > 0 ) && ( image->height > 0 ) && ( image->stride_bytes > 0 ) && ( gltfviewer_image_pixelformat_floatRGBA == image->pixel_format ) && ( nullptr != image->pixels ) ) {
     std::lock_guard<std::mutex> lock( m_display_mutex );
 
@@ -126,6 +150,8 @@ void TestViewer::RenderCallbackThreadHandler( gltfviewer_image* image )
 
 bool TestViewer::LoadFile( const std::filesystem::path& filepath )
 {
+  m_model_path = filepath;
+
   // Load the model
   m_model_handle = gltfviewer_load_model( reinterpret_cast<const char*>( filepath.u8string().c_str() ) );
   if ( gltfviewer_error == m_model_handle )
@@ -187,10 +213,14 @@ void TestViewer::StartRender()
   }
 
   gltfviewer_render_callback render_callback = &renderCallback;
+  gltfviewer_progress_callback progress_callback = &progressCallback;
+  gltfviewer_finish_callback finish_callback = &finishCallback;
+
+  m_render_progess = 0;
 
   // Start the render. 
   // This function call will return after a startup lag, after which render results will be returned via the supplied callback.
-  gltfviewer_start_render( m_model_handle, m_scene_index, m_material_variant_index, m_camera, m_render_settings, m_environment_settings, render_callback, this );
+  gltfviewer_start_render( m_model_handle, m_scene_index, m_material_variant_index, m_camera, m_render_settings, m_environment_settings, render_callback, progress_callback, finish_callback, this );
 }
 
 void TestViewer::Redraw()
@@ -259,4 +289,35 @@ void TestViewer::OnSize( const uint32_t width, const uint32_t height )
   if ( ( m_render_settings.width != width ) || ( m_render_settings.height != height ) ) {
     StartRender();
   }
+}
+
+void TestViewer::OnUpdateProgress()
+{
+  const std::wstring filename = m_model_path.filename();
+  const std::wstring percent = std::to_wstring( static_cast<int>( 100 * std::clamp( m_render_progess.load(), 0.0f, 1.0f ) ) ) + L"%";
+  std::wstring status;
+  {
+    std::lock_guard<std::mutex> lock( m_status_mutex );
+    status = m_render_status;
+  }
+  
+  std::wstring title = filename + L" - " + percent;
+  if ( !status.empty() ) {
+    title += L" [" + status + L"]";
+  }  
+  SetWindowText( m_hWnd, title.c_str() );
+}
+
+std::wstring TestViewer::FromUTF8( const std::string& str )
+{
+	std::wstring result;
+	if ( !str.empty() ) {
+		if ( const int bufferSize = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1 /*strLen*/, nullptr /*buffer*/, 0 /*bufferSize*/ ); bufferSize > 0 ) {
+			std::vector<WCHAR> buffer( bufferSize );
+			if ( 0 != MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1 /*strLen*/, buffer.data(), bufferSize ) ) {
+				result = buffer.data();
+			}
+		}
+	}
+	return result;
 }
