@@ -46,56 +46,13 @@ TestViewer::~TestViewer()
 DWORD WINAPI TestViewer::DisplayThreadProc( LPVOID lpParam )
 {
 	if ( TestViewer* viewer = reinterpret_cast<TestViewer*>( lpParam ); nullptr != viewer ) {
-		viewer->DisplayThreadHandler();
+    HANDLE handles[ 2 ] = { viewer->m_display_thread_stop_event, viewer->m_display_thread_update_event };
+    // Wait for either of the display thread events being to be signalled. Quit if the stop event has been signalled, otherwise convert the current render image to a display bitmap.
+	  while ( WaitForMultipleObjects( 2, handles, FALSE /*waitAll*/, INFINITE ) != WAIT_OBJECT_0 ) {
+		  viewer->UpdateDisplayBitmap();
+    }
 	}
 	return 0;
-}
-
-void TestViewer::DisplayThreadHandler()
-{
-  HANDLE handles[ 2 ] = { m_display_thread_stop_event, m_display_thread_update_event };
-
-  // Wait for either of the display thread events being to be signalled. Quit if the stop event has been signalled, otherwise convert the current render image to a display bitmap.
-	while ( WaitForMultipleObjects( 2, handles, FALSE /*waitAll*/, INFINITE ) != WAIT_OBJECT_0 ) {
-    std::lock_guard<std::mutex> lock( m_display_mutex );
-
-    if ( ( m_render_image.width > 0 ) && ( m_render_image.height > 0 ) && ( nullptr != m_render_image.pixels ) ) {
-
-      if ( !m_display_bitmap || ( m_display_bitmap->GetWidth() != m_render_image.width ) || ( m_display_bitmap->GetHeight() != m_render_image.height ) ) {
-        // Create a display bitmap which matches the dimensions of the render image.
-        m_display_bitmap = std::make_unique<Gdiplus::Bitmap>( m_render_settings.width, m_render_settings.height, PixelFormat32bppARGB );
-        Gdiplus::Graphics graphics( m_display_bitmap.get() );
-        graphics.Clear( { 255, 255, 255 } );
-      }
-
-      if ( m_display_bitmap && ( m_display_bitmap->GetWidth() == m_render_image.width ) || ( m_display_bitmap->GetHeight() == m_render_image.height ) ) {
-        // Convert the render image (in linear color space) to the display color space, using the current gltfviewer look.
-        Gdiplus::Rect rect( 0, 0, m_display_bitmap->GetWidth(), m_display_bitmap->GetHeight() );
-        Gdiplus::BitmapData data = {};
-        if ( Gdiplus::Ok == m_display_bitmap->LockBits( &rect, Gdiplus::ImageLockModeWrite, PixelFormat32bppARGB, &data ) ) {
-          gltfviewer_image target_image;
-          target_image.pixel_format = gltfviewer_image_pixelformat_ucharBGRA;
-          target_image.width = data.Width;
-          target_image.height = data.Height;
-          target_image.stride_bytes = data.Stride;
-          target_image.pixels = data.Scan0;
-
-          gltfviewer_image_convert( &m_render_image, &target_image, m_color_conversion_look_index, m_exposure );
-
-          m_display_bitmap->UnlockBits( &data );
-
-          // Convert the top-down render image to a bottom-up bitmap.
-          m_display_bitmap->RotateFlip( Gdiplus::RotateNoneFlipY );
-        }
-      }
-    }
-
-    // Signal that the window needs to be repainted.
-    InvalidateRect( m_hWnd, nullptr, FALSE );
-
-    // Conversion has been done, so reset the update event.
-    ResetEvent( m_display_thread_update_event );
-  }
 }
 
 void TestViewer::renderCallback( gltfviewer_image* image, void* context )
@@ -146,6 +103,45 @@ void TestViewer::CopyRenderImage( gltfviewer_image* image )
     // Signal that the display bitmap needs to be updated.
     SetEvent( m_display_thread_update_event );
   }
+}
+
+void TestViewer::UpdateDisplayBitmap()
+{
+  std::lock_guard<std::mutex> lock( m_display_mutex );
+
+  if ( ( m_render_image.width > 0 ) && ( m_render_image.height > 0 ) && ( nullptr != m_render_image.pixels ) ) {
+    if ( !m_display_bitmap || ( m_display_bitmap->GetWidth() != m_render_image.width ) || ( m_display_bitmap->GetHeight() != m_render_image.height ) ) {
+      // Create a display bitmap which matches the dimensions of the render image.
+      m_display_bitmap = std::make_unique<Gdiplus::Bitmap>( m_render_settings.width, m_render_settings.height, PixelFormat32bppARGB );
+    }
+
+    if ( m_display_bitmap && ( m_display_bitmap->GetWidth() == m_render_image.width ) || ( m_display_bitmap->GetHeight() == m_render_image.height ) ) {
+      // Convert the render image (in linear color space) to the display color space, using the current gltfviewer look.
+      Gdiplus::Rect rect( 0, 0, m_display_bitmap->GetWidth(), m_display_bitmap->GetHeight() );
+      Gdiplus::BitmapData data = {};
+      if ( Gdiplus::Ok == m_display_bitmap->LockBits( &rect, Gdiplus::ImageLockModeWrite, PixelFormat32bppARGB, &data ) ) {
+        gltfviewer_image target_image;
+        target_image.pixel_format = gltfviewer_image_pixelformat_ucharBGRA;
+        target_image.width = data.Width;
+        target_image.height = data.Height;
+        target_image.stride_bytes = data.Stride;
+        target_image.pixels = data.Scan0;
+
+        gltfviewer_image_convert( &m_render_image, &target_image, m_color_conversion_look_index, m_exposure );
+
+        m_display_bitmap->UnlockBits( &data );
+
+        // Convert the top-down render image to a bottom-up bitmap.
+        m_display_bitmap->RotateFlip( Gdiplus::RotateNoneFlipY );
+      }
+    }
+  }
+
+  // Signal that the window needs to be repainted.
+  InvalidateRect( m_hWnd, nullptr, FALSE );
+
+  // Conversion has been done, so reset the update event.
+  ResetEvent( m_display_thread_update_event );
 }
 
 bool TestViewer::LoadFile( const std::filesystem::path& filepath )
@@ -227,8 +223,18 @@ void TestViewer::Redraw()
 {
   std::lock_guard<std::mutex> lock( m_display_mutex );
   if ( m_display_bitmap ) {
-    Gdiplus::Graphics graphics( m_hWnd );
-    graphics.DrawImage( m_display_bitmap.get(), 0, 0 );
+    if ( m_environment_settings.transparent_background ) {
+      // Alpha blend the display bitmap onto a white background before painting.
+      Gdiplus::Bitmap tempBitmap( m_display_bitmap->GetWidth(), m_display_bitmap->GetHeight(), PixelFormat32bppRGB );
+      Gdiplus::Graphics tempGraphics( &tempBitmap );
+      tempGraphics.Clear( { 255, 255, 255 } );
+      tempGraphics.DrawImage( m_display_bitmap.get(), 0, 0 );
+      Gdiplus::Graphics screenGraphics( m_hWnd );
+      screenGraphics.DrawImage( &tempBitmap, 0, 0 );
+    } else {
+      Gdiplus::Graphics graphics( m_hWnd );
+      graphics.DrawImage( m_display_bitmap.get(), 0, 0 );
+    }
   }
 }
 

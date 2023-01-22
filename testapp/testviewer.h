@@ -81,8 +81,8 @@ private:
   // Thread for handling the conversion of the current render image result (linear color space) to a display bitmap, using the current display options.
 	static DWORD WINAPI DisplayThreadProc( LPVOID lpParam );
 
-  // Handles a change in display options by updating the display bitmap and notifying that the window needs repainting.
-  void DisplayThreadHandler();
+  // Updates the display bitmap using the current render image, and notifies that the window needs repainting.
+  void UpdateDisplayBitmap();
 
   // Makes a copy of the render image supplied from a callback.
   void CopyRenderImage( gltfviewer_image* image );
@@ -133,12 +133,12 @@ private:
   gltfviewer_camera m_camera = { gltfviewer_camera_projection_perspective, gltfviewer_camera_preset_default };
 
   // Current gltfviewer render settings.
-  gltfviewer_render_settings m_render_settings = { 1920 /*width*/, 1080 /*height*/, 64 /*samples*/, 256 /*tile size*/ };
+  gltfviewer_render_settings m_render_settings = { 1920 /*width*/, 1080 /*height*/, 64 /*samples*/, 512 /*tile size*/ };
 
   // Current gltfviewer environment settings.
-  gltfviewer_environment_settings m_environment_settings = { 0.3f /*sky intensity*/, 0.3f /*sun intensity*/, 15.0f /*sun elevation*/, 45.0f /*sun rotation*/, false /*transparent background*/ };
+  gltfviewer_environment_settings m_environment_settings = { 0.3f /*sky intensity*/, 0.3f /*sun intensity*/, 15.0f /*sun elevation*/, 45.0f /*sun rotation*/, true /*transparent background*/ };
 
-  // Current render image result.
+  // Current render image result (linear color space).
   gltfviewer_image m_render_image;
 
   // Current render image pixel data.
