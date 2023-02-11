@@ -59,7 +59,7 @@ typedef struct {
   gltfviewer_camera_projection projection;  // Camera projection.
   gltfviewer_camera_preset preset;          // Preset camera view position. If this is other than 'gltfviewer_camera_preset_none', the remaining properties are ignored.
 
-  float matrix[4][4];                       // View matrix. This uses the glTF coordinate system (glTF defines +Y as up, +Z as forward, and -X as right).
+  float matrix[16];                         // View matrix (column-major order). This uses the glTF coordinate system (glTF defines +Y as up, +Z as forward, and -X as right).
 
   float farclip;                            // Far clipping distance, in metres.
   float nearclip;                           // Near clipping distance, in metres.

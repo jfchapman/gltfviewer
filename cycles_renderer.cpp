@@ -80,14 +80,14 @@ bool CyclesRenderer::StartRender( const int32_t scene_index, const int32_t mater
   StopRender();
 
   m_render_thread = std::thread( [ this, scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, progress_callback, finish_callback, context ] () {
-    if ( InitialiseSession( render_settings, render_callback, progress_callback, context ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
+    if ( StartSession( scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, progress_callback, finish_callback, context ) ) {
       m_session->start();
       m_session->wait();
 
-      if ( m_session->progress.get_error() && ( nullptr != m_session->device ) && !m_forceCPU && ( ccl::DeviceType::DEVICE_CPU != m_session->device->info.type ) ) {
+      if ( m_session->progress.get_error() && !m_session->progress.get_cancel() && ( nullptr != m_session->device ) && !m_forceCPU && ( ccl::DeviceType::DEVICE_CPU != m_session->device->info.type ) ) {
         m_forceCPU = true;
         Cleanup();
-        if ( InitialiseSession( render_settings, render_callback, progress_callback, context ) && BuildScene( scene_index, material_variant_index ) && SetCamera( camera, render_settings ) && SetBackground( environment_settings ) ) {
+        if ( StartSession( scene_index, material_variant_index, camera, render_settings, environment_settings, render_callback, progress_callback, finish_callback, context ) ) {
           m_session->start();
           m_session->wait();
         }
@@ -114,13 +114,11 @@ bool CyclesRenderer::StartRender( const int32_t scene_index, const int32_t mater
 
 void CyclesRenderer::StopRender()
 {
+  m_cancel = true;
   if ( m_render_thread.joinable() ) {
-    if ( m_session ) {
-      m_session->cancel();
-      m_session->wait();
-    }
     m_render_thread.join();
   }
+  m_cancel = false;
   Cleanup();
 }
 
@@ -134,14 +132,33 @@ void CyclesRenderer::Cleanup()
   }
 }
 
+bool CyclesRenderer::StartSession( const int32_t scene_index, const int32_t material_variant_index, const gltfviewer_camera& camera, const gltfviewer_render_settings& render_settings, const gltfviewer_environment_settings& environment_settings, gltfviewer_render_callback render_callback, gltfviewer_progress_callback progress_callback, gltfviewer_finish_callback finish_callback, void* context )
+{
+  if ( !InitialiseSession( render_settings, render_callback, progress_callback, context ) || !m_session || m_session->progress.get_cancel() )
+    return false;
+
+  if ( !BuildScene( scene_index, material_variant_index ) || m_session->progress.get_cancel() )
+    return false;
+
+  if ( !SetCamera( camera, render_settings ) || m_session->progress.get_cancel() )
+    return false;
+    
+  if ( !SetBackground( environment_settings ) || m_session->progress.get_cancel() )
+    return false;
+
+  return true;
+}
+
 bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render_settings, gltfviewer_render_callback render_callback, gltfviewer_progress_callback progress_callback, void* context )
 {
   constexpr int kDefaultTileSize = 2048;
-  const uint32_t tileSize = ( 0 == render_settings.tile_size ) ? kDefaultTileSize : render_settings.tile_size;
+  constexpr int kDefaultSamples = 128;
+  const int tileSize = ( 0 == render_settings.tile_size ) ? kDefaultTileSize : render_settings.tile_size;
+  const int samples = ( 0 == render_settings.samples ) ? kDefaultSamples : render_settings.samples;
 
   ccl::SessionParams sessionParams;
   sessionParams.device = SelectDevice();
-  sessionParams.tile_size = std::clamp( tileSize, 32u, 4096u );
+  sessionParams.tile_size = std::clamp( tileSize, 32, 4096 );
   sessionParams.use_auto_tile = true;
   sessionParams.background = true;
   sessionParams.samples = render_settings.samples;
@@ -184,6 +201,12 @@ bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render
   m_session->set_display_driver( std::make_unique<CyclesDisplayDriver>( render_callback, context ) );
   m_session->set_output_driver( std::make_unique<CyclesOutputDriver>( kNoisyPassName, kDenoisedPassName, m_result_noisy, m_result_denoised ) );
 
+  m_session->progress.set_cancel_callback( [ this ] () {
+    if ( m_cancel ) {
+      m_session->progress.set_cancel( "Cancelled" );
+    }
+  } );
+
   if ( nullptr != progress_callback ) {
     m_session->progress.set_update_callback( [this, progress_callback, context]() {
       const float progress = static_cast<float>( m_session->progress.get_progress() );
@@ -210,6 +233,7 @@ bool CyclesRenderer::InitialiseSession( const gltfviewer_render_settings& render
   bufferParams.full_height = bufferParams.height;
   bufferParams.window_width = bufferParams.width;
   bufferParams.window_height = bufferParams.height;
+
   m_session->reset( sessionParams, bufferParams );
 
   return true;
@@ -415,7 +439,15 @@ bool CyclesRenderer::SetCamera( const gltfviewer_camera& _camera, const gltfview
   m_session->scene->camera->set_farclip( camera.GetFarClip() );
   m_session->scene->camera->set_full_width( render_settings.width );
   m_session->scene->camera->set_full_height( render_settings.height );
-  m_session->scene->camera->compute_auto_viewplane();
+
+  if ( render_settings.height > 0 ) {
+    const float aspect = static_cast<float>( render_settings.width ) / render_settings.height;
+    m_session->scene->camera->set_viewplane_left( -aspect );
+    m_session->scene->camera->set_viewplane_right( aspect );
+    m_session->scene->camera->set_viewplane_bottom( -1.0f );
+    m_session->scene->camera->set_viewplane_top( 1.0f );
+  }
+
   m_session->scene->camera->update( m_session->scene );
   return true;
 }
@@ -424,7 +456,7 @@ bool CyclesRenderer::SetBackground( const gltfviewer_environment_settings& envir
 {
   if ( m_session->scene->default_background && m_session->scene->default_background->graph ) {
     ccl::BackgroundNode* background = m_session->scene->default_background->graph->create_node<ccl::BackgroundNode>();
-    background->set_strength( environment_settings.sky_intensity );
+    background->set_strength( std::max( 0.001f, environment_settings.sky_intensity ) );
     background->set_color( ccl::make_float3( 1.0f, 1.0f, 1.0f ) );
     m_session->scene->default_background->graph->add( background );
 
@@ -433,7 +465,7 @@ bool CyclesRenderer::SetBackground( const gltfviewer_environment_settings& envir
     sky->set_sun_intensity( environment_settings.sun_intensity );
     sky->set_sun_elevation( gltfviewer::DegreeToRadian( std::clamp( environment_settings.sun_elevation, 0.0f, 90.0f ) ) );
     sky->set_sun_rotation( gltfviewer::DegreeToRadian( environment_settings.sun_rotation ) );
-    sky->set_sun_disc( false );
+    sky->set_sun_disc( environment_settings.sun_intensity > 0 );
     m_session->scene->default_background->graph->add( sky );
 
     {
@@ -450,6 +482,15 @@ bool CyclesRenderer::SetBackground( const gltfviewer_environment_settings& envir
     m_session->scene->background->set_transparent( environment_settings.transparent_background );
 
     m_session->scene->default_background->tag_used( m_session->scene );
+
+    ccl::Light* light = m_session->scene->create_node<ccl::Light>();
+    light->set_light_type( ccl::LIGHT_BACKGROUND );
+    const float strength = 1.0f;
+    light->set_strength( ccl::make_float3( strength, strength, strength ) );
+    light->set_use_mis( true );
+    light->set_use_camera( false );
+    light->set_shader( m_session->scene->default_background );
+
   }
   return true;
 }

@@ -36,8 +36,10 @@ Camera::Camera( const gltfviewer_camera& camera, const Model& model, const uint3
   if ( gltfviewer_camera_preset_none != m_preset ) {
     CalculatePresetViewPosition( model, viewWidth, viewHeight );
   } else {
-    m_nearclip = camera.nearclip;
-    if ( camera.farclip > camera.nearclip ) {
+    if ( std::isnormal( camera.nearclip ) ) {
+      m_nearclip = camera.nearclip;
+    }
+    if ( std::isnormal( camera.farclip ) && ( camera.farclip > camera.nearclip ) ) {
       m_farclip = camera.farclip;
     }
     m_perspectiveFOV = std::clamp( camera.perspective_fov, 1.0f, 180.0f );
@@ -50,9 +52,10 @@ Camera::operator gltfviewer_camera() const
   camera.projection = ( Projection::Orthographic == m_projection ) ? gltfviewer_camera_projection_orthographic : gltfviewer_camera_projection_perspective;
   camera.preset = m_preset;
   const auto& m = m_matrix.GetValues();
-  for ( int i = 0; i < 4; i++ ) {
-    for ( int j = 0; j < 4; j++ ) {
-      camera.matrix[ i ][ j ] = m[ i ][ j ];
+  size_t k = 0;
+  for ( size_t i = 0; i < 4; i++ ) {
+    for ( size_t j = 0; j < 4; j++, k++ ) {
+      camera.matrix[ k ] = m[ j ][ i ];
     }
   }
   camera.farclip = m_farclip;
@@ -99,6 +102,17 @@ static float ToHorizontalFieldOfView( const float verticalFieldOfView, const flo
     return M_PI_2;
 
   return 2 * atanf( tanf( verticalFieldOfView / 2 ) * viewAspect );
+}
+
+static float ToVerticalFieldOfView( const float horizontalFieldOfView, const float viewAspect )
+{
+  if ( viewAspect <= 0 )
+    return horizontalFieldOfView;
+
+  if ( horizontalFieldOfView >= M_PI_2 )
+    return M_PI_2;
+
+  return 2 * atanf( tanf( horizontalFieldOfView / 2 ) / viewAspect );
 }
 
 void Camera::CalculatePresetViewPosition( const Model& model, const uint32_t viewWidth, const uint32_t viewHeight )

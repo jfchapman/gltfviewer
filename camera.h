@@ -11,7 +11,6 @@ class Model;
 
 using Bounds = std::pair<Microsoft::glTF::Vector3 /*minBounds*/, Microsoft::glTF::Vector3 /*maxBounds*/>;
 
-// TODO support for orthographic cameras
 class Camera
 {
 public:
@@ -45,8 +44,8 @@ private:
 
   Matrix m_matrix;
 
-  float m_farclip = 1e9;
-  float m_nearclip = 1e-6;
+  float m_farclip = 1e9f;
+  float m_nearclip = 1e-9f;
 
   float m_perspectiveFOV = 30.0f;
 

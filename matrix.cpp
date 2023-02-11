@@ -10,13 +10,18 @@ Matrix::Matrix()
   m_matrix[ 3 ][ 3 ] = 1.f;
 }
 
-Matrix::Matrix( const Microsoft::glTF::Matrix4& matrix )
+Matrix::Matrix( const Microsoft::glTF::Matrix4& matrix ) :
+  Matrix( matrix.values.data() )
 {
-  // Note the input matrix is in column major order
+}
+
+Matrix::Matrix( const float matrix[ 16 ] )
+{
+  // Note the input matrix is in column-major order
   size_t k = 0;
   for ( size_t i = 0; i < 4; i++ ) {
     for ( size_t j = 0; j < 4; j++, k++ ) {
-      m_matrix[ j ][ i ] = matrix.values[ k ];
+      m_matrix[ j ][ i ] = matrix[ k ];
     }
   }
 }
@@ -63,15 +68,6 @@ Matrix::Matrix( const Microsoft::glTF::Quaternion& _q ) : Matrix()
 Matrix::Matrix( const Matrix& matrix )
 {
   m_matrix = matrix.m_matrix;
-}
-
-Matrix::Matrix( const float matrix[ 4 ][ 4 ] )
-{
-  for ( size_t i = 0; i < 4; i++ ) {
-    for ( size_t j = 0; j < 4; j++ ) {
-      m_matrix[ i ][ j ] = matrix[ i ][ j ];
-    }
-  }
 }
 
 Matrix Matrix::operator*( const Matrix& other ) const

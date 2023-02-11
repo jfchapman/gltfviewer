@@ -56,6 +56,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)libraries;$(ProjectDir)libraries\cycles\src;$(ProjectDir)libraries\cycles\third_party\atomic;$(ProjectDir)libraries\cycles\third_party\cuew\include;$(ProjectDir)libraries\cycles\third_party\hipew\include;$(ProjectDir)libraries\lib\win64_vc15\OpenImageIO\include;$(ProjectDir)\libraries\lib\win64_vc15\OpenImageIO\include\OpenImageIO;$(ProjectDir)libraries\lib\win64_vc15\pthreads\include;$(ProjectDir)libraries\lib\win64_vc15\boost\include;$(ProjectDir)libraries\lib\win64_vc15\openexr\include;$(ProjectDir)libraries\lib\win64_vc15\openexr\include\OpenEXR;$(ProjectDir)libraries\lib\win64_vc15\imath\include;$(ProjectDir)libraries\lib\win64_vc15\imath\include\Imath;$(ProjectDir)libraries\lib\win64_vc15\osl\include;$(ProjectDir)libraries\lib\win64_vc15\embree\include;$(ProjectDir)libraries\lib\win64_vc15\openimagedenoise\include;$(ProjectDir)libraries\lib\win64_vc15\alembic\include;$(ProjectDir)libraries\lib\win64_vc15\tbb\include;$(ProjectDir)libraries\lib\win64_vc15\openvdb\include;$(ProjectDir)libraries\lib\win64_vc15\opensubdiv\include;$(ProjectDir)libraries\lib\win64_vc15\opencolorio\include;$(ProjectDir)libraries\lib\win64_vc15\usd\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4146; 4244; 4267; 4305</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -93,6 +94,7 @@ xcopy $(ProjectDir)libraries\cycles\install\lib\*.ptx $(ProjectDir)output\bin\de
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)libraries;$(ProjectDir)libraries\cycles\src;$(ProjectDir)libraries\cycles\third_party\atomic;$(ProjectDir)libraries\cycles\third_party\cuew\include;$(ProjectDir)libraries\cycles\third_party\hipew\include;$(ProjectDir)libraries\lib\win64_vc15\OpenImageIO\include;$(ProjectDir)\libraries\lib\win64_vc15\OpenImageIO\include\OpenImageIO;$(ProjectDir)libraries\lib\win64_vc15\pthreads\include;$(ProjectDir)libraries\lib\win64_vc15\boost\include;$(ProjectDir)libraries\lib\win64_vc15\openexr\include;$(ProjectDir)libraries\lib\win64_vc15\openexr\include\OpenEXR;$(ProjectDir)libraries\lib\win64_vc15\imath\include;$(ProjectDir)libraries\lib\win64_vc15\imath\include\Imath;$(ProjectDir)libraries\lib\win64_vc15\osl\include;$(ProjectDir)libraries\lib\win64_vc15\embree\include;$(ProjectDir)libraries\lib\win64_vc15\openimagedenoise\include;$(ProjectDir)libraries\lib\win64_vc15\alembic\include;$(ProjectDir)libraries\lib\win64_vc15\tbb\include;$(ProjectDir)libraries\lib\win64_vc15\openvdb\include;$(ProjectDir)libraries\lib\win64_vc15\opensubdiv\include;$(ProjectDir)libraries\lib\win64_vc15\opencolorio\include;$(ProjectDir)libraries\lib\win64_vc15\usd\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4146; 4244; 4267; 4305</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

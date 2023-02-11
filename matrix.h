@@ -14,7 +14,7 @@ public:
   Matrix( const Microsoft::glTF::Vector3& translation, const Microsoft::glTF::Quaternion& rotation, const Microsoft::glTF::Vector3& scale );
   Matrix( const Microsoft::glTF::Quaternion& rotation );
   Matrix( const Matrix& matrix );
-  Matrix( const float matrix[ 4 ][ 4 ] );
+  Matrix( const float matrix[ 16 ] );
 
   Matrix operator*( const Matrix& other ) const;
   Matrix& operator*=( const Matrix& other );
