@@ -265,61 +265,76 @@ namespace testappWPF
       DiffuseMaterial material = new DiffuseMaterial();
       if ( primitive.Material.HasValue ) {
         var gltfMaterial = model.Materials[ primitive.Material.Value ];
-        var baseTexture = gltfMaterial.PbrMetallicRoughness.BaseColorTexture;
+        if ( null != gltfMaterial.PbrMetallicRoughness ) {
+          var baseTexture = gltfMaterial.PbrMetallicRoughness.BaseColorTexture;
 
-        string? imageFilepath = null;
+          string? imageFilepath = null;
 
-        if ( null != baseTexture ) {
-          var textureInfo = model.Textures[ baseTexture.Index ];
-          if ( ( null != textureInfo ) && textureInfo.Source.HasValue ) {
-            var imageInfo = model.Images[ textureInfo.Source.Value ];
-            if ( null != imageInfo ) {
-              if ( String.IsNullOrEmpty( imageInfo.Uri ) ) {
-                var imageStream = model.OpenImageFile( textureInfo.Source.Value, modelFilepath );
-                imageFilepath = System.IO.Path.GetTempPath();
-                Guid guid = Guid.NewGuid();
-                imageFilepath += guid;
-                var mimeType = imageInfo.MimeType.GetValueOrDefault( Image.MimeTypeEnum.image_jpeg );
-                switch ( mimeType ) {
-                  case Image.MimeTypeEnum.image_jpeg: {
-                    imageFilepath += ".jpg";
-                    break;
+          if ( null != baseTexture ) {
+            var textureInfo = model.Textures[ baseTexture.Index ];
+            if ( ( null != textureInfo ) && textureInfo.Source.HasValue ) {
+              var imageInfo = model.Images[ textureInfo.Source.Value ];
+              if ( null != imageInfo ) {
+                if ( String.IsNullOrEmpty( imageInfo.Uri ) ) {
+                  var imageStream = model.OpenImageFile( textureInfo.Source.Value, modelFilepath );
+                  imageFilepath = System.IO.Path.GetTempPath();
+                  Guid guid = Guid.NewGuid();
+                  imageFilepath += guid;
+                  var mimeType = imageInfo.MimeType.GetValueOrDefault( Image.MimeTypeEnum.image_jpeg );
+                  switch ( mimeType ) {
+                    case Image.MimeTypeEnum.image_jpeg: {
+                      imageFilepath += ".jpg";
+                      break;
+                    }
+                    case Image.MimeTypeEnum.image_png: {
+                      imageFilepath += ".png";
+                      break;
+                    }
                   }
-                  case Image.MimeTypeEnum.image_png: {
-                    imageFilepath += ".png";
-                    break;
+                  var fileStream = System.IO.File.Create( imageFilepath );
+                  imageStream.CopyTo( fileStream );
+                  fileStream.Close();
+                  tempTextureFiles.Add( imageFilepath );
+                } else {
+                  imageFilepath = imageInfo.Uri;
+                  if ( !System.IO.Path.IsPathFullyQualified( imageFilepath ) ) {
+                    var modelDirectory = Path.GetDirectoryName( modelFilepath );
+                    if ( !String.IsNullOrEmpty( modelDirectory ) ) {
+                      imageFilepath = System.IO.Path.Combine( modelDirectory, imageFilepath );
+                    }
                   }
-                }
-                var fileStream = System.IO.File.Create( imageFilepath );
-                imageStream.CopyTo( fileStream );
-                fileStream.Close();
-                tempTextureFiles.Add( imageFilepath );
-              } else {
-                imageFilepath = imageInfo.Uri;
-                if ( !System.IO.Path.IsPathFullyQualified( imageFilepath ) ) {
-                  imageFilepath = System.IO.Path.GetDirectoryName( modelFilepath ) + imageFilepath;
                 }
               }
             }
           }
-        }
         
-        if ( String.IsNullOrEmpty( imageFilepath ) || !System.IO.File.Exists( imageFilepath ) ) {
-          float[]? baseColorFactor = gltfMaterial.PbrMetallicRoughness.BaseColorFactor;
-          if ( ( baseColorFactor != null ) && ( baseColorFactor.Length >= 3 ) ) {
-            // TODO linear to sRGB color space conversion
-            Color color = Color.FromRgb( (byte)( baseColorFactor[0] * 255 ), (byte)( baseColorFactor[1] * 255 ), (byte)( baseColorFactor[2] * 255 ) );
-            material.Brush = new SolidColorBrush(color);
+          if ( String.IsNullOrEmpty( imageFilepath ) || !System.IO.File.Exists( imageFilepath ) ) {
+            float[]? baseColorFactor = gltfMaterial.PbrMetallicRoughness.BaseColorFactor;
+            if ( ( baseColorFactor != null ) && ( baseColorFactor.Length >= 3 ) ) {
+              Color color = Color.FromRgb( (byte)( LinearToSRGB( baseColorFactor[ 0 ] ) * 255 ), (byte)( LinearToSRGB( baseColorFactor[ 1 ] ) * 255 ), (byte)( LinearToSRGB ( baseColorFactor[ 2 ] ) * 255 ) );
+              color.A = ( baseColorFactor.Length == 4 ) ? (byte)( baseColorFactor[ 3 ] * 255 ) : (byte)255;
+              material.Brush = new SolidColorBrush( color );
+            } else {
+              material.Brush = new SolidColorBrush( System.Windows.Media.Colors.HotPink );
+            }
           } else {
-            material.Brush = new SolidColorBrush( System.Windows.Media.Colors.HotPink );
+            var imageSource = new BitmapImage( new Uri( imageFilepath ) );
+            material.Brush = new ImageBrush( imageSource );
           }
         } else {
-          var imageSource = new BitmapImage( new Uri( imageFilepath ) );
-          material.Brush = new ImageBrush( imageSource );
-        }
+          // No PBR metallic roughness data, so just use a default material.
+          material.Brush = new SolidColorBrush( System.Windows.Media.Colors.HotPink );
 
+        }
       }
       return material;
+    }
+
+    private float LinearToSRGB( float value )
+    {
+      if ( value < 0.0031308f )
+        return value * 12.92f;
+      return (float)( 1.055 * Math.Pow( value, 1 / 2.4 ) - 0.055 );
     }
 
     private string? modelFilepath = null;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:testappWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024" MouseWheel="Window_MouseWheel" MouseMove="Window_MouseMove" MouseDown="Window_MouseDown" MouseUp="Window_MouseUp" Closed="Window_Closed" SizeChanged="Window_SizeChanged">
+        Title="MainWindow" Height="600" Width="800" MouseWheel="Window_MouseWheel" MouseMove="Window_MouseMove" MouseDown="Window_MouseDown" MouseUp="Window_MouseUp" Closed="Window_Closed" SizeChanged="Window_SizeChanged" Closing="Window_Closing">
   <Grid>
     <Viewport3D Name="viewportModel" />
     <Image x:Name="imageRender" />
@@ -23,13 +23,13 @@
     <Grid MouseEnter="Grid_Environment_MouseEnter" MouseLeave="Grid_Environment_MouseLeave">
       <Rectangle HorizontalAlignment="Left" Height="236" Margin="8,274,0,0" Stroke="Black" VerticalAlignment="Top" Width="170" Fill="#FFFFF8ED" RadiusX="3" RadiusY="3" Opacity="0.5"/>
       <Label x:Name="labelSky" Content="Skylight Intensity:" HorizontalAlignment="Left" Margin="16,278,0,0" VerticalAlignment="Top" Width="154"/>
-      <Slider x:Name="sliderSkyIntensity" ToolTip="Skylight Intenstiy" HorizontalAlignment="Left" Margin="16,304,0,0" VerticalAlignment="Top" Width="154" LargeChange="0.1" Maximum="1" SmallChange="0.01" Value="0.3" ValueChanged="sliderSkyIntensity_ValueChanged"/>
+      <Slider x:Name="sliderSkyIntensity" ToolTip="Skylight Intenstiy" HorizontalAlignment="Left" Margin="16,304,0,0" VerticalAlignment="Top" Width="154" LargeChange="0.1" Maximum="1" SmallChange="0.01" Value="0" ValueChanged="sliderSkyIntensity_ValueChanged"/>
       <Label x:Name="labelSun" Content="Sunlight Intensity:" HorizontalAlignment="Left" Margin="16,334,0,0" VerticalAlignment="Top" Width="154"/>
-      <Slider x:Name="sliderSunIntensity" ToolTip="Sunlight Intensity" HorizontalAlignment="Left" Margin="16,360,0,0" VerticalAlignment="Top" Width="154" Maximum="1" LargeChange="0.1" Value="0.3" ValueChanged="sliderSunIntensity_ValueChanged" SmallChange="0.01"/>
+      <Slider x:Name="sliderSunIntensity" ToolTip="Sunlight Intensity" HorizontalAlignment="Left" Margin="16,360,0,0" VerticalAlignment="Top" Width="154" Maximum="1" LargeChange="0.1" Value="0" ValueChanged="sliderSunIntensity_ValueChanged" SmallChange="0.01"/>
       <Label x:Name="labelSunElevation" Content="Sun Elevation (0-90):" HorizontalAlignment="Left" Margin="16,400,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="24" Padding="5,0,5,0" Width="122"/>
-      <TextBox x:Name="textboxSunElevation" HorizontalAlignment="Left" Margin="139,400,0,0" TextWrapping="Wrap" Text="15" VerticalAlignment="Top" Width="31" Height="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" KeyUp="textboxSunElevation_KeyUp" GotKeyboardFocus="textboxSunElevation_GotKeyboardFocus"/>
+      <TextBox x:Name="textboxSunElevation" HorizontalAlignment="Left" Margin="139,400,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="31" Height="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" KeyUp="textboxSunElevation_KeyUp" GotKeyboardFocus="textboxSunElevation_GotKeyboardFocus"/>
       <Label x:Name="labelSunRotation" Content="Sun Rotation (0-360):" HorizontalAlignment="Left" Margin="16,432,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="24" Padding="5,0,5,0" Width="122"/>
-      <TextBox x:Name="textboxSunRotation" HorizontalAlignment="Left" Margin="138,432,0,0" TextWrapping="Wrap" Text="45" VerticalAlignment="Top" Width="32" Height="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" KeyUp="textboxSunRotation_KeyUp" GotKeyboardFocus="textboxSunRotation_GotKeyboardFocus"/>
+      <TextBox x:Name="textboxSunRotation" HorizontalAlignment="Left" Margin="138,432,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="32" Height="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" KeyUp="textboxSunRotation_KeyUp" GotKeyboardFocus="textboxSunRotation_GotKeyboardFocus"/>
       <CheckBox x:Name="checkboxTransparentBackground" Content="Transparent Background" HorizontalAlignment="Left" Margin="16,482,0,0" Width="154" VerticalAlignment="Top" Checked="checkboxTransparentBackground_Checked" Unchecked="checkboxTransparentBackground_Unchecked" IsChecked="True"/>
     </Grid>
   </Grid>

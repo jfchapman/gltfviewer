@@ -31,7 +31,10 @@ namespace testappWPF
       System.Windows.Controls.ComboBox colorProfileControl,
       System.Windows.Controls.CheckBox denoisedControl,
       Window mainWindow,
+      uint samplesSetting,
+      uint colorProfileSetting,
       float exposure,
+      bool showDenoised,
       gltfviewer.EnvironmentSettings environmentSettings )
     {
       _previewControl = previewControl;
@@ -47,12 +50,13 @@ namespace testappWPF
 
       _exposure = exposure;
       _environmentSettings = environmentSettings;
+      _displayDenoisedImage = showDenoised;
 
       _preview = new View( _previewControl );
       
       _rendererAvailable = Renderer.InitLibrary();
       if ( _rendererAvailable ) {
-        InitializeRenderControls();
+        InitializeRenderControls( samplesSetting, colorProfileSetting );
         StartRenderTask();
         StartDisplayTask();
       }
@@ -89,7 +93,7 @@ namespace testappWPF
         _renderSettings.Height = (uint)_previewControl.ActualHeight;
       }
 
-      InitializeRenderControls();
+      ResetSceneControls();
     }
  
     public void OnClose()
@@ -166,13 +170,13 @@ namespace testappWPF
     }
 
     public void OnSamplesChanged( int selectedIndex ) {
-      if ( ( selectedIndex >= 0 ) && ( selectedIndex < SampleSettings.Count ) ) {
-        var samples = SampleSettings[ selectedIndex ];
+      if ( ( selectedIndex >= 0 ) && ( selectedIndex < _sampleSettings.Count ) ) {
+        var samples = _sampleSettings[ selectedIndex ];
         if ( samples != _renderSettings.Samples ) {
           _renderSettings.Samples = samples;
           if ( null != _renderer ) {
-            _previewState++;
-            _denoisedControl.Visibility = Visibility.Hidden;
+            InvalidateRenderState( false );
+            RefreshRenderState();
           }
         }
       }
@@ -192,8 +196,8 @@ namespace testappWPF
     {
       if ( ( selectedIndex >= 0 ) && ( selectedIndex - 1 ) != _materialVariantIndex ) {
         _materialVariantIndex = selectedIndex - 1;
-        _previewState++;
-        _denoisedControl.Visibility = Visibility.Hidden;
+        InvalidateRenderState( false );
+        RefreshRenderState();
       }
     }
 
@@ -225,8 +229,8 @@ namespace testappWPF
     {
       if ( elevation != _environmentSettings.SunElevation ) {
         _environmentSettings.SunElevation = elevation;
-        _previewState++;
-        _denoisedControl.Visibility = Visibility.Hidden;
+        InvalidateRenderState( false );
+        RefreshRenderState();
       }
     }
 
@@ -234,8 +238,8 @@ namespace testappWPF
     {
       if ( rotation != _environmentSettings.SunRotation ) {
         _environmentSettings.SunRotation = rotation;
-        _previewState++;
-        _denoisedControl.Visibility = Visibility.Hidden;
+        InvalidateRenderState( false );
+        RefreshRenderState();
       }
     }
 
@@ -243,8 +247,8 @@ namespace testappWPF
     {
       if ( intensity != _environmentSettings.SunIntensity ) {
         _environmentSettings.SunIntensity = intensity;
-        _previewState++;
-        _denoisedControl.Visibility = Visibility.Hidden;
+        InvalidateRenderState( false );
+        RefreshRenderState();
       }
     }
 
@@ -252,8 +256,8 @@ namespace testappWPF
     {
       if ( intensity != _environmentSettings.SkyIntensity ) {
         _environmentSettings.SkyIntensity = intensity;
-        _previewState++;
-        _denoisedControl.Visibility = Visibility.Hidden;
+        InvalidateRenderState( false );
+        RefreshRenderState();
       }
     }
 
@@ -266,21 +270,35 @@ namespace testappWPF
       }
     }
 
-
-    private void InitializeRenderControls()
+    private void InitializeRenderControls( uint samplesSetting, uint colorProfileSetting )
     {
       // Samples combo
       var samplesList = new List<string>();
-      int selectedIndex = -1;
-      for ( int i = 0; i < SampleSettings.Count; i++ ) {
-        samplesList.Add( SampleSettings[ i ].ToString() + ( ( 1 == SampleSettings[ i ] ) ? " Sample" : " Samples" ) );
-        if ( SampleSettings[ i ] == _renderSettings.Samples ) {
-          selectedIndex = i;
-        }
+      for ( int i = 0; i < _sampleSettings.Count; i++ ) {
+        samplesList.Add( _sampleSettings[ i ].ToString() + ( ( 1 == _sampleSettings[ i ] ) ? " Sample" : " Samples" ) );
       }
       _samplesControl.ItemsSource = samplesList;
-      _samplesControl.SelectedIndex = selectedIndex;
+      if ( samplesSetting < samplesList.Count ) {
+        _samplesControl.SelectedIndex = (int)samplesSetting;
+      } else {
+        _samplesControl.SelectedIndex = 0;
+      }
+      _renderSettings.Samples = _sampleSettings[ _samplesControl.SelectedIndex ];
 
+      // Color profile combo
+      if ( ( null != Renderer.ColorProfiles ) && ( Renderer.ColorProfiles.Count > 0 ) ) {
+        _colorProfileControl.ItemsSource = Renderer.ColorProfiles;
+        _colorProfileIndex = (int)colorProfileSetting;
+      } else {
+        _colorProfileControl.ItemsSource = new List<string> { "No Color Profiles" };
+      }
+      _colorProfileControl.SelectedIndex = _colorProfileIndex;
+
+      ResetSceneControls();
+    }
+
+    private void ResetSceneControls()
+    {
       // Scene combo
       var sceneNames = new List<string>() { "Default Scene" };
       if ( ( null != _renderer ) && ( _renderer.ModelScenes.Count > 1 ) ) {
@@ -300,17 +318,8 @@ namespace testappWPF
       _materialVariantControl.ItemsSource = materialVariants;
       _materialVariantControl.SelectedIndex = 0;
 
-      // Color profile combo
-      if ( ( null != Renderer.ColorProfiles ) && ( Renderer.ColorProfiles.Count > 0 ) ) {
-        _colorProfileControl.ItemsSource = Renderer.ColorProfiles;
-      } else {
-        _colorProfileControl.ItemsSource = new List<string> { "No Color Profiles" };
-      }
-      _colorProfileControl.SelectedIndex = _colorProfileIndex;
-
       // Denoised checkbox
       _denoisedControl.Visibility = Visibility.Hidden;
-      _denoisedControl.IsChecked = _displayDenoisedImage;
     }
 
     private void Render_RenderUpdated( object? sender, gltfviewer.RenderUpdatedEventArgs e )
@@ -357,13 +366,15 @@ namespace testappWPF
       }
     }
 
-    private void InvalidateRenderState()
+    private void InvalidateRenderState( bool hideCurrentRenderImage = true )
     {
       lock ( _bitmapLock ) {
         _previewState++;
-        _renderDisplayControl.Visibility = Visibility.Hidden;
-        _renderDisplayControl.Source = null;
-        _writeableBitmap = null;
+        if ( hideCurrentRenderImage ) {
+          _renderDisplayControl.Visibility = Visibility.Hidden;
+          _renderDisplayControl.Source = null;
+          _writeableBitmap = null;
+        }
         _renderBitmap = null;
         _renderImage = null;
         _denoisedImage = null;
@@ -565,7 +576,7 @@ namespace testappWPF
     private int _previewState = 0;
     private int _renderState = 0;
 
-    private readonly List<uint> SampleSettings = new List<uint>() { 4096, 2048, 1024, 512, 256, 128, 64, 16, 4, 1 };
+    private readonly List<uint> _sampleSettings = new List<uint>() { 4096, 2048, 1024, 512, 256, 128, 64, 16, 4, 1 };
 
     private RenderSettings _renderSettings = new RenderSettings() { Width = 0, Height = 0, Samples = 4096, TileSize = 0 };
     private EnvironmentSettings _environmentSettings = new EnvironmentSettings();

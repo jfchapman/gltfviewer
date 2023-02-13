@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using testappWPF.Properties;
 
 namespace testappWPF
 {
@@ -30,22 +31,49 @@ namespace testappWPF
     {
       InitializeComponent();
 
+      Width = Settings.Default.WindowWidth;
+      Height = Settings.Default.WindowHeight;
+      WindowState = Settings.Default.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
+      if ( Settings.Default.WindowLeft >= 0 ) {
+        Left = Settings.Default.WindowLeft;
+      }
+      if ( Settings.Default.WindowTop >= 0 ) {
+        Top = Settings.Default.WindowTop;
+      }
+
+      sliderExposure.Value= Settings.Default.Exposure;
+      checkboxDenoised.IsChecked = Settings.Default.ShowDenoised;
+
+      gltfviewer.EnvironmentSettings environmentSettings= new gltfviewer.EnvironmentSettings() {
+        SkyIntensity = Settings.Default.SkyIntensity,
+        SunIntensity = Settings.Default.SunIntensity,
+        SunElevation = Settings.Default.SunElevation,
+        SunRotation = Settings.Default.SunRotation,
+        TransparentBackground = Settings.Default.TransparentBackground
+      };
+
+      sliderSkyIntensity.Value = environmentSettings.SkyIntensity;
+      sliderSunIntensity.Value = environmentSettings.SunIntensity;
+      textboxSunElevation.Text = environmentSettings.SunElevation.ToString();
+      textboxSunRotation.Text = environmentSettings.SunRotation.ToString();
+      checkboxTransparentBackground.IsChecked = environmentSettings.TransparentBackground;
+
       float exposure = (float)sliderExposure.Value;
       
-      gltfviewer.EnvironmentSettings environmentSettings= new gltfviewer.EnvironmentSettings();
-      float elevation;
-      if ( float.TryParse( textboxSunElevation.Text, out elevation ) ) {
-        environmentSettings.SunElevation = elevation;
-      }
-      float rotation;
-      if ( float.TryParse( textboxSunRotation.Text, out rotation ) ) {
-        environmentSettings.SunRotation = rotation;
-      }
-      environmentSettings.SunIntensity = (float)sliderSunIntensity.Value;
-      environmentSettings.SkyIntensity = (float)sliderSkyIntensity.Value;
-      environmentSettings.TransparentBackground = checkboxTransparentBackground.IsChecked.GetValueOrDefault();
-
-      controller = new Controller( viewportModel, imageRender, comboSamples, comboScene, comboMaterialVariant, comboColorProfile, checkboxDenoised, this, exposure, environmentSettings );
+      controller = new Controller( 
+        viewportModel, 
+        imageRender, 
+        comboSamples, 
+        comboScene, 
+        comboMaterialVariant, 
+        comboColorProfile, 
+        checkboxDenoised, 
+        this, 
+        Settings.Default.Samples, 
+        Settings.Default.ColorProfile, 
+        exposure,
+        Settings.Default.ShowDenoised,
+        environmentSettings );
     }
 
     private void Window_Closed( object sender, EventArgs e )
@@ -105,6 +133,7 @@ namespace testappWPF
       var combo = sender as ComboBox;
       if ( ( null != controller ) && ( null != combo ) ) {
         controller.OnColorProfileChanged( combo.SelectedIndex );
+        Settings.Default.ColorProfile = (uint)combo.SelectedIndex;
       }
     }
 
@@ -127,7 +156,9 @@ namespace testappWPF
     private void sliderExposure_ValueChanged( object sender, RoutedPropertyChangedEventArgs<double> e )
     {
       if ( null != controller ) {
-        controller.OnExposureChanged( (float)e.NewValue );
+        float exposure = (float)e.NewValue;
+        controller.OnExposureChanged( exposure );
+        Settings.Default.Exposure = exposure;
       }
     }
 
@@ -144,6 +175,7 @@ namespace testappWPF
       var combo = sender as ComboBox;
       if ( ( null != controller ) && ( null != combo ) ) {
         controller.OnSamplesChanged( combo.SelectedIndex );
+        Settings.Default.Samples = (uint)combo.SelectedIndex;
       }
     }
 
@@ -151,6 +183,7 @@ namespace testappWPF
     {
       if ( null != controller ) {
         controller.OnDenoisedChecked( true );
+        Settings.Default.ShowDenoised = true;
       }
     }
 
@@ -158,6 +191,7 @@ namespace testappWPF
     {
       if ( null != controller ) {
         controller.OnDenoisedChecked( false );
+        Settings.Default.ShowDenoised = false;
       }
     }
 
@@ -216,14 +250,18 @@ namespace testappWPF
     private void sliderSunIntensity_ValueChanged( object sender, RoutedPropertyChangedEventArgs<double> e )
     {
       if ( null != controller ) {
-        controller.OnSunIntensityChanged( (float)e.NewValue );
+        float intensity = (float)e.NewValue;
+        controller.OnSunIntensityChanged( intensity );
+        Settings.Default.SunIntensity = intensity;
       }
     }
 
     private void sliderSkyIntensity_ValueChanged( object sender, RoutedPropertyChangedEventArgs<double> e )
     {
       if ( null != controller ) {
-        controller.OnSkyIntensityChanged( (float)e.NewValue );
+        float intensity = (float)e.NewValue;
+        controller.OnSkyIntensityChanged( intensity );
+        Settings.Default.SkyIntensity = intensity;
       }
     }
 
@@ -231,6 +269,7 @@ namespace testappWPF
     {
       if ( null != controller ) {
         controller.OnTransparentBackgroundChecked( true );
+        Settings.Default.TransparentBackground = true;
       }
     }
 
@@ -238,6 +277,7 @@ namespace testappWPF
     {
       if ( null != controller ) {
         controller.OnTransparentBackgroundChecked( false );
+        Settings.Default.TransparentBackground = false;
       }
     }
 
@@ -249,6 +289,7 @@ namespace testappWPF
           float elevation;
           if ( float.TryParse( textbox.Text, out elevation ) ) {
             controller.OnSunElevationChanged( elevation );
+            Settings.Default.SunElevation = elevation;
           }
         }
       }
@@ -262,6 +303,7 @@ namespace testappWPF
           float rotation;
           if ( float.TryParse( textbox.Text, out rotation ) ) {
             controller.OnSunRotationChanged( rotation );
+            Settings.Default.SunRotation = rotation;
           }
         }
       }
@@ -281,6 +323,16 @@ namespace testappWPF
       if ( null != textbox ) {
         textbox.Select( 0, textbox.Text.Length );
       }
+    }
+
+    private void Window_Closing( object sender, System.ComponentModel.CancelEventArgs e )
+    {
+      Settings.Default.WindowWidth = ActualWidth;
+      Settings.Default.WindowHeight = ActualHeight;
+      Settings.Default.WindowMaximized = WindowState.Maximized == WindowState;
+      Settings.Default.WindowLeft = Left;
+      Settings.Default.WindowTop = Top;
+      Settings.Default.Save();
     }
   }
 }

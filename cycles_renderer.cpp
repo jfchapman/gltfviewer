@@ -456,7 +456,7 @@ bool CyclesRenderer::SetBackground( const gltfviewer_environment_settings& envir
 {
   if ( m_session->scene->default_background && m_session->scene->default_background->graph ) {
     ccl::BackgroundNode* background = m_session->scene->default_background->graph->create_node<ccl::BackgroundNode>();
-    background->set_strength( std::max( 0.001f, environment_settings.sky_intensity ) );
+    background->set_strength( environment_settings.sky_intensity );
     background->set_color( ccl::make_float3( 1.0f, 1.0f, 1.0f ) );
     m_session->scene->default_background->graph->add( background );
 
