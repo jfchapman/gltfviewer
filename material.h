@@ -86,6 +86,16 @@ public:
   std::optional<Microsoft::glTF::Color3> m_specularColorFactor;
   std::optional<Texture> m_specularColorTexture;
 
+  // Old PBR specular-glossiness extension
+  struct PBRSpecularGlossiness {
+    Microsoft::glTF::Color4   diffuseFactor = { 1.0f, 1.0f, 1.0f, 1.0f };
+    Texture                   diffuseTexture = {};
+    Microsoft::glTF::Color3   specularFactor = { 1.0f, 1.0f, 1.0f };
+    float                     glossinessFactor = 1.0f;
+    Texture                   specularGlossinessTexture = {};
+  };
+  std::optional<PBRSpecularGlossiness> m_pbrSpecularGlossiness;
+
 private:
   void ReadTextures( const Microsoft::glTF::Document& document, const Microsoft::glTF::GLTFResourceReader& resourceReader, const Microsoft::glTF::Material& material, TextureMap& textureMap );
   std::string ReadTexture( const Microsoft::glTF::Document& document, const Microsoft::glTF::GLTFResourceReader& resourceReader, const Microsoft::glTF::TextureInfo& textureInfo, Texture& texture, TextureMap& textureMap );

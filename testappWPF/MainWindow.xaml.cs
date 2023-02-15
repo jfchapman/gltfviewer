@@ -285,7 +285,7 @@ namespace testappWPF
     {
       var textbox = sender as TextBox;
       if ( ( null != textbox ) && ( null != controller ) ) {
-        if ( ( e.Key == Key.Return ) || ( e.Key == Key.Enter ) || ( e.Key == Key.Tab ) ) {
+        if ( ( e.Key == Key.Return ) || ( e.Key == Key.Enter ) ) {
           float elevation;
           if ( float.TryParse( textbox.Text, out elevation ) ) {
             controller.OnSunElevationChanged( elevation );
@@ -299,7 +299,7 @@ namespace testappWPF
     {
       var textbox = sender as TextBox;
       if ( ( null != textbox ) && ( null != controller ) ) {
-        if ( ( e.Key == Key.Return ) || ( e.Key == Key.Enter ) || ( e.Key == Key.Tab ) ) {
+        if ( ( e.Key == Key.Return ) || ( e.Key == Key.Enter ) ) {
           float rotation;
           if ( float.TryParse( textbox.Text, out rotation ) ) {
             controller.OnSunRotationChanged( rotation );
@@ -333,6 +333,30 @@ namespace testappWPF
       Settings.Default.WindowLeft = Left;
       Settings.Default.WindowTop = Top;
       Settings.Default.Save();
+    }
+
+    private void textboxSunElevation_LostKeyboardFocus( object sender, KeyboardFocusChangedEventArgs e )
+    {
+      var textbox = sender as TextBox;
+      if ( ( null != textbox ) && ( null != controller ) ) {
+        float elevation;
+        if ( float.TryParse( textbox.Text, out elevation ) ) {
+          controller.OnSunElevationChanged( elevation );
+          Settings.Default.SunElevation = elevation;
+        }
+      }
+    }
+
+    private void textboxSunRotation_LostKeyboardFocus( object sender, KeyboardFocusChangedEventArgs e )
+    {
+      var textbox = sender as TextBox;
+      if ( ( null != textbox ) && ( null != controller ) ) {
+        float rotation;
+        if ( float.TryParse( textbox.Text, out rotation ) ) {
+          controller.OnSunRotationChanged( rotation );
+          Settings.Default.SunRotation = rotation;
+        }
+      }
     }
   }
 }

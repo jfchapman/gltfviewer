@@ -522,13 +522,69 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
 
   ccl::ShaderGraph* graph = new ccl::ShaderGraph();
 
-  // Base PBR properties
   ccl::PrincipledBsdfNode* principledBsdfNode = graph->create_node<ccl::PrincipledBsdfNode>();
   graph->add( principledBsdfNode );
-  principledBsdfNode->set_base_color( ccl::make_float3( material.m_pbrBaseColorFactor.r, material.m_pbrBaseColorFactor.g, material.m_pbrBaseColorFactor.b ) );
-  principledBsdfNode->set_roughness( material.m_pbrRoughnessFactor );
-  principledBsdfNode->set_metallic( material.m_pbrMetallicFactor );
-  principledBsdfNode->set_alpha( ( Microsoft::glTF::AlphaMode::ALPHA_OPAQUE != material.m_alphaMode ) ? material.m_alphaMode : 1.0f );
+  if ( material.m_pbrSpecularGlossiness ) {
+    // Old PBR specular-glossiness extension (convert to metallic-roughness properties)
+    // https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Archived/KHR_materials_pbrSpecularGlossiness/examples
+    static const Microsoft::glTF::Color3 kDielectricSpecular = { 0.04f, 0.04f, 0.04f };
+    static constexpr float kEpsilon = 1e-6f;
+
+    std::function<float(float, float, float)> solveMetallic = [] ( float diffuse, float specular, float oneMinusSpecularStrength ) {
+      if ( specular < kDielectricSpecular.r )
+        return 0.0f;
+
+      const auto a = kDielectricSpecular.r;
+      const auto b = diffuse * oneMinusSpecularStrength / ( 1 - kDielectricSpecular.r ) + specular - 2 * kDielectricSpecular.r;
+      const auto c = kDielectricSpecular.r - specular;
+      const auto D = b * b - 4 * a * c;
+      const auto result = std::clamp( ( -b + std::sqrtf( D ) ) / ( 2 * a ), 0.0f, 1.0f );
+      return result;
+    };
+
+    std::function<float(Microsoft::glTF::Color3)> colorPerceivedBrightness = [] ( Microsoft::glTF::Color3 color ) {
+      return std::sqrtf( 0.299f * color.r * color.r + 0.587f * color.g * color.g + 0.114f * color.b * color.b );
+    };
+
+    std::function<float(Microsoft::glTF::Color3)> colorMaxComponent = [] ( Microsoft::glTF::Color3 color ) {
+      return std::max( color.r, std::max( color.g, color.b ) );
+    };
+
+    std::function<Microsoft::glTF::Color3(Microsoft::glTF::Color3, float)> colorScale = [] ( Microsoft::glTF::Color3 color, float scale ) {
+      return Microsoft::glTF::Color3( color.r * scale, color.g * scale, color.b * scale );
+    };
+
+    std::function<Microsoft::glTF::Color3(Microsoft::glTF::Color3, Microsoft::glTF::Color3)> colorSubtract = [] ( Microsoft::glTF::Color3 color, Microsoft::glTF::Color3 other ) {
+      return Microsoft::glTF::Color3( std::clamp( color.r - other.r, 0.0f, 1.0f ), std::clamp( color.g - other.g, 0.0f, 1.0f ), std::clamp( color.b - other.b, 0.0f, 1.0f ) );
+    };
+
+    std::function<Microsoft::glTF::Color3(Microsoft::glTF::Color3, Microsoft::glTF::Color3, float)> colorLerp = [] ( Microsoft::glTF::Color3 color1, Microsoft::glTF::Color3 color2, float t ) {
+      return Microsoft::glTF::Color3( std::clamp( std::lerp( color1.r, color2.r, t ), 0.0f, 1.0f ), std::clamp( std::lerp( color1.g, color2.g, t ), 0.0f, 1.0f ), std::clamp( std::lerp( color1.b, color2.b, t ), 0.0f, 1.0f ) );
+    };
+
+    const Microsoft::glTF::Color3 diffuse = { material.m_pbrSpecularGlossiness->diffuseFactor.r, material.m_pbrSpecularGlossiness->diffuseFactor.g, material.m_pbrSpecularGlossiness->diffuseFactor.b };
+    const Microsoft::glTF::Color3 specular = material.m_pbrSpecularGlossiness->specularFactor;
+    const float glossiness = material.m_pbrSpecularGlossiness->glossinessFactor;
+
+    const float oneMinusSpecularStrength = 1.0f - colorMaxComponent( specular );
+    const float metallic = solveMetallic( colorPerceivedBrightness( diffuse ), colorPerceivedBrightness( specular ), oneMinusSpecularStrength );
+    const Microsoft::glTF::Color3 baseColorFromDiffuse = colorScale( diffuse, oneMinusSpecularStrength / ( 1.0f - kDielectricSpecular.r ) / std::max( 1.0f - metallic, kEpsilon ) );
+    const Microsoft::glTF::Color3 baseColorFromSpecular = colorScale( colorScale( colorSubtract( specular, kDielectricSpecular ), 1.0f - metallic ), 1.0f / std::max( metallic, kEpsilon ) );
+    const Microsoft::glTF::Color3 baseColor = colorLerp( baseColorFromDiffuse, baseColorFromSpecular, metallic * metallic );
+
+    principledBsdfNode->set_base_color( ccl::make_float3( baseColor.r, baseColor.g, baseColor.b ) );
+    principledBsdfNode->set_roughness( 1.0f - std::clamp( glossiness, 0.0f, 1.0f ) );
+    principledBsdfNode->set_metallic( metallic );
+    principledBsdfNode->set_alpha( ( Microsoft::glTF::AlphaMode::ALPHA_OPAQUE != material.m_alphaMode ) ? material.m_pbrSpecularGlossiness->diffuseFactor.a : 1.0f );
+    principledBsdfNode->set_specular( colorPerceivedBrightness( specular ) );
+  } else {
+    // Base PBR metallic-roughness properties
+    principledBsdfNode->set_base_color( ccl::make_float3( material.m_pbrBaseColorFactor.r, material.m_pbrBaseColorFactor.g, material.m_pbrBaseColorFactor.b ) );
+    principledBsdfNode->set_roughness( material.m_pbrRoughnessFactor );
+    principledBsdfNode->set_metallic( material.m_pbrMetallicFactor );
+    principledBsdfNode->set_alpha( ( Microsoft::glTF::AlphaMode::ALPHA_OPAQUE != material.m_alphaMode ) ? material.m_pbrBaseColorFactor.a : 1.0f );
+  }
+
   principledBsdfNode->set_ior( material.m_ior );
 
   {
@@ -537,104 +593,100 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
     graph->connect( from, to );
   }
 
-  // Base PBR texture
   std::error_code ec;
-  if ( !material.m_pbrBaseTexture.filepath.empty() && std::filesystem::exists( material.m_pbrBaseTexture.filepath, ec ) ) {
-    ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
-    graph->add( imageTextureNode );
-    imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_pbrBaseTexture.filepath.string() ) );
-    imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "sRGB" ) );
-    imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
-    SetTextureWrapping( imageTextureNode, material.m_pbrBaseTexture );
+  if ( material.m_pbrSpecularGlossiness ) {
+    // Old PBR specular-glossiness extension
+    AddBaseColorTexture( material.m_pbrSpecularGlossiness->diffuseTexture, material.m_pbrSpecularGlossiness->specularFactor, material.m_alphaMode, graph, principledBsdfNode, shader );
 
-    if ( ( material.m_pbrBaseColorFactor.r != 1.0f ) || ( material.m_pbrBaseColorFactor.g != 1.0f ) || ( material.m_pbrBaseColorFactor.b != 1.0f ) ) {
-      ccl::MixNode* mixNode = graph->create_node<ccl::MixNode>();
-      mixNode->set_mix_type( ccl::NODE_MIX_MUL );
-      mixNode->set_fac( 1.0f );
-      mixNode->set_color1( ccl::make_float3( material.m_pbrBaseColorFactor.r, material.m_pbrBaseColorFactor.g, material.m_pbrBaseColorFactor.b ) );
+    // Specular-glossiness texture
+    if ( !material.m_pbrSpecularGlossiness->specularGlossinessTexture.filepath.empty() && std::filesystem::exists( material.m_pbrSpecularGlossiness->specularGlossinessTexture.filepath, ec ) ) {
+      ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
+      graph->add( imageTextureNode );
+      imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_pbrSpecularGlossiness->specularGlossinessTexture.filepath.string() ) );
+      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Linear" ) );
+      imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
+      SetTextureWrapping( imageTextureNode, material.m_pbrSpecularGlossiness->specularGlossinessTexture );
+
+      // Specular
+      const auto specular = principledBsdfNode->get_specular();
+      ccl::SeparateHSVNode* separateHSVNode = graph->create_node<ccl::SeparateHSVNode>();
+      graph->add( separateHSVNode );
       {
         ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
-        ccl::ShaderInput* to = mixNode->input( "Color2" );
+        ccl::ShaderInput* to = separateHSVNode->input( "Color" );
         graph->connect( from, to );
       }
-      {
-        ccl::ShaderOutput* from = mixNode->output( "Color" );
-        ccl::ShaderInput* to = principledBsdfNode->input( "Base Color" );
+      if ( specular != 1.0f ) {
+        ccl::MathNode* mathNode = graph->create_node<ccl::MathNode>();
+        graph->add( mathNode );
+        mathNode->set_math_type( ccl::NODE_MATH_MULTIPLY );
+        mathNode->set_value1( specular );
+        {
+          ccl::ShaderOutput* from = separateHSVNode->output( "V" );
+          ccl::ShaderInput* to = mathNode->input( "Value2" );
+          graph->connect( from, to );
+        }
+        {
+          ccl::ShaderOutput* from = mathNode->output( "Value" );
+          ccl::ShaderInput* to = principledBsdfNode->input( "Specular" );
+          graph->connect( from, to );
+        }
+      } else {
+        ccl::ShaderOutput* from = separateHSVNode->output( "V" );
+        ccl::ShaderInput* to = principledBsdfNode->input( "Specular" );
         graph->connect( from, to );
       }
-      graph->add( mixNode );
-    } else {
-      ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
-      ccl::ShaderInput* to = principledBsdfNode->input( "Base Color" );
-      graph->connect( from, to );
-    }
-    
-    if ( Microsoft::glTF::AlphaMode::ALPHA_OPAQUE == material.m_alphaMode ) {
-      imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
-    } else {
-      imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_AUTO );
 
-      ccl::MixClosureNode* mixClosureNode = graph->create_node<ccl::MixClosureNode>();
-      graph->add( mixClosureNode );
-
-      ccl::TransparentBsdfNode* transparentBsdfNode = graph->create_node<ccl::TransparentBsdfNode>();
-      graph->add( transparentBsdfNode );
-
+      // Glossiness
+      ccl::InvertNode* invertNode = graph->create_node<ccl::InvertNode>();
+      graph->add( invertNode );
       {
         ccl::ShaderOutput* from = imageTextureNode->output( "Alpha" );
-        ccl::ShaderInput* to = mixClosureNode->input( "Fac" );
+        ccl::ShaderInput* to = invertNode->input( "Color" );
         graph->connect( from, to );
       }
       {
-        ccl::ShaderOutput* from = transparentBsdfNode->output( "BSDF" );
-        ccl::ShaderInput* to = mixClosureNode->input( "Closure1" );
+        ccl::ShaderOutput* from = invertNode->output( "Color" );
+        ccl::ShaderInput* to = principledBsdfNode->input( "Roughness" );
+        graph->connect( from, to );
+      }
+
+      AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, material.m_pbrSpecularGlossiness->specularGlossinessTexture );
+    }
+  } else {
+    // Base PBR metallic-roughness properties
+    AddBaseColorTexture( material.m_pbrBaseTexture, { material.m_pbrBaseColorFactor.r, material.m_pbrBaseColorFactor.g, material.m_pbrBaseColorFactor.b }, material.m_alphaMode, graph, principledBsdfNode, shader );
+      
+    // Metallic roughness texture
+    if ( !material.m_pbrMetallicRoughnessTexture.filepath.empty() && std::filesystem::exists( material.m_pbrMetallicRoughnessTexture.filepath, ec ) ) {
+      ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
+      graph->add( imageTextureNode );
+      imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_pbrMetallicRoughnessTexture.filepath.string() ) );
+      imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Linear" ) );
+      imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
+      SetTextureWrapping( imageTextureNode, material.m_pbrMetallicRoughnessTexture );
+
+      ccl::SeparateRGBNode* separateRGBNode = graph->create_node<ccl::SeparateRGBNode>();
+      graph->add( separateRGBNode );
+
+      {
+        ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
+        ccl::ShaderInput* to = separateRGBNode->input( "Image" );
         graph->connect( from, to );
       }
       {
-        ccl::ShaderOutput* from = principledBsdfNode->output( "BSDF" );
-        ccl::ShaderInput* to = mixClosureNode->input( "Closure2" );
-        from->disconnect();
+        ccl::ShaderOutput* from = separateRGBNode->output( "G" );
+        ccl::ShaderInput* to = principledBsdfNode->input( "Roughness" );
         graph->connect( from, to );
       }
       {
-        ccl::ShaderOutput* from = mixClosureNode->output( "Closure" );
-        ccl::ShaderInput* to = graph->output()->input( "Surface" );
+        ccl::ShaderOutput* from = separateRGBNode->output( "B" );
+        ccl::ShaderInput* to = principledBsdfNode->input( "Metallic" );
         graph->connect( from, to );
       }
+
+      AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, material.m_pbrMetallicRoughnessTexture );
     }
-
-    AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, material.m_pbrBaseTexture );
-  }
-
-  // Metallic roughness texture
-  if ( !material.m_pbrMetallicRoughnessTexture.filepath.empty() && std::filesystem::exists( material.m_pbrMetallicRoughnessTexture.filepath, ec ) ) {
-    ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
-    graph->add( imageTextureNode );
-    imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( material.m_pbrMetallicRoughnessTexture.filepath.string() ) );
-    imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "Linear" ) );
-    imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
-    SetTextureWrapping( imageTextureNode, material.m_pbrMetallicRoughnessTexture );
-
-    ccl::SeparateRGBNode* separateRGBNode = graph->create_node<ccl::SeparateRGBNode>();
-    graph->add( separateRGBNode );
-
-    {
-      ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
-      ccl::ShaderInput* to = separateRGBNode->input( "Image" );
-      graph->connect( from, to );
-    }
-    {
-      ccl::ShaderOutput* from = separateRGBNode->output( "G" );
-      ccl::ShaderInput* to = principledBsdfNode->input( "Roughness" );
-      graph->connect( from, to );
-    }
-    {
-      ccl::ShaderOutput* from = separateRGBNode->output( "B" );
-      ccl::ShaderInput* to = principledBsdfNode->input( "Metallic" );
-      graph->connect( from, to );
-    }
-
-    AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, material.m_pbrMetallicRoughnessTexture );
   }
 
   // Normal texture
@@ -937,7 +989,7 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
 
   // Specular extension
   // TODO if/when possible, support specular tint
-  if ( material.m_specularFactor || material.m_specularTexture ) {
+  if ( ( material.m_specularFactor || material.m_specularTexture ) && !material.m_pbrSpecularGlossiness ) {
     principledBsdfNode->set_specular( material.m_specularFactor.value_or( 1.0f ) );
 
     if ( material.m_specularTexture && std::filesystem::exists( material.m_specularTexture->filepath, ec ) ) {
@@ -980,6 +1032,78 @@ ccl::Shader* CyclesRenderer::CreateShader( const gltfviewer::Material& material 
   shader->tag_used( m_session->scene );
   shader->tag_update( m_session->scene );
   return shader;
+}
+
+void CyclesRenderer::AddBaseColorTexture( const gltfviewer::Material::Texture& texture, const Microsoft::glTF::Color3& colorFactor, const Microsoft::glTF::AlphaMode alphaMode, ccl::ShaderGraph* graph, ccl::ShaderNode* principledBsdfNode, ccl::Shader* shader )
+{
+  std::error_code ec;
+  if ( texture.filepath.empty() || !std::filesystem::exists( texture.filepath, ec ) )
+    return;
+
+  ccl::ImageTextureNode* imageTextureNode = graph->create_node<ccl::ImageTextureNode>();
+  graph->add( imageTextureNode );
+  imageTextureNode->set_filename( OpenImageIO_v2_3::ustring( texture.filepath.string() ) );
+  imageTextureNode->set_colorspace( OpenImageIO_v2_3::ustring( "sRGB" ) );
+  imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_UNASSOCIATED );
+  SetTextureWrapping( imageTextureNode, texture );
+
+  if ( ( colorFactor.r != 1.0f ) || ( colorFactor.g != 1.0f ) || ( colorFactor.b != 1.0f ) ) {
+    ccl::MixNode* mixNode = graph->create_node<ccl::MixNode>();
+    mixNode->set_mix_type( ccl::NODE_MIX_MUL );
+    mixNode->set_fac( 1.0f );
+    mixNode->set_color1( ccl::make_float3( colorFactor.r, colorFactor.g, colorFactor.b ) );
+    {
+      ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
+      ccl::ShaderInput* to = mixNode->input( "Color2" );
+      graph->connect( from, to );
+    }
+    {
+      ccl::ShaderOutput* from = mixNode->output( "Color" );
+      ccl::ShaderInput* to = principledBsdfNode->input( "Base Color" );
+      graph->connect( from, to );
+    }
+    graph->add( mixNode );
+  } else {
+    ccl::ShaderOutput* from = imageTextureNode->output( "Color" );
+    ccl::ShaderInput* to = principledBsdfNode->input( "Base Color" );
+    graph->connect( from, to );
+  }
+    
+  if ( Microsoft::glTF::AlphaMode::ALPHA_OPAQUE == alphaMode ) {
+    imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_IGNORE );
+  } else {
+    imageTextureNode->set_alpha_type( ccl::IMAGE_ALPHA_AUTO );
+
+    ccl::MixClosureNode* mixClosureNode = graph->create_node<ccl::MixClosureNode>();
+    graph->add( mixClosureNode );
+
+    ccl::TransparentBsdfNode* transparentBsdfNode = graph->create_node<ccl::TransparentBsdfNode>();
+    graph->add( transparentBsdfNode );
+
+    {
+      ccl::ShaderOutput* from = imageTextureNode->output( "Alpha" );
+      ccl::ShaderInput* to = mixClosureNode->input( "Fac" );
+      graph->connect( from, to );
+    }
+    {
+      ccl::ShaderOutput* from = transparentBsdfNode->output( "BSDF" );
+      ccl::ShaderInput* to = mixClosureNode->input( "Closure1" );
+      graph->connect( from, to );
+    }
+    {
+      ccl::ShaderOutput* from = principledBsdfNode->output( "BSDF" );
+      ccl::ShaderInput* to = mixClosureNode->input( "Closure2" );
+      from->disconnect();
+      graph->connect( from, to );
+    }
+    {
+      ccl::ShaderOutput* from = mixClosureNode->output( "Closure" );
+      ccl::ShaderInput* to = graph->output()->input( "Surface" );
+      graph->connect( from, to );
+    }
+  }
+
+  AddUVMapping( graph, imageTextureNode->input( "Vector" ), shader->attributes, texture );
 }
 
 void CyclesRenderer::AddBackfaceCulling( ccl::ShaderGraph* graph )

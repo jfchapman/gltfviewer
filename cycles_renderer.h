@@ -28,6 +28,7 @@ private:
   ccl::DeviceInfo SelectDevice();
   ccl::Shader* GetShader( const std::string& materialID, const gltfviewer::VariantIndexToMaterialIDMap& material_variants, const int32_t material_variant_index );
   ccl::Shader* CreateShader( const gltfviewer::Material& material );
+  void AddBaseColorTexture( const gltfviewer::Material::Texture& texture, const Microsoft::glTF::Color3& colorFactor, const Microsoft::glTF::AlphaMode alphaMode, ccl::ShaderGraph* graph, ccl::ShaderNode* principledBsdfNode, ccl::Shader* shader );
   void AddBackfaceCulling( ccl::ShaderGraph* graph );
   void AddUVMapping( ccl::ShaderGraph* graph, ccl::ShaderInput* shader_input, ccl::AttributeRequestSet& attributes, const gltfviewer::Material::Texture& texture );
 

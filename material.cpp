@@ -18,6 +18,16 @@ Material::Material( const Microsoft::glTF::Document& document, const Microsoft::
 {
   ReadTextures( document, resourceReader, material, textureMap );
 
+  if ( material.HasExtension<Microsoft::glTF::KHR::Materials::PBRSpecularGlossiness>() ) {
+    const auto& extension = material.GetExtension<Microsoft::glTF::KHR::Materials::PBRSpecularGlossiness>();
+    m_pbrSpecularGlossiness = std::make_optional<PBRSpecularGlossiness>();
+    m_pbrSpecularGlossiness->diffuseFactor = extension.diffuseFactor;
+    ReadTexture( document, resourceReader, extension.diffuseTexture, m_pbrSpecularGlossiness->diffuseTexture, textureMap );
+    m_pbrSpecularGlossiness->specularFactor = extension.specularFactor;
+    m_pbrSpecularGlossiness->glossinessFactor = extension.glossinessFactor;
+    ReadTexture( document, resourceReader, extension.specularGlossinessTexture, m_pbrSpecularGlossiness->specularGlossinessTexture, textureMap );
+  }
+
   if ( material.HasExtension<KHR_materials_transmission>() ) {
     const auto& extension = material.GetExtension<KHR_materials_transmission>();
     m_transmissionFactor = extension.m_transmissionFactor;
